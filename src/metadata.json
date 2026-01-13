@@ -1,0 +1,9 @@
+{
+	"KPlugin": {
+		"Id": "org.kde.bluecurve",
+		"Name": "Bluecurve",
+		"ServiceTypes": ["org.kde.kdecoration3"]
+	},
+	"X-KDE-PluginInfo-Category": "Window Decorations",
+	"X-KWin-PluginAPI": "kdecoration"
+}
