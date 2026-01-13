@@ -19,7 +19,6 @@
 #define BOTTOM_CORNER     5
 
 QPixmap* titlePix;
-QPixmap* titleBuffer;
 QPixmap* aUpperGradient;
 QPixmap* iUpperGradient;
 
@@ -178,11 +177,6 @@ BluecurveDecoration::createPixmaps()
 							 QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
 							 pindown_mask_bits, QImage::Format_MonoLSB));
 
-	
-	// Create a title buffer for flicker-free painting
-	titleBuffer = new QPixmap();
-	titleBuffer->fill(Qt::transparent);
-
 	// Cache all possible button states
 	btnUpPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
 	btnUpPix->fill(Qt::transparent);
@@ -296,10 +290,6 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	int y2 = y + rect().height() - 1;
 	int w  = rect().width();
 	int h  = rect().height();
-
-	// Buffer for the decoration (which we apply the mask later)
-	QPixmap decoBuffer = QPixmap(w, h);
-	decoBuffer.fill(Qt::transparent);
 	
 	// Titlebar rectangle
 	QRectF r(QRect(0, 0, w, TITLE_HEIGHT));
@@ -309,11 +299,15 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 								: KDecoration3::ColorGroup::Inactive,
 								KDecoration3::ColorRole::Frame);*/
 
+	// Buffer for the decoration (which we apply the mask later)
+	QPixmap decoBuffer = QPixmap(w, h);
+	decoBuffer.fill(Qt::transparent);
+
 	// Create a disposable pixmap buffer for the titlebar
 	// very early before drawing begins so there is no lag
 	// during painting pixels.
-	*titleBuffer = QPixmap(w, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
-	titleBuffer->fill(Qt::transparent);
+	QPixmap titleBuffer = QPixmap(w, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+	titleBuffer.fill(Qt::transparent);
 
 	// Obtain titlebar blend colours
 	QColor c1 = window()->color(window()->isActive()
@@ -321,7 +315,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 								: KDecoration3::ColorGroup::Inactive,
 								KDecoration3::ColorRole::TitleBar);
 
-	QPainter p2(titleBuffer);
+	QPainter p2(&titleBuffer);
 	QColor activeTitleColor1(window()->color(KDecoration3::ColorGroup::Active,
 											 KDecoration3::ColorRole::TitleBar));
 	QColor activeTitleColor2(window()->color(KDecoration3::ColorGroup::Active,
@@ -529,7 +523,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 				x2, y + TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 
 	// Draw the title buffer
-	p1.drawPixmap(x, y, *titleBuffer);
+	p1.drawPixmap(x, y, titleBuffer);
 
 	// Draw an outer black frame
 	p1.setPen(Qt::black);
@@ -544,14 +538,13 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	p1.end();
 	
 	// Apply the mask to the decoration buffer and draw it
-	QBitmap decoMask = doShape();
-	decoBuffer.setMask(decoMask);
+	decoBuffer.setMask(decorationMask());
 	p->drawPixmap(x,y, decoBuffer);
 	
 }
 
 QBitmap
-BluecurveDecoration::doShape()
+BluecurveDecoration::decorationMask()
 {
 	// Obtain widget bounds
 	int x = rect().x();
@@ -601,6 +594,22 @@ BluecurveDecoration::doShape()
 
 	p.end();
 	return mask;
+}
+
+BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
+								 KDecoration3::Decoration *decoration,
+								 QObject *parent)
+	: KDecoration3::DecorationButton(type, decoration, parent)
+{
+
+}
+
+BluecurveButton::~BluecurveButton() = default;
+
+void
+BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
+{
+
 }
 
 #include "bluecurvedecoration.moc"
