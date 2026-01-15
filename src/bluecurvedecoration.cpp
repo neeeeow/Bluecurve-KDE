@@ -19,24 +19,24 @@
 #define TOP_GRABBAR_WIDTH 2
 #define BOTTOM_CORNER     5
 
-QPixmap* titlePix;
-QPixmap* aUpperGradient;
-QPixmap* iUpperGradient;
+QPixmap titlePix;
+QPixmap aUpperGradient;
+QPixmap iUpperGradient;
 
-QPixmap* pinDownPix;
-QPixmap* pinUpPix;
-QPixmap* ipinDownPix;
-QPixmap* ipinUpPix;
+QPixmap pinDownPix;
+QPixmap pinUpPix;
+QPixmap ipinDownPix;
+QPixmap ipinUpPix;
 
-QPixmap* btnUpPix;
-QPixmap* btnDownPix;
-QPixmap* ibtnUpPix;
-QPixmap* ibtnDownPix;
+QPixmap btnUpPix;
+QPixmap btnDownPix;
+QPixmap ibtnUpPix;
+QPixmap ibtnDownPix;
 
-QPixmap* bottomLeftPix;
-QPixmap* bottomRightPix;
-QPixmap* abottomLeftPix;
-QPixmap* abottomRightPix;
+QPixmap bottomLeftPix;
+QPixmap bottomRightPix;
+QPixmap abottomLeftPix;
+QPixmap abottomRightPix;
 
 K_PLUGIN_FACTORY_WITH_JSON(
 	BluecurveDecorationFactory,
@@ -45,15 +45,15 @@ K_PLUGIN_FACTORY_WITH_JSON(
 	)
 
 static void
-pixmapGradient(QPixmap *pixmap, QColor c1, QColor c2, qreal x1, qreal y1, qreal x2, qreal y2)
+pixmapGradient(QPixmap &pixmap, QColor c1, QColor c2, qreal x1, qreal y1, qreal x2, qreal y2)
 {
 	// helper function for drawing gradients to pixmaps, replaces KPixmapEffect::gradient
 	QLinearGradient gradient(x1, y1, x2, y2);
 	gradient.setColorAt(0.0, c1);
 	gradient.setColorAt(1.0, c2);
 
-	QPainter gradientPainter(pixmap);
-	gradientPainter.fillRect(pixmap->rect(), gradient);
+	QPainter gradientPainter(&pixmap);
+	gradientPainter.fillRect(pixmap.rect(), gradient);
 	gradientPainter.end();
 }
 
@@ -135,36 +135,7 @@ BluecurveDecoration::BluecurveDecoration(QObject *parent, const QVariantList &ar
 
 }
 
-BluecurveDecoration::~BluecurveDecoration()
-{
-	// Free button pixmaps
-	if (btnUpPix)
-		delete btnUpPix;
-	if(btnDownPix)
-		delete btnDownPix;
-	if (ibtnUpPix)
-		delete ibtnUpPix;
-	if (ibtnDownPix)
-		delete ibtnDownPix;
-
-	// Title images
-	if (titlePix)
-		delete titlePix;
-	if (aUpperGradient)
-		delete aUpperGradient;
-	if (iUpperGradient)
-		delete iUpperGradient;
-
-	// Sticky pin images
-	if (pinUpPix)
-		delete pinUpPix;
-	if (ipinUpPix)
-		delete ipinUpPix;
-	if (pinDownPix)
-		delete pinDownPix;
-	if (ipinDownPix)
-		delete ipinDownPix;
-}
+BluecurveDecoration::~BluecurveDecoration() = default;
 
 bool
 BluecurveDecoration::init()
@@ -202,8 +173,8 @@ BluecurveDecoration::createPixmaps()
 	// Titlebar stipple
 	QPainter maskPainter;
 	int x, y;
-	titlePix = new QPixmap(132, TITLE_HEIGHT+2);
-	titlePix->fill(Qt::red);
+	titlePix = QPixmap(132, TITLE_HEIGHT+2);
+	titlePix.fill(Qt::transparent);
 	QBitmap mask(132, TITLE_HEIGHT+2);
 
 	mask.fill(Qt::color0);
@@ -219,7 +190,7 @@ BluecurveDecoration::createPixmaps()
     QColor satColor = QColor::fromHsv(h, s, v);
 
 	pixmapGradient(titlePix, satColor, satColor.darker(150),
-				   0, 0, 0, titlePix->height());
+				   0, 0, 0, titlePix.height());
 
 	for(y = 0; y < (TITLE_HEIGHT+2); y++) {
 		for(x = (3 - y) % 4; x < 132; x += 4) {
@@ -228,11 +199,11 @@ BluecurveDecoration::createPixmaps()
 	}
 	
 	maskPainter.end();
-	titlePix->setMask(mask);
+	titlePix.setMask(mask);
 
 	// Create titlebar gradient images if required
-	aUpperGradient = NULL;
-	iUpperGradient = NULL;
+	aUpperGradient = QPixmap();
+	iUpperGradient = QPixmap();
 
 	auto colorBitmapLayer = [&](const unsigned char *bits, const QColor &color) {
 		// lambda to draw in each layer that kColorBitmaps would draw in
@@ -252,67 +223,67 @@ BluecurveDecoration::createPixmaps()
 	};
 
 	// Active pins
-	pinUpPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	pinUpPix->fill(Qt::transparent);
-	p.begin( pinUpPix );
+	pinUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	pinUpPix.fill(Qt::transparent);
+	p.begin( &pinUpPix );
 	colorBitmapLayer(pinup_white_bits, window()->color(QPalette::Active, QPalette::Light));
 	colorBitmapLayer(pinup_gray_bits, window()->color(QPalette::Active, QPalette::Button));
 	colorBitmapLayer(pinup_dgray_bits, window()->color(QPalette::Active, QPalette::Dark));
 	p.end();
-	pinUpPix->setMask(QBitmap::fromData(
+	pinUpPix.setMask(QBitmap::fromData(
 						  QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
 						  pinup_mask_bits, QImage::Format_MonoLSB));
 
-	pinDownPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	pinDownPix->fill(Qt::transparent);
-	p.begin( pinDownPix );
+	pinDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	pinDownPix.fill(Qt::transparent);
+	p.begin( &pinDownPix );
 	colorBitmapLayer(pindown_white_bits, window()->color(QPalette::Active, QPalette::Light));
 	colorBitmapLayer(pindown_gray_bits, window()->color(QPalette::Active, QPalette::Button));
 	colorBitmapLayer(pindown_dgray_bits, window()->color(QPalette::Active, QPalette::Dark));
 	p.end();
-	pinDownPix->setMask(QBitmap::fromData(
+	pinDownPix.setMask(QBitmap::fromData(
 						  QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
 						  pindown_mask_bits, QImage::Format_MonoLSB));
 
 	// Inactive pins
-	ipinUpPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	ipinUpPix->fill(Qt::transparent);
-	p.begin( ipinUpPix );
+	ipinUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	ipinUpPix.fill(Qt::transparent);
+	p.begin( &ipinUpPix );
 	colorBitmapLayer(pinup_white_bits, window()->color(QPalette::Inactive, QPalette::Light));
 	colorBitmapLayer(pinup_gray_bits, window()->color(QPalette::Inactive, QPalette::Button));
 	colorBitmapLayer(pinup_dgray_bits, window()->color(QPalette::Inactive, QPalette::Dark));
 	p.end();
-	ipinUpPix->setMask(QBitmap::fromData(
+	ipinUpPix.setMask(QBitmap::fromData(
 						   QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
 						   pinup_mask_bits, QImage::Format_MonoLSB));
 
-	ipinDownPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	ipinDownPix->fill(Qt::transparent);
-	p.begin( ipinDownPix );
+	ipinDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	ipinDownPix.fill(Qt::transparent);
+	p.begin( &ipinDownPix );
 	colorBitmapLayer(pindown_white_bits, window()->color(QPalette::Inactive, QPalette::Light));
 	colorBitmapLayer(pindown_gray_bits, window()->color(QPalette::Inactive, QPalette::Button));
 	colorBitmapLayer(pindown_dgray_bits, window()->color(QPalette::Inactive, QPalette::Dark));
 	p.end();
-	ipinDownPix->setMask(QBitmap::fromData(
+	ipinDownPix.setMask(QBitmap::fromData(
 							 QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
 							 pindown_mask_bits, QImage::Format_MonoLSB));
 
 	// Cache all possible button states
-	btnUpPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	btnUpPix->fill(Qt::transparent);
-	btnDownPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	btnDownPix->fill(Qt::transparent);
-	ibtnUpPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	ibtnUpPix->fill(Qt::transparent);
-	ibtnDownPix = new QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	ibtnDownPix->fill(Qt::transparent);
+	btnUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	btnUpPix.fill(Qt::transparent);
+	btnDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	btnDownPix.fill(Qt::transparent);
+	ibtnUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	ibtnUpPix.fill(Qt::transparent);
+	ibtnDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	ibtnDownPix.fill(Qt::transparent);
 
-	auto drawButtonBackground = [&](QPixmap *pixmap, bool sunken, bool active) {
+	auto drawButtonBackground = [&](QPixmap &pixmap, bool sunken, bool active) {
 		
 		QColor c = window()->color(QPalette::Active, QPalette::Button);
 		if (active) {
 			pixmapGradient(pixmap, c, Qt::white,
-						   0, 0, pixmap->width(), pixmap->height());
+						   0, 0, pixmap.width(), pixmap.height());
 		} else {
 			QColor inactiveTitleColor1(window()->color(KDecoration3::ColorGroup::Inactive,
 													   KDecoration3::ColorRole::TitleBar));
@@ -320,7 +291,7 @@ BluecurveDecoration::createPixmaps()
 													   KDecoration3::ColorRole::TitleBar).darker(110));
 
 			pixmapGradient(pixmap, inactiveTitleColor2, inactiveTitleColor1,
-						   0, 0, pixmap->width(), pixmap->height());
+						   0, 0, pixmap.width(), pixmap.height());
 		}
 	};
 
@@ -363,18 +334,18 @@ BluecurveDecoration::createPixmaps()
 	recolor(abottomright, window()->color(KDecoration3::ColorGroup::Active,
 										  KDecoration3::ColorRole::TitleBar).lighter(135));
 
-	bottomLeftPix 	= new QPixmap();
-	bottomLeftPix->fill(Qt::transparent);
-	bottomRightPix	= new QPixmap();
-	bottomRightPix->fill(Qt::transparent);
-	abottomLeftPix	= new QPixmap();
-	abottomLeftPix->fill(Qt::transparent);
-	abottomRightPix	= new QPixmap();
-	abottomRightPix->fill(Qt::transparent);
-	bottomLeftPix->convertFromImage(bottomleft);
-	bottomRightPix->convertFromImage(bottomright);
-	abottomLeftPix->convertFromImage(abottomleft);
-	abottomRightPix->convertFromImage(abottomright);
+	bottomLeftPix 	= QPixmap();
+	bottomLeftPix.fill(Qt::transparent);
+	bottomRightPix	= QPixmap();
+	bottomRightPix.fill(Qt::transparent);
+	abottomLeftPix = QPixmap();
+	abottomLeftPix.fill(Qt::transparent);
+	abottomRightPix	= QPixmap();
+	abottomRightPix.fill(Qt::transparent);
+	bottomLeftPix.convertFromImage(bottomleft);
+	bottomRightPix.convertFromImage(bottomright);
+	abottomLeftPix.convertFromImage(abottomleft);
+	abottomRightPix.convertFromImage(abottomright);
 }
 
 void
@@ -470,39 +441,32 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 
 	if (oldsize != titleBufferSize) {
 		oldsize = titleBufferSize;
-		if (aUpperGradient)
-		{
-			delete aUpperGradient;
-			aUpperGradient = NULL;
-		}
-		if (iUpperGradient)
-		{
-			delete iUpperGradient;
-			iUpperGradient = NULL;
-		}
+
+		aUpperGradient = QPixmap();
+		iUpperGradient = QPixmap();
 
 		// Create the titlebar gradients
 		if (activeTitleColor1 != activeTitleColor2)
 		{
-			aUpperGradient = new QPixmap(oldsize);
-			aUpperGradient->fill(Qt::transparent);
+			aUpperGradient = QPixmap(oldsize);
+			aUpperGradient.fill(Qt::transparent);
 			pixmapGradient(aUpperGradient, activeTitleColor2, activeTitleColor1,
-						   0, 0, 0, aUpperGradient->height());
+						   0, 0, 0, aUpperGradient.height());
 		}
 
 		if (inactiveTitleColor1 != inactiveTitleColor2)
 		{
-			iUpperGradient = new QPixmap(oldsize);
-			iUpperGradient->fill(Qt::transparent);
+			iUpperGradient = QPixmap(oldsize);
+			iUpperGradient.fill(Qt::transparent);
 			pixmapGradient(iUpperGradient, inactiveTitleColor2, inactiveTitleColor1,
-						   0, 0, 0, iUpperGradient->height());
+						   0, 0, 0, iUpperGradient.height());
 		}
 	}
 
-	QPixmap* upperGradient = window()->isActive() ? aUpperGradient : iUpperGradient;
+	QPixmap upperGradient = window()->isActive() ? aUpperGradient : iUpperGradient;
 	
-	if (upperGradient)
-		p2.drawPixmap(0, TOP_GRABBAR_WIDTH, *upperGradient);
+	if (!upperGradient.isNull())
+		p2.drawPixmap(0, TOP_GRABBAR_WIDTH, upperGradient);
 	else
 		p2.fillRect(0, TOP_GRABBAR_WIDTH, w, TITLE_HEIGHT, c1);
 
@@ -510,12 +474,12 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	p2.setFont( fnt );
 
 	// Draw the titlebar stipple if active and available
-	if (window()->isActive() && titlePix) {
+	if (window()->isActive() && !titlePix.isNull()) {
 		QFontMetrics fm(fnt);
 		int captionWidth = fm.horizontalAdvance(window()->caption()) + 1;
 		p2.drawTiledPixmap( r.x() + 2 + 2 + captionWidth, TOP_GRABBAR_WIDTH,
 							r.width() - 2 - 4 - captionWidth, 
-							TITLE_HEIGHT+1, *titlePix );
+							TITLE_HEIGHT+1, titlePix );
 	}
 
 	if (window()->isActive()) {
@@ -674,10 +638,10 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	p1.drawRect(0,0,w-1,h-1);
 
 	// Put on the bottom corners
-	p1.drawPixmap(0, h - bottomLeftPix->height(),
-				  window()->isActive() ? *abottomLeftPix : *bottomLeftPix);
-	p1.drawPixmap(w - bottomRightPix->width(), h - bottomRightPix->height(), 
-				  window()->isActive() ? *abottomRightPix : *bottomRightPix);
+	p1.drawPixmap(0, h - bottomLeftPix.height(),
+				  window()->isActive() ? abottomLeftPix : bottomLeftPix);
+	p1.drawPixmap(w - bottomRightPix.width(), h - bottomRightPix.height(), 
+				  window()->isActive() ? abottomRightPix : bottomRightPix);
 
 	p1.end();
 	
@@ -724,19 +688,19 @@ BluecurveDecoration::decorationMask()
 	p.drawPie(w-dm, 0, dm, dm, 0*16, 90*16);
 	p.drawArc(w-dm, 0, dm, dm, 0*16, 90*16);
 
-	p.drawPixmap(x, h - bottomLeftPix->height(), bottomLeftPix->mask());
+	p.drawPixmap(x, h - bottomLeftPix.height(), bottomLeftPix.mask());
 
-	p.drawPixmap(w-bottomRightPix->width(), h - bottomRightPix->height(), 
-				 bottomRightPix->mask());
+	p.drawPixmap(w-bottomRightPix.width(), h - bottomRightPix.height(), 
+				 bottomRightPix.mask());
 
-	p.fillRect(x+BOTTOM_CORNER, h - bottomLeftPix->height(),
-			   bottomLeftPix->width()-BOTTOM_CORNER,
-			   bottomLeftPix->height()-BOTTOM_CORNER,
+	p.fillRect(x+BOTTOM_CORNER, h - bottomLeftPix.height(),
+			   bottomLeftPix.width()-BOTTOM_CORNER,
+			   bottomLeftPix.height()-BOTTOM_CORNER,
 			   Qt::color1);
 
-	p.fillRect(w-bottomRightPix->width(), h - bottomRightPix->height(), 
-			   bottomRightPix->width()-BOTTOM_CORNER,
-			   bottomRightPix->height()-BOTTOM_CORNER,
+	p.fillRect(w-bottomRightPix.width(), h - bottomRightPix.height(), 
+			   bottomRightPix.width()-BOTTOM_CORNER,
+			   bottomRightPix.height()-BOTTOM_CORNER,
 			   Qt::color1);
 
 	p.end();
@@ -808,9 +772,9 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 		QPixmap btnbg;
 
 		if (isPressed() || isChecked())
-			btnbg = decoration()->window()->isActive() ? *btnDownPix : *ibtnDownPix;
+			btnbg = decoration()->window()->isActive() ? btnDownPix : ibtnDownPix;
 		else
-			btnbg = decoration()->window()->isActive() ? *btnUpPix : *ibtnUpPix;
+			btnbg = decoration()->window()->isActive() ? btnUpPix : ibtnUpPix;
 
 		if (isHovered())
 			pixmapIntensity(btnbg, 0.8);
