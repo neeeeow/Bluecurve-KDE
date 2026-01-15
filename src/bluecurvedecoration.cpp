@@ -133,23 +133,38 @@ bool
 BluecurveDecoration::init()
 {
 	createPixmaps();
-	updateBorders();
-	updateTitleBar();
+
+	// borders are constant in size regardless of setting or state, so just set them here
+    setBorders(QMargins(BORDER_WIDTH, TITLE_HEIGHT + 3, BORDER_WIDTH, BORDER_WIDTH));
 	
-	// Create buttons
-	m_leftButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Left,
-															this, &BluecurveButton::create);
-    m_rightButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Right,
-															 this, &BluecurveButton::create);
+	updateTitleBar();
+	auto s = settings();
 
+	/* Settings changes */
+	// buttons
+    connect(s.get(), &KDecoration3::DecorationSettings::spacingChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
+    connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsLeftChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
+    connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsRightChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
 
-	// Button signals
+	/* Window state changes */
+	// Update() signals
+	connect(window(), &KDecoration3::DecoratedWindow::activeChanged, this, [this]{ update(); });
+
+	// titleBar signals
+    connect(window(), &KDecoration3::DecoratedWindow::widthChanged, this, &BluecurveDecoration::updateTitleBar);
+    connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateTitleBar);
+	
+	// Button signals. as a reminder: update() is called in updateButtonsGeometry
 	connect(window(), &KDecoration3::DecoratedWindow::widthChanged, this, &BluecurveDecoration::updateButtonsGeometry);
     connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
     connect(window(), &KDecoration3::DecoratedWindow::adjacentScreenEdgesChanged, this, &BluecurveDecoration::updateButtonsGeometry);
     connect(window(), &KDecoration3::DecoratedWindow::shadedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
 
-	
+	// Create buttons
+	m_leftButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Left,
+															this, &BluecurveButton::create);
+    m_rightButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Right,
+															 this, &BluecurveButton::create);	
 	updateButtonsGeometry();
 
 	update();
@@ -338,15 +353,6 @@ BluecurveDecoration::createPixmaps()
 	bottomRightPix.convertFromImage(bottomright);
 	abottomLeftPix.convertFromImage(abottomleft);
 	abottomRightPix.convertFromImage(abottomright);
-}
-
-void
-BluecurveDecoration::updateBorders()
-{
-	int left, right, top, bottom;
-	left = right = bottom = BORDER_WIDTH;
-	top = TITLE_HEIGHT + 3;
-	setBorders(QMargins(left, top, right, bottom)); 
 }
 
 void

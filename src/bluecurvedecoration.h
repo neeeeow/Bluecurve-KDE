@@ -34,7 +34,6 @@ private:
 	KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
 	
 	void createPixmaps();
-	void updateBorders();
 	void updateTitleBar();
 	void updateButtonsGeometryDelayed();
 	void updateButtonsGeometry();
