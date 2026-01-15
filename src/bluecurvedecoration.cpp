@@ -7,6 +7,7 @@
 
 #include <QPainter>
 #include <QBitmap>
+#include <QTimer>
 #include <qdrawutil.h>
 
 #define BASE_BUTTON_SIZE  17
@@ -56,6 +57,79 @@ pixmapGradient(QPixmap *pixmap, QColor c1, QColor c2, qreal x1, qreal y1, qreal 
 	gradientPainter.end();
 }
 
+static QPixmap&
+pixmapIntensity(QPixmap &pixmap, float percent)
+{
+	/* Reimplementation of KDE 3's KPixmapEffect/KImageEffect::intensity
+	   Copyright (C) 1998, 1999, 2001, 2002 Daniel M. Duley <mosfet@kde.org>
+	   (C) 1998, 1999 Christian Tibirna <ctibirna@total.net>
+	   (C) 1998, 1999 Dirk Mueller <mueller@kde.org>
+	   (C) 1999 Geert Jansen <g.t.jansen@stud.tue.nl>
+	   (C) 2000 Josef Weidendorfer <weidendo@in.tum.de>
+	   (C) 2004 Zack Rusin <zack@kde.org>
+	*/
+
+	QImage image = pixmap.toImage();
+
+	int segColors = image.depth() > 8 ? 256 : image.colorCount();
+	int pixels = image.depth() > 8 ? image.width() * image.height() :
+		image.colorCount();
+	unsigned int *data = image.depth() > 8 ? (unsigned int *)image.bits() :
+		(unsigned int *)image.colorTable().data();
+	
+	bool brighten = (percent >= 0);
+	if (percent < 0)
+		percent = -percent;
+
+	unsigned char *segTbl = new unsigned char[segColors];
+	int tmp;
+	if(brighten){ // keep overflow check out of loops
+		for(int i=0; i < segColors; ++i){
+			tmp = (int)(i*percent);
+			if(tmp > 255)
+				tmp = 255;
+			segTbl[i] = tmp;
+		}
+	}
+	else{
+		for(int i=0; i < segColors; ++i){
+			tmp = (int)(i*percent);
+			if(tmp < 0)
+				tmp = 0;
+			segTbl[i] = tmp;
+		}
+	}
+
+	if(brighten){ // same here
+		for(int i=0; i < pixels; ++i){
+			int r = qRed(data[i]);
+			int g = qGreen(data[i]);
+			int b = qBlue(data[i]);
+			int a = qAlpha(data[i]);
+			r = r + segTbl[r] > 255 ? 255 : r + segTbl[r];
+			g = g + segTbl[g] > 255 ? 255 : g + segTbl[g];
+			b = b + segTbl[b] > 255 ? 255 : b + segTbl[b];
+			data[i] = qRgba(r, g, b,a);
+		}
+	}
+	else{
+		for(int i=0; i < pixels; ++i){
+			int r = qRed(data[i]);
+			int g = qGreen(data[i]);
+			int b = qBlue(data[i]);
+			int a = qAlpha(data[i]);
+			r = r - segTbl[r] < 0 ? 0 : r - segTbl[r];
+			g = g - segTbl[g] < 0 ? 0 : g - segTbl[g];
+			b = b - segTbl[b] < 0 ? 0 : b - segTbl[b];
+			data[i] = qRgba(r, g, b, a);
+		}
+	}
+	delete [] segTbl;
+	pixmap = QPixmap::fromImage(image);
+
+	return pixmap;
+}
+
 BluecurveDecoration::BluecurveDecoration(QObject *parent, const QVariantList &args) : KDecoration3::Decoration(parent, args)
 {
 
@@ -70,6 +144,23 @@ BluecurveDecoration::init()
 	updateBorders();
 	updateTitleBar();
 	
+	// Create buttons
+	m_leftButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Left,
+															this, &BluecurveButton::create);
+    m_rightButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Right,
+															 this, &BluecurveButton::create);
+
+
+	// Button signals
+	connect(window(), &KDecoration3::DecoratedWindow::widthChanged, this, &BluecurveDecoration::updateButtonsGeometry);
+    connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
+    connect(window(), &KDecoration3::DecoratedWindow::adjacentScreenEdgesChanged, this, &BluecurveDecoration::updateButtonsGeometry);
+    connect(window(), &KDecoration3::DecoratedWindow::shadedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
+
+	
+	updateButtonsGeometry();
+
+	update();
 	return true;
 }
 
@@ -277,6 +368,24 @@ BluecurveDecoration::updateTitleBar()
 }
 
 void
+BluecurveDecoration::updateButtonsGeometryDelayed()
+{
+	QTimer::singleShot(0, this, &BluecurveDecoration::updateButtonsGeometry);
+}
+
+void
+BluecurveDecoration::updateButtonsGeometry()
+{
+	m_leftButtons->setSpacing(2);
+	m_rightButtons->setSpacing(2);
+
+	m_leftButtons->setPos(QPointF(1, TOP_GRABBAR_WIDTH));
+	m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 1, TOP_GRABBAR_WIDTH));
+
+	update();
+}
+
+void
 BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 {
 	
@@ -424,35 +533,41 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	}
 
 	p2.setPen(Qt::white);
-	/*if (isActive()) TODO: port this code once button logic is added
-	{
-		for (int i = 0; i < BtnCount; i ++)
-		{
-			if (button[i] == NULL)
+
+	if (window()->isActive()) {
+		const auto buttonList = m_leftButtons->buttons() + m_rightButtons->buttons();
+		for (KDecoration3::DecorationButton *button : buttonList) {
+			if (!button)
 				continue;
-			if (!button[i]->isVisible())
-			{
-				if (button[i]->pos == ButtonRight)
+			
+			bool isLeftButtonRight = (!m_leftButtons->buttons().isEmpty() &&
+								 button == m_leftButtons->buttons().last());
+			bool isButtonRight = (!m_rightButtons->buttons().isEmpty() &&
+								  button == m_rightButtons->buttons().last());
+
+			if (!button->isVisible()) {
+				if (isButtonRight)
 					drawRightDivider = false;
 				// FIXME: Should be LeftButtonLeft if we had it
-				if (button[i]->pos == LeftButtonRight)
+				if (isLeftButtonRight)
 					drawLeftDivider = false;
 				continue;
 			}
-			QRect buttonSize = button[i]->geometry ();
+			
+			QRectF buttonSize = button->geometry();
 			p2.setPen(Qt::white);
 			p2.drawLine (buttonSize.x() - 1, TOP_GRABBAR_WIDTH,
-						 buttonSize.x() - 1, TOP_GRABBAR_WIDTH + titleHeight);
-			if (button[i]->pos == ButtonRight)
+						 buttonSize.x() - 1, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
+			if (isButtonRight)
 				continue;
-			else if (button[i]->pos == LeftButtonRight)
-				p2.setPen(g.mid().light(120));
+			else if (isLeftButtonRight)
+				p2.setPen(window()->palette().mid().color().lighter(120));
 			else
-				p2.setPen(g.dark());
+				p2.setPen(window()->palette().dark().color());
 			p2.drawLine (buttonSize.x() + buttonSize.width(), TOP_GRABBAR_WIDTH - 1,
-						 buttonSize.x() + buttonSize.width(), TOP_GRABBAR_WIDTH + titleHeight);
+						 buttonSize.x() + buttonSize.width(), TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
 		}
-		}*/
+	}
 
 	// Top Left Button Area
 	if (drawLeftDivider)
@@ -540,6 +655,9 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	// Apply the mask to the decoration buffer and draw it
 	decoBuffer.setMask(decorationMask());
 	p->drawPixmap(x,y, decoBuffer);
+
+	m_leftButtons->paint(p, repaintRegion);
+	m_rightButtons->paint(p, repaintRegion);
 	
 }
 
@@ -602,14 +720,109 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 	: KDecoration3::DecorationButton(type, decoration, parent)
 {
 
+	setGeometry(QRectF(0,0,BASE_BUTTON_SIZE,BASE_BUTTON_SIZE));
+	
+	// Set decoration bitmap to be drawn
+	// Note: if button is maximize, we need to remember to change bits
+	// based on window minimised/maximised state.
+	switch (type) {
+	case KDecoration3::DecorationButtonType::Menu:
+		iconBits = QBitmap::fromData(QSize(14,14), menu_bits);
+		break;
+	case KDecoration3::DecorationButtonType::Minimize:
+		iconBits = QBitmap::fromData(QSize(14,14), iconify_bits);
+		break;
+	case KDecoration3::DecorationButtonType::Maximize:
+		iconBits = QBitmap::fromData(QSize(14,14), maximize_bits);
+		break;
+	case KDecoration3::DecorationButtonType::Close:
+		iconBits = QBitmap::fromData(QSize(14,14), close_bits);
+		break;
+	case KDecoration3::DecorationButtonType::ContextHelp:
+		iconBits = QBitmap::fromData(QSize(14,14), question_bits);
+		break;
+	default:
+		break;
+	}
 }
 
 BluecurveButton::~BluecurveButton() = default;
 
+BluecurveButton
+*BluecurveButton::create(KDecoration3::DecorationButtonType type,
+						 KDecoration3::Decoration *decoration,
+						 QObject *parent)
+{
+	if (auto d = qobject_cast<KDecoration3::Decoration *>(decoration)) {
+		BluecurveButton *b = new BluecurveButton(type, d, parent);
+		return b;
+	} else
+		return nullptr;	
+}
+
 void
 BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
-{
+{	
+	// Obtain button bounds
+	int x = geometry().x();
+	int y = geometry().y();
+	int w  = geometry().width();
+	int h  = geometry().height();
 
+	// Buffer for the decoration (which we apply the mask later)
+	QPixmap buttonBuffer = QPixmap(w, h);
+	buttonBuffer.fill(Qt::transparent);
+	QPainter p1(&buttonBuffer);
+
+	if (!iconBits.isNull()) {
+		// Button background
+		QPixmap btnbg;
+
+		if (isPressed() || isChecked())
+			btnbg = decoration()->window()->isActive() ? *btnDownPix : *ibtnDownPix;
+		else
+			btnbg = decoration()->window()->isActive() ? *btnUpPix : *ibtnUpPix;
+
+		if (isHovered())
+			pixmapIntensity(btnbg, 0.8);
+		p1.drawPixmap(0,0,btnbg);
+
+		// Button icon
+		bool darkDeco = qGray(decoration()->window()->color(
+								  decoration()->window()->isActive() ?
+								  QPalette::ColorGroup::Active :
+								  QPalette::ColorGroup::Inactive,
+								  QPalette::ColorRole::Button).rgb()) > 127;
+
+		QColor bgc = decoration()->window()->color(
+			decoration()->window()->isActive() ?
+			KDecoration3::ColorGroup::Active :
+			KDecoration3::ColorGroup::Inactive,
+			KDecoration3::ColorRole::TitleBar);
+
+		/*if (isHovered())
+			p->setPen( darkDeco ? bgc.darker(120) : bgc.lighter(120) );
+		else
+		p->setPen( darkDeco ? bgc.darker(150) : bgc.lighter(150) );*/
+
+		int xOff = (w-14)/2;
+		int yOff = (h-14)/2;
+
+		QPixmap icon(iconBits.size());
+		if (isHovered())
+			icon.fill( darkDeco ? bgc.darker(120) : bgc.lighter(120) );
+		else
+			icon.fill( darkDeco ? bgc.darker(150) : bgc.lighter(150) );
+		icon.setMask(iconBits);
+		
+		p1.drawPixmap((isPressed() || isChecked()) ? xOff+1: xOff,
+					  (isPressed() || isChecked()) ? yOff+1 : yOff,
+					  icon);
+	}
+	
+	p1.end();
+	p->drawPixmap(x,y,buttonBuffer);
 }
+
 
 #include "bluecurvedecoration.moc"
