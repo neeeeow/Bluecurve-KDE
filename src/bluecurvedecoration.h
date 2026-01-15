@@ -8,6 +8,7 @@
 #include <QMargins>
 #include <QVariant>
 #include <QBitmap>
+#include <QPixmap>
 
 class BluecurveDecoration : public KDecoration3::Decoration
 {
@@ -20,6 +21,15 @@ public:
 	bool init() override;
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
 private:
+	QPixmap titlePix;
+	QPixmap aUpperGradient;
+	QPixmap iUpperGradient;
+
+	QPixmap bottomLeftPix;
+	QPixmap bottomRightPix;
+	QPixmap abottomLeftPix;
+	QPixmap abottomRightPix;
+	
 	KDecoration3::DecorationButtonGroup *m_leftButtons = nullptr;
 	KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
 	

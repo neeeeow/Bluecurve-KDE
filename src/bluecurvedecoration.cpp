@@ -19,10 +19,7 @@
 #define TOP_GRABBAR_WIDTH 2
 #define BOTTOM_CORNER     5
 
-QPixmap titlePix;
-QPixmap aUpperGradient;
-QPixmap iUpperGradient;
-
+/* these pixmaps are needed across every button, so we just store them globally for convenience */
 QPixmap pinDownPix;
 QPixmap pinUpPix;
 QPixmap ipinDownPix;
@@ -32,11 +29,6 @@ QPixmap btnUpPix;
 QPixmap btnDownPix;
 QPixmap ibtnUpPix;
 QPixmap ibtnDownPix;
-
-QPixmap bottomLeftPix;
-QPixmap bottomRightPix;
-QPixmap abottomLeftPix;
-QPixmap abottomRightPix;
 
 K_PLUGIN_FACTORY_WITH_JSON(
 	BluecurveDecorationFactory,
