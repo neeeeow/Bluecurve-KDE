@@ -485,7 +485,7 @@ BluecurveDecoration::updateTitleBar()
 	const int width = window()->width();
 	const int height = TITLE_HEIGHT;
 	const int x = 0;
-	const int y = 0;
+	const int y = TOP_GRABBAR_WIDTH;
 	setTitleBar(QRect(x,y,width,height));
 }
 
