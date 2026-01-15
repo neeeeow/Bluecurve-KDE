@@ -36,17 +36,141 @@ K_PLUGIN_FACTORY_WITH_JSON(
 	registerPlugin<BluecurveDecoration>();
 	)
 
-static void
-pixmapGradient(QPixmap &pixmap, QColor c1, QColor c2, qreal x1, qreal y1, qreal x2, qreal y2)
-{
-	// helper function for drawing gradients to pixmaps, replaces KPixmapEffect::gradient
-	QLinearGradient gradient(x1, y1, x2, y2);
-	gradient.setColorAt(0.0, c1);
-	gradient.setColorAt(1.0, c2);
+enum GradientType { VerticalGradient, HorizontalGradient,
+	DiagonalGradient }; // we only need these three
 
-	QPainter gradientPainter(&pixmap);
-	gradientPainter.fillRect(pixmap.rect(), gradient);
-	gradientPainter.end();
+static QPixmap&
+pixmapGradient(QPixmap &pixmap, const QColor &ca, const QColor &cb,
+					 GradientType eff, int ncols=3)
+{
+	/* Reimplementation of KDE 3's KPixmapEffect/KImageEffect::gradient
+	   Copyright (C) 1998, 1999, 2001, 2002 Daniel M. Duley <mosfet@kde.org>
+	   (C) 1998, 1999 Christian Tibirna <ctibirna@total.net>
+	   (C) 1998, 1999 Dirk Mueller <mueller@kde.org>
+	   (C) 1999 Geert Jansen <g.t.jansen@stud.tue.nl>
+	   (C) 2000 Josef Weidendorfer <weidendo@in.tum.de>
+	   (C) 2004 Zack Rusin <zack@kde.org>
+	*/
+	if (pixmap.depth()>8 &&
+		(eff == VerticalGradient || eff == HorizontalGradient)) {
+
+		int rDiff, gDiff, bDiff;
+		int rca, gca, bca /*, rcb, gcb, bcb*/;
+
+		int x, y;
+
+		rDiff = (/*rcb = */ cb.red())   - (rca = ca.red());
+		gDiff = (/*gcb = */ cb.green()) - (gca = ca.green());
+		bDiff = (/*bcb = */ cb.blue())  - (bca = ca.blue());
+
+		int rl = rca << 16;
+		int gl = gca << 16;
+		int bl = bca << 16;
+
+		int rcdelta = ((1<<16) / (eff == VerticalGradient ? pixmap.height() : pixmap.width())) * rDiff;
+		int gcdelta = ((1<<16) / (eff == VerticalGradient ? pixmap.height() : pixmap.width())) * gDiff;
+		int bcdelta = ((1<<16) / (eff == VerticalGradient ? pixmap.height() : pixmap.width())) * bDiff;
+
+		QPainter p(&pixmap);
+
+		// these for-loops could be merged, but the if's in the inner loop
+        // would make it slow
+		switch(eff) {
+		case VerticalGradient:
+			for ( y = 0; y < pixmap.height(); y++ ) {
+				rl += rcdelta;
+				gl += gcdelta;
+				bl += bcdelta;
+
+				p.setPen(QColor(rl>>16, gl>>16, bl>>16));
+				p.drawLine(0, y, pixmap.width()-1, y);
+			}
+			break;
+		case HorizontalGradient:
+			for( x = 0; x < pixmap.width(); x++) {
+				rl += rcdelta;
+				gl += gcdelta;
+				bl += bcdelta;
+
+				p.setPen(QColor(rl>>16, gl>>16, bl>>16));
+				p.drawLine(x, 0, x, pixmap.height()-1);
+			}
+			break;
+		default:
+			;
+		}
+
+		p.end();
+	} else if (eff==DiagonalGradient) {
+		QImage image = pixmap.toImage();
+		int rDiff, gDiff, bDiff;
+		int rca, gca, bca, rcb, gcb, bcb;
+
+		int x, y;
+
+		rDiff = (rcb = cb.red())   - (rca = ca.red());
+		gDiff = (gcb = cb.green()) - (gca = ca.green());
+		bDiff = (bcb = cb.blue())  - (bca = ca.blue());
+
+		float rfd, gfd, bfd;
+		float rd = rca, gd = gca, bd = bca;
+
+		unsigned char *xtable[3];
+		unsigned char *ytable[3];
+
+		unsigned int w = pixmap.width(), h = pixmap.height();
+		xtable[0] = new unsigned char[w];
+		xtable[1] = new unsigned char[w];
+		xtable[2] = new unsigned char[w];
+		ytable[0] = new unsigned char[h];
+		ytable[1] = new unsigned char[h];
+		ytable[2] = new unsigned char[h];
+		w*=2, h*=2;
+
+		rfd = (float)rDiff/w;
+		gfd = (float)gDiff/w;
+		bfd = (float)bDiff/w;
+
+		int dir;
+		for (x = 0; x < pixmap.width(); x++, rd+=rfd, gd+=gfd, bd+=bfd) {
+			dir = eff == DiagonalGradient? x : pixmap.width() - x - 1;
+			xtable[0][dir] = (unsigned char) rd;
+			xtable[1][dir] = (unsigned char) gd;
+			xtable[2][dir] = (unsigned char) bd;
+		}
+
+		rfd = (float)rDiff/h;
+		gfd = (float)gDiff/h;
+		bfd = (float)bDiff/h;
+		rd = gd = bd = 0;
+		for (y = 0; y < pixmap.height(); y++, rd+=rfd, gd+=gfd, bd+=bfd) {
+			ytable[0][y] = (unsigned char) rd;
+			ytable[1][y] = (unsigned char) gd;
+			ytable[2][y] = (unsigned char) bd;
+		}
+
+		for (y = 0; y < pixmap.height(); y++) {
+			unsigned int *scanline = (unsigned int *)image.scanLine(y);
+			for (x = 0; x < pixmap.width(); x++) {
+				scanline[x] = qRgb(xtable[0][x] + ytable[0][y],
+								   xtable[1][x] + ytable[1][y],
+								   xtable[2][x] + ytable[2][y]);
+			}
+		}
+
+		delete [] xtable[0];
+		delete [] xtable[1];
+		delete [] xtable[2];
+		delete [] ytable[0];
+		delete [] ytable[1];
+		delete [] ytable[2];
+
+		// assume dithering isn't necessary, everyone has truecolor by now
+
+		pixmap = QPixmap::fromImage(image);
+	}
+
+	return pixmap;
 }
 
 static QPixmap&
@@ -197,7 +321,7 @@ BluecurveDecoration::createPixmaps()
     QColor satColor = QColor::fromHsv(h, s, v);
 
 	pixmapGradient(titlePix, satColor, satColor.darker(150),
-				   0, 0, 0, titlePix.height());
+				   VerticalGradient);
 
 	for(y = 0; y < (TITLE_HEIGHT+2); y++) {
 		for(x = (3 - y) % 4; x < 132; x += 4) {
@@ -290,7 +414,7 @@ BluecurveDecoration::createPixmaps()
 		QColor c = window()->color(QPalette::Active, QPalette::Button);
 		if (active) {
 			pixmapGradient(pixmap, c, Qt::white,
-						   0, 0, pixmap.width(), pixmap.height());
+						   DiagonalGradient);
 		} else {
 			QColor inactiveTitleColor1(window()->color(KDecoration3::ColorGroup::Inactive,
 													   KDecoration3::ColorRole::TitleBar));
@@ -298,7 +422,7 @@ BluecurveDecoration::createPixmaps()
 													   KDecoration3::ColorRole::TitleBar).darker(110));
 
 			pixmapGradient(pixmap, inactiveTitleColor2, inactiveTitleColor1,
-						   0, 0, pixmap.width(), pixmap.height());
+						   VerticalGradient);
 		}
 	};
 
@@ -449,7 +573,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 			aUpperGradient = QPixmap(oldsize);
 			aUpperGradient.fill(Qt::transparent);
 			pixmapGradient(aUpperGradient, activeTitleColor2, activeTitleColor1,
-						   0, 0, 0, aUpperGradient.height());
+						   VerticalGradient);
 		}
 
 		if (inactiveTitleColor1 != inactiveTitleColor2)
@@ -457,7 +581,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 			iUpperGradient = QPixmap(oldsize);
 			iUpperGradient.fill(Qt::transparent);
 			pixmapGradient(iUpperGradient, inactiveTitleColor2, inactiveTitleColor1,
-						   0, 0, 0, iUpperGradient.height());
+						   VerticalGradient);
 		}
 	}
 
