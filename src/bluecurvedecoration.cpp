@@ -818,11 +818,45 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 		p1.drawPixmap((isPressed() || isChecked()) ? xOff+1: xOff,
 					  (isPressed() || isChecked()) ? yOff+1 : yOff,
 					  icon);
+	} else {
+		
 	}
 	
 	p1.end();
+	buttonBuffer.setMask(buttonMask());
 	p->drawPixmap(x,y,buttonBuffer);
 }
 
+QBitmap
+BluecurveButton::buttonMask()
+{
+	// Obtain button bounds
+	int w  = geometry().width();
+	int h  = geometry().height();
+	int r = BUTTON_DIAM / 2;
+	int dm = BUTTON_DIAM;
+
+	QBitmap mask(w, h);
+	mask.clear();
+
+	QPainter p(&mask);
+	p.fillRect(0, 0, w, h, Qt::color1);
+
+	p.setPen(Qt::color1);
+	p.setBrush(Qt::color1);
+
+	if (geometry().x()==1) {
+		p.eraseRect(0, -TOP_GRABBAR_WIDTH, r, r);
+		p.drawPie(0, -TOP_GRABBAR_WIDTH, dm-1, dm-1, 90*16, 90*16);
+		p.drawArc(0, -TOP_GRABBAR_WIDTH, dm-1, dm-1, 90*16, 90*16);
+	} else if (geometry().x()==decoration()->size().width() - w - 1) {
+		p.eraseRect(w-r , -TOP_GRABBAR_WIDTH, r,r);
+		p.drawPie(w-dm, -TOP_GRABBAR_WIDTH, dm-1, dm-1, 0*16, 90*16);
+		p.drawArc(w-dm, -TOP_GRABBAR_WIDTH, dm-1, dm-1, 0*16, 90*16);
+	}
+
+	p.end();
+	return mask;
+}
 
 #include "bluecurvedecoration.moc"

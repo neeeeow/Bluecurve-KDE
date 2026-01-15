@@ -48,4 +48,6 @@ public:
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
 private:
 	QBitmap iconBits;
+
+	QBitmap buttonMask();
 };
