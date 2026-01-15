@@ -135,7 +135,36 @@ BluecurveDecoration::BluecurveDecoration(QObject *parent, const QVariantList &ar
 
 }
 
-BluecurveDecoration::~BluecurveDecoration() = default;
+BluecurveDecoration::~BluecurveDecoration()
+{
+	// Free button pixmaps
+	if (btnUpPix)
+		delete btnUpPix;
+	if(btnDownPix)
+		delete btnDownPix;
+	if (ibtnUpPix)
+		delete ibtnUpPix;
+	if (ibtnDownPix)
+		delete ibtnDownPix;
+
+	// Title images
+	if (titlePix)
+		delete titlePix;
+	if (aUpperGradient)
+		delete aUpperGradient;
+	if (iUpperGradient)
+		delete iUpperGradient;
+
+	// Sticky pin images
+	if (pinUpPix)
+		delete pinUpPix;
+	if (ipinUpPix)
+		delete ipinUpPix;
+	if (pinDownPix)
+		delete pinDownPix;
+	if (ipinDownPix)
+		delete ipinDownPix;
+}
 
 bool
 BluecurveDecoration::init()
