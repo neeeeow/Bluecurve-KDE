@@ -25,10 +25,8 @@ QPixmap pinUpPix;
 QPixmap ipinDownPix;
 QPixmap ipinUpPix;
 
-QPixmap btnUpPix;
-QPixmap btnDownPix;
-QPixmap ibtnUpPix;
-QPixmap ibtnDownPix;
+QPixmap btnPix;
+QPixmap ibtnPix;
 
 K_PLUGIN_FACTORY_WITH_JSON(
 	BluecurveDecorationFactory,
@@ -421,16 +419,12 @@ BluecurveDecoration::createPixmaps()
 							 pindown_mask_bits, QImage::Format_MonoLSB));
 
 	// Cache all possible button states
-	btnUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	btnUpPix.fill(Qt::transparent);
-	btnDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	btnDownPix.fill(Qt::transparent);
-	ibtnUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	ibtnUpPix.fill(Qt::transparent);
-	ibtnDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
-	ibtnDownPix.fill(Qt::transparent);
+	btnPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	btnPix.fill(Qt::transparent);
+	ibtnPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	ibtnPix.fill(Qt::transparent);
 
-	auto drawButtonBackground = [&](QPixmap &pixmap, bool sunken, bool active) {
+	auto drawButtonBackground = [&](QPixmap &pixmap, bool active) {
 		
 		QColor c = window()->color(QPalette::Active, QPalette::Button);
 		if (active) {
@@ -442,10 +436,8 @@ BluecurveDecoration::createPixmaps()
 		}
 	};
 
-	drawButtonBackground( btnUpPix, false, true );
-	drawButtonBackground( btnDownPix, true, true );
-	drawButtonBackground( ibtnUpPix, false, false );
-	drawButtonBackground( ibtnDownPix, true, false );
+	drawButtonBackground( btnPix, true );
+	drawButtonBackground( ibtnPix, false );
 
 	QImage bottomleft(bottom_left_xpm);
 	QImage bottomright(bottom_right_xpm);
@@ -859,10 +851,7 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 		// Button background
 		QPixmap btnbg;
 
-		if (isPressed() || isChecked())
-			btnbg = decoration()->window()->isActive() ? btnDownPix : ibtnDownPix;
-		else
-			btnbg = decoration()->window()->isActive() ? btnUpPix : ibtnUpPix;
+		btnbg = decoration()->window()->isActive() ? btnPix : ibtnPix;
 
 		if (isHovered())
 			pixmapIntensity(btnbg, 0.8);
