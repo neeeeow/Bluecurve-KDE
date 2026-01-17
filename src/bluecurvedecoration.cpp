@@ -815,7 +815,8 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 		iconBits = QBitmap::fromData(QSize(14,14), iconify_bits);
 		break;
 	case KDecoration3::DecorationButtonType::Maximize:
-		iconBits = QBitmap::fromData(QSize(14,14), maximize_bits);
+		iconBits = decoration->window()->isMaximized() ? QBitmap::fromData(QSize(14,14), minmax_bits)
+			: QBitmap::fromData(QSize(14,14), maximize_bits);
 		break;
 	case KDecoration3::DecorationButtonType::Close:
 		iconBits = QBitmap::fromData(QSize(14,14), close_bits);
@@ -827,6 +828,9 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 		iconBits = QBitmap();
 		break;
 	}
+
+	connect(decoration->window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveButton::onMaximizedChanged);
+			
 }
 
 BluecurveButton::~BluecurveButton() = default;
@@ -841,6 +845,16 @@ BluecurveButton
 		return b;
 	} else
 		return nullptr;	
+}
+
+void
+BluecurveButton::onMaximizedChanged()
+{
+	if (type() == KDecoration3::DecorationButtonType::Maximize)
+		iconBits = decoration()->window()->isMaximized() ? QBitmap::fromData(QSize(14,14), minmax_bits)
+			: QBitmap::fromData(QSize(14,14), maximize_bits);
+
+	update();
 }
 
 void

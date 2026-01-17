@@ -58,5 +58,6 @@ public:
 private:
 	QBitmap iconBits;
 
+	void onMaximizedChanged();
 	QBitmap buttonMask();
 };
