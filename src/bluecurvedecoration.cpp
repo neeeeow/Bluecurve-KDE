@@ -257,6 +257,34 @@ shade (const QColor &ca, double k) {
 	return cb;
 }
 
+static void
+colorBitmaps(QPainter *p, const QPalette &palette, int x, int y, int w,
+			 int h, bool isXBitmaps, const uchar *lightColor,
+			 const uchar *midColor, const uchar *midlightColor,
+			 const uchar *darkColor, const uchar *blackColor,
+			 const uchar *whiteColor)
+{
+
+	const uchar *data[]={lightColor, midColor, midlightColor, darkColor,
+		blackColor, whiteColor};
+	
+	QColor colors[]={palette.light().color(), palette.mid().color(), palette.midlight().color(),
+		palette.dark().color(), Qt::black, Qt::white};
+
+	int i;
+	QBitmap b;
+	for(i=0; i < 6; ++i){
+		if(data[i]){
+			b = QBitmap::fromData(QSize(w,h), data[i],
+								  isXBitmaps ? QImage::Format_MonoLSB
+								  : QImage::Format_Mono);
+			b.setMask(b);
+			p->setPen(colors[i]);
+			p->drawPixmap(x, y, b);
+		}
+	}
+}
+
 BluecurveDecoration::BluecurveDecoration(QObject *parent, const QVariantList &args) : KDecoration3::Decoration(parent, args)
 {
 
@@ -311,6 +339,7 @@ void
 BluecurveDecoration::createPixmaps()
 {
 	QPainter p;
+	QPalette palette = window()->palette();
 	
 	// Titlebar stipple
 	QPainter maskPainter;
@@ -355,41 +384,23 @@ BluecurveDecoration::createPixmaps()
 	pixmapGradient(iTitleGradient, inactiveTitleColor, shade(inactiveTitleColor, 0.8),
 				   VerticalGradient);
 
-	auto colorBitmapLayer = [&](const unsigned char *bits, const QColor &color) {
-		// lambda to draw in each layer that kColorBitmaps would draw in
-		// on KDE 3.
-
-		if (!bits)
-			return;
-
-		QBitmap mask = QBitmap::fromData(
-			QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
-			bits,
-			QImage::Format_MonoLSB
-			);
-
-		p.setPen(color);
-		p.drawPixmap(0, 0, mask);
-	};
 
 	// Active pins
 	pinUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
 	pinUpPix.fill(Qt::transparent);
 	p.begin( &pinUpPix );
-	colorBitmapLayer(pinup_white_bits, window()->color(QPalette::Active, QPalette::Light));
-	colorBitmapLayer(pinup_gray_bits, window()->color(QPalette::Active, QPalette::Button));
-	colorBitmapLayer(pinup_dgray_bits, window()->color(QPalette::Active, QPalette::Dark));
+	colorBitmaps( &p, palette, 0, 0, BASE_BUTTON_SIZE, BASE_BUTTON_SIZE, true, pinup_white_bits,
+	  pinup_gray_bits, NULL, NULL, pinup_dgray_bits, NULL );
 	p.end();
 	pinUpPix.setMask(QBitmap::fromData(
-						  QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
-						  pinup_mask_bits, QImage::Format_MonoLSB));
+						 QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
+						 pinup_mask_bits, QImage::Format_MonoLSB));
 
 	pinDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
 	pinDownPix.fill(Qt::transparent);
 	p.begin( &pinDownPix );
-	colorBitmapLayer(pindown_white_bits, window()->color(QPalette::Active, QPalette::Light));
-	colorBitmapLayer(pindown_gray_bits, window()->color(QPalette::Active, QPalette::Button));
-	colorBitmapLayer(pindown_dgray_bits, window()->color(QPalette::Active, QPalette::Dark));
+	colorBitmaps( &p, palette, 0, 0, BASE_BUTTON_SIZE, BASE_BUTTON_SIZE, true, pindown_white_bits,
+				  pindown_gray_bits, NULL, NULL, pindown_dgray_bits, NULL );
 	p.end();
 	pinDownPix.setMask(QBitmap::fromData(
 						  QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
@@ -399,9 +410,8 @@ BluecurveDecoration::createPixmaps()
 	ipinUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
 	ipinUpPix.fill(Qt::transparent);
 	p.begin( &ipinUpPix );
-	colorBitmapLayer(pinup_white_bits, window()->color(QPalette::Inactive, QPalette::Light));
-	colorBitmapLayer(pinup_gray_bits, window()->color(QPalette::Inactive, QPalette::Button));
-	colorBitmapLayer(pinup_dgray_bits, window()->color(QPalette::Inactive, QPalette::Dark));
+	colorBitmaps( &p, palette, 0, 0, BASE_BUTTON_SIZE, BASE_BUTTON_SIZE, true, pinup_white_bits,
+				  pinup_gray_bits, NULL, NULL, pinup_dgray_bits, NULL );
 	p.end();
 	ipinUpPix.setMask(QBitmap::fromData(
 						   QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
@@ -410,9 +420,8 @@ BluecurveDecoration::createPixmaps()
 	ipinDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
 	ipinDownPix.fill(Qt::transparent);
 	p.begin( &ipinDownPix );
-	colorBitmapLayer(pindown_white_bits, window()->color(QPalette::Inactive, QPalette::Light));
-	colorBitmapLayer(pindown_gray_bits, window()->color(QPalette::Inactive, QPalette::Button));
-	colorBitmapLayer(pindown_dgray_bits, window()->color(QPalette::Inactive, QPalette::Dark));
+	colorBitmaps( &p, palette, 0, 0, BASE_BUTTON_SIZE, BASE_BUTTON_SIZE, true, pindown_white_bits,
+				  pindown_gray_bits, NULL, NULL, pindown_dgray_bits, NULL );
 	p.end();
 	ipinDownPix.setMask(QBitmap::fromData(
 							 QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
@@ -815,6 +824,7 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 		iconBits = QBitmap::fromData(QSize(14,14), question_bits);
 		break;
 	default:
+		iconBits = QBitmap();
 		break;
 	}
 }
@@ -847,16 +857,16 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 	buttonBuffer.fill(Qt::transparent);
 	QPainter p1(&buttonBuffer);
 
+	// Button background
+	QPixmap btnbg;
+
+	btnbg = decoration()->window()->isActive() ? btnPix : ibtnPix;
+
+	if (isHovered())
+		pixmapIntensity(btnbg, 0.8);
+	p1.drawPixmap(0,0,btnbg);
+
 	if (!iconBits.isNull()) {
-		// Button background
-		QPixmap btnbg;
-
-		btnbg = decoration()->window()->isActive() ? btnPix : ibtnPix;
-
-		if (isHovered())
-			pixmapIntensity(btnbg, 0.8);
-		p1.drawPixmap(0,0,btnbg);
-
 		// Button icon
 		bool darkDeco = qGray(decoration()->window()->color(
 								  decoration()->window()->isActive() ?
@@ -869,11 +879,6 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 			KDecoration3::ColorGroup::Active :
 			KDecoration3::ColorGroup::Inactive,
 			KDecoration3::ColorRole::TitleBar);
-
-		/*if (isHovered())
-			p->setPen( darkDeco ? bgc.darker(120) : bgc.lighter(120) );
-		else
-		p->setPen( darkDeco ? bgc.darker(150) : bgc.lighter(150) );*/
 
 		int xOff = (w-14)/2;
 		int yOff = (h-14)/2;
@@ -889,7 +894,20 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 					  (isPressed() || isChecked()) ? yOff+1 : yOff,
 					  icon);
 	} else {
-		
+		QPixmap icon;
+		if (type() == KDecoration3::DecorationButtonType::OnAllDesktops) {
+			if (decoration()->window()->isActive())
+				icon = isChecked() ? pinDownPix : pinUpPix;
+			else
+				icon = isChecked() ? ipinDownPix : ipinUpPix;
+		} else {
+			icon = decoration()->window()->icon().pixmap(14,14);
+		}
+
+		if (isHovered())
+			icon = pixmapIntensity(icon, 0.8);
+
+		p1.drawPixmap(0,0,icon);
 	}
 	
 	p1.end();
