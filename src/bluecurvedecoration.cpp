@@ -246,6 +246,19 @@ pixmapIntensity(QPixmap &pixmap, float percent)
 	return pixmap;
 }
 
+static QColor
+shade (const QColor &ca, double k) {
+	float h, s, l;
+	ca.getHslF(&h, &s, &l);
+
+	s *= k;
+	l *= k;
+
+	QColor cb;
+	cb.setHslF(h, qBound(0.0,s,1.0), qBound(0.0,l,1.0));
+	return cb;
+}
+
 BluecurveDecoration::BluecurveDecoration(QObject *parent, const QVariantList &args) : KDecoration3::Decoration(parent, args)
 {
 
@@ -332,9 +345,17 @@ BluecurveDecoration::createPixmaps()
 	maskPainter.end();
 	titlePix.setMask(mask);
 
-	// Create titlebar gradient images if required
-	aUpperGradient = QPixmap();
-	iUpperGradient = QPixmap();
+	// Titlebar gradient images
+	aTitleGradient = QPixmap(8, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+	iTitleGradient = QPixmap(8, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+    QColor activeTitleColor(window()->color(KDecoration3::ColorGroup::Active,
+											KDecoration3::ColorRole::TitleBar));
+	QColor inactiveTitleColor(window()->color(KDecoration3::ColorGroup::Inactive,
+											  KDecoration3::ColorRole::TitleBar));
+	pixmapGradient(aTitleGradient, shade(activeTitleColor, 1.4),
+				   shade(activeTitleColor, 0.8), VerticalGradient);
+	pixmapGradient(iTitleGradient, inactiveTitleColor, shade(inactiveTitleColor, 0.8),
+				   VerticalGradient);
 
 	auto colorBitmapLayer = [&](const unsigned char *bits, const QColor &color) {
 		// lambda to draw in each layer that kColorBitmaps would draw in
@@ -416,12 +437,7 @@ BluecurveDecoration::createPixmaps()
 			pixmapGradient(pixmap, c, Qt::white,
 						   DiagonalGradient);
 		} else {
-			QColor inactiveTitleColor1(window()->color(KDecoration3::ColorGroup::Inactive,
-													   KDecoration3::ColorRole::TitleBar));
-		    QColor inactiveTitleColor2(window()->color(KDecoration3::ColorGroup::Inactive,
-													   KDecoration3::ColorRole::TitleBar).darker(110));
-
-			pixmapGradient(pixmap, inactiveTitleColor2, inactiveTitleColor1,
+			pixmapGradient(pixmap, inactiveTitleColor, shade(inactiveTitleColor, 0.8),
 						   VerticalGradient);
 		}
 	};
@@ -482,11 +498,16 @@ BluecurveDecoration::createPixmaps()
 void
 BluecurveDecoration::updateTitleBar()
 {
-	const int width = window()->width();
-	const int height = TITLE_HEIGHT;
-	const int x = 0;
-	const int y = TOP_GRABBAR_WIDTH;
-	setTitleBar(QRect(x,y,width,height));
+	int x, width;
+	if (m_leftButtons && m_rightButtons) {
+		x = m_leftButtons->geometry().right();
+		width = window()->width() - x - m_rightButtons->geometry().width();
+	} else {
+		x = 0;
+		width = window()->width();
+	}
+	
+	setTitleBar(QRect(x,TOP_GRABBAR_WIDTH,width,TITLE_HEIGHT));
 }
 
 void
@@ -523,7 +544,8 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	int h  = rect().height();
 	
 	// Titlebar rectangle
-	QRectF r(QRect(0, 0, w, TITLE_HEIGHT));
+	//QRectF r(QRect(0, 0, w, TITLE_HEIGHT));
+	QRectF r(titleBar());
 	
 	/*QColor c2 = window()->color(window()->isActive() // this color doesn't seem to be used anywhere
 								? KDecoration3::ColorGroup::Active
@@ -547,50 +569,8 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 								KDecoration3::ColorRole::TitleBar);
 
 	QPainter p2(&titleBuffer);
-	QColor activeTitleColor1(window()->color(KDecoration3::ColorGroup::Active,
-											 KDecoration3::ColorRole::TitleBar));
-	QColor activeTitleColor2(window()->color(KDecoration3::ColorGroup::Active,
-											 KDecoration3::ColorRole::TitleBar).darker(110));
-	
-	QColor inactiveTitleColor1(window()->color(KDecoration3::ColorGroup::Inactive,
-											   KDecoration3::ColorRole::TitleBar));
-	QColor inactiveTitleColor2(window()->color(KDecoration3::ColorGroup::Inactive,
-											   KDecoration3::ColorRole::TitleBar).darker(110));
-
-	// Old theme checked for highcolor, but we assume always true.
-	static QSize oldsize(0,0);
-	QSize titleBufferSize(w, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
-
-	if (oldsize != titleBufferSize) {
-		oldsize = titleBufferSize;
-
-		aUpperGradient = QPixmap();
-		iUpperGradient = QPixmap();
-
-		// Create the titlebar gradients
-		if (activeTitleColor1 != activeTitleColor2)
-		{
-			aUpperGradient = QPixmap(oldsize);
-			aUpperGradient.fill(Qt::transparent);
-			pixmapGradient(aUpperGradient, activeTitleColor2, activeTitleColor1,
-						   VerticalGradient);
-		}
-
-		if (inactiveTitleColor1 != inactiveTitleColor2)
-		{
-			iUpperGradient = QPixmap(oldsize);
-			iUpperGradient.fill(Qt::transparent);
-			pixmapGradient(iUpperGradient, inactiveTitleColor2, inactiveTitleColor1,
-						   VerticalGradient);
-		}
-	}
-
-	QPixmap upperGradient = window()->isActive() ? aUpperGradient : iUpperGradient;
-	
-	if (!upperGradient.isNull())
-		p2.drawPixmap(0, TOP_GRABBAR_WIDTH, upperGradient);
-	else
-		p2.fillRect(0, TOP_GRABBAR_WIDTH, w, TITLE_HEIGHT, c1);
+	p2.drawTiledPixmap(0, TOP_GRABBAR_WIDTH, w, TITLE_HEIGHT+TOP_GRABBAR_WIDTH,
+					   window()->isActive() ? aTitleGradient : iTitleGradient);
 
 	QFont fnt = settings()->font();
 	p2.setFont( fnt );
