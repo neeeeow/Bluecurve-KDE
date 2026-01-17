@@ -501,7 +501,7 @@ BluecurveDecoration::updateTitleBar()
 	int x, width;
 	if (m_leftButtons && m_rightButtons) {
 		x = m_leftButtons->geometry().right();
-		width = window()->width() - x - m_rightButtons->geometry().width();
+		width = m_rightButtons->geometry().left() - x;
 	} else {
 		x = 0;
 		width = window()->width();
@@ -525,6 +525,7 @@ BluecurveDecoration::updateButtonsGeometry()
 	m_leftButtons->setPos(QPointF(1, TOP_GRABBAR_WIDTH));
 	m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 1, TOP_GRABBAR_WIDTH));
 
+	updateTitleBar();
 	update();
 }
 
@@ -544,13 +545,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	int h  = rect().height();
 	
 	// Titlebar rectangle
-	//QRectF r(QRect(0, 0, w, TITLE_HEIGHT));
 	QRectF r(titleBar());
-	
-	/*QColor c2 = window()->color(window()->isActive() // this color doesn't seem to be used anywhere
-								? KDecoration3::ColorGroup::Active
-								: KDecoration3::ColorGroup::Inactive,
-								KDecoration3::ColorRole::Frame);*/
 
 	// Buffer for the decoration (which we apply the mask later)
 	QPixmap decoBuffer = QPixmap(w, h);
@@ -562,12 +557,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	QPixmap titleBuffer = QPixmap(w, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 	titleBuffer.fill(Qt::transparent);
 
-	// Obtain titlebar blend colours
-	QColor c1 = window()->color(window()->isActive()
-								? KDecoration3::ColorGroup::Active
-								: KDecoration3::ColorGroup::Inactive,
-								KDecoration3::ColorRole::TitleBar);
-
+	// Draw title gradient
 	QPainter p2(&titleBuffer);
 	p2.drawTiledPixmap(0, TOP_GRABBAR_WIDTH, w, TITLE_HEIGHT+TOP_GRABBAR_WIDTH,
 					   window()->isActive() ? aTitleGradient : iTitleGradient);
@@ -585,17 +575,17 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	}
 
 	if (window()->isActive()) {
-		p2.setPen(window()->color(KDecoration3::ColorGroup::Active,
-								  KDecoration3::ColorRole::TitleBar).darker(110).darker());		
+		p2.setPen(shade(window()->color(KDecoration3::ColorGroup::Active,
+										KDecoration3::ColorRole::TitleBar),1.4).darker());
 		p2.drawText(r.x() + 2 + 1, TOP_GRABBAR_WIDTH + 1,
 					r.width() - 2 - 1, r.height(),
 					Qt::AlignLeft | Qt::AlignVCenter, window()->caption() );
 	}
 
     p2.setPen(window()->color(window()->isActive()
-							  ? QPalette::ColorGroup::Active
-							  : QPalette::ColorGroup::Inactive,
-							  QPalette::ColorRole::Text));
+							  ? KDecoration3::ColorGroup::Active
+							  : KDecoration3::ColorGroup::Inactive,
+							  KDecoration3::ColorRole::Foreground));
 	p2.drawText(r.x() + 2, TOP_GRABBAR_WIDTH,
 				r.width() - 2, r.height(),
 				Qt::AlignLeft | Qt::AlignVCenter, window()->caption() );
@@ -699,7 +689,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	int sideStart = TITLE_HEIGHT + TOP_GRABBAR_WIDTH + 1;
 					
 	// Draw the left and right sides
-  
+
 	// Fill the left side first
 	qDrawShadePanel(&p1,
 					// We compensate for the top and bottom parts of the bevel
