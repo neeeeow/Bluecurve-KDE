@@ -536,11 +536,9 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	bool drawLeftDivider = true; 
 	bool drawRightDivider = true;
 
-	// Obtain widget bounds
-	int x = rect().x();
-	int y = rect().y();
-	int x2 = x + rect().width() - 1;
-	int y2 = y + rect().height() - 1;
+	// Obtain widget bounds for buffer painting
+	int x2 = rect().width() - 1;
+	int y2 = rect().height() - 1;
 	int w  = rect().width();
 	int h  = rect().height();
 	
@@ -592,15 +590,15 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 
 	// Main Title Bar background area
 	p2.setPen(Qt::white);
-	p2.drawLine(x + 1, y + 1, x2 - 1, y + 1);
+	p2.drawLine(1, 1, x2 - 1, 1);
 	// This is kind of broken...
 	// We fill in the inner part of the circle here.  This is dependent on BUTTON_DIAM
-	p2.drawLine(x + 1, y + 1, x + 1, y + TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
-	p2.drawLine(x + 2, y + 2, x + 3, y + 2);
-	p2.drawLine(x + 2, y + 2, x + 2, y + 3);
-	p2.drawLine(x + w - 2 , y + 1, x + w - 2, y + TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
-	p2.drawLine(x + w - 3, y + 2, x + w - 3, y + 5);
-	p2.drawLine(x + w - 4, y + 2, x + w - 3, y + 2);
+	p2.drawLine(1, 1, 1, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
+	p2.drawLine(2, 2, 3, 2);
+	p2.drawLine(2, 2, 2, 3);
+	p2.drawLine(w - 2 , 1, w - 2, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
+	p2.drawLine(w - 3, 2, w - 3, 5);
+	p2.drawLine(w - 4, 2, w - 3, 2);
 
 	if (window()->isActive()) {
 		QColor lighterColor (window()->color(KDecoration3::ColorGroup::Active,
@@ -662,7 +660,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 									  KDecoration3::ColorRole::TitleBar).darker(150));
 		else
 			p2.setPen(window()->palette().mid().color());
-		p2.drawLine (r.x() , y + 1, r.x() , y + TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+		p2.drawLine (r.x() , 1, r.x() , TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 	}
 
 	// Top Right Button Area
@@ -673,15 +671,15 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 									  KDecoration3::ColorRole::TitleBar).darker(150));
 		else
 		    p2.setPen(window()->palette().mid().color());
-		p2.drawLine (r.x() + r.width() - 2, y + 1,
-					 r.x() + r.width() - 2 , y + TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+		p2.drawLine (r.x() + r.width() - 2, 1,
+					 r.x() + r.width() - 2 , TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 	}
 
 	// Black outer line
 	p2.setPen(Qt::black);
 	p2.drawRect(0,0,w-1,h-1);
-	p2.drawArc(x, y, BUTTON_DIAM, BUTTON_DIAM, 90*16, 90*16);
-	p2.drawArc(x + w - BUTTON_DIAM , y, BUTTON_DIAM, BUTTON_DIAM, 0*16, 90*16);
+	p2.drawArc(0, 0, BUTTON_DIAM, BUTTON_DIAM, 90*16, 90*16);
+	p2.drawArc(w - BUTTON_DIAM , 0, BUTTON_DIAM, BUTTON_DIAM, 0*16, 90*16);
 	p2.end();
 
 	QPainter p1(&decoBuffer); // Painter for the main decoration buffer
@@ -694,14 +692,14 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	qDrawShadePanel(&p1,
 					// We compensate for the top and bottom parts of the bevel
 					// by drawing 1 pixel below and above the frame part
-					x + 1, y + (sideStart - 1),
+					1, sideStart - 1,
 					BORDER_WIDTH - 1, h - (sideStart + 2),
 					window()->palette(), false, 1, &window()->palette().window());
 
 	
 	// Right Side
 	qDrawShadePanel(&p1,
-					x2 - (BORDER_WIDTH - 2), y + (sideStart - 1),
+					x2 - (BORDER_WIDTH - 2), sideStart - 1,
 					BORDER_WIDTH - 2, h - (sideStart + 2),
 					window()->palette(), false, 1, &window()->palette().window());
 
@@ -711,19 +709,19 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 
 	// Draw the bottom
 	qDrawShadePanel(&p1,
-					x, y2 - (BORDER_WIDTH - 2),
+					0, y2 - (BORDER_WIDTH - 2),
 					w, (BORDER_WIDTH - 2),
 				    window()->palette(), false, 1, &window()->palette().window());
     p1.setPen(window()->palette().dark().color());
-	p1.drawLine(x, y2 - (BORDER_WIDTH - 1), x2, y2 - (BORDER_WIDTH - 1));
+	p1.drawLine(0, y2 - (BORDER_WIDTH - 1), x2, y2 - (BORDER_WIDTH - 1));
 
 	// Line above the app and below the title bar
     p1.setPen(window()->palette().dark().color());
-	p1.drawLine(x, y + TITLE_HEIGHT + TOP_GRABBAR_WIDTH,
-				x2, y + TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+	p1.drawLine(0, TITLE_HEIGHT + TOP_GRABBAR_WIDTH,
+				x2, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 
 	// Draw the title buffer
-	p1.drawPixmap(x, y, titleBuffer);
+	p1.drawPixmap(0, 0, titleBuffer);
 
 	// Draw an outer black frame
 	p1.setPen(Qt::black);
@@ -739,7 +737,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	
 	// Apply the mask to the decoration buffer and draw it
 	decoBuffer.setMask(decorationMask());
-	p->drawPixmap(x,y, decoBuffer);
+	p->drawPixmap(rect().x(),rect().y(), decoBuffer);
 
 	m_leftButtons->paint(p, repaintRegion);
 	m_rightButtons->paint(p, repaintRegion);
@@ -750,8 +748,6 @@ QBitmap
 BluecurveDecoration::decorationMask()
 {
 	// Obtain widget bounds
-	int x = rect().x();
-	int y = rect().y();
 	int w  = rect().width();
 	int h  = rect().height();
 
@@ -763,29 +759,29 @@ BluecurveDecoration::decorationMask()
 
 	QPainter p(&mask);
 
-	p.fillRect(x, y, w, h, Qt::color1);
+	p.fillRect(0, 0, w, h, Qt::color1);
 
-	p.eraseRect(x, y, rad, rad);
+	p.eraseRect(0, 0, rad, rad);
 	p.eraseRect(w-rad+1, 0, rad, rad);
 
-	p.eraseRect(x, h-BOTTOM_CORNER, BOTTOM_CORNER, BOTTOM_CORNER);
+	p.eraseRect(0, h-BOTTOM_CORNER, BOTTOM_CORNER, BOTTOM_CORNER);
 	p.eraseRect(w-BOTTOM_CORNER, h-BOTTOM_CORNER, BOTTOM_CORNER, BOTTOM_CORNER);
 
 	p.setPen(Qt::color1);
 	p.setBrush(Qt::color1);
 
-	p.drawPie(x, y, dm, dm, 90*16, 90*16);
-	p.drawArc(x, y, dm, dm, 90*16, 90*16);
+	p.drawPie(0, 0, dm, dm, 90*16, 90*16);
+	p.drawArc(0, 0, dm, dm, 90*16, 90*16);
 
 	p.drawPie(w-dm, 0, dm, dm, 0*16, 90*16);
 	p.drawArc(w-dm, 0, dm, dm, 0*16, 90*16);
 
-	p.drawPixmap(x, h - bottomLeftPix.height(), bottomLeftPix.mask());
+	p.drawPixmap(0, h - bottomLeftPix.height(), bottomLeftPix.mask());
 
 	p.drawPixmap(w-bottomRightPix.width(), h - bottomRightPix.height(), 
 				 bottomRightPix.mask());
 
-	p.fillRect(x+BOTTOM_CORNER, h - bottomLeftPix.height(),
+	p.fillRect(BOTTOM_CORNER, h - bottomLeftPix.height(),
 			   bottomLeftPix.width()-BOTTOM_CORNER,
 			   bottomLeftPix.height()-BOTTOM_CORNER,
 			   Qt::color1);
