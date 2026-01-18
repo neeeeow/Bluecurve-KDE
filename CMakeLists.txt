@@ -27,13 +27,7 @@ include(KDECMakeSettings)
 # Qt/KF includes
 find_package(Qt6 REQUIRED COMPONENTS DBus Widgets Core)
 find_package(KF6 REQUIRED COMPONENTS
-  CoreAddons
-  ColorScheme
-  Config
-  GuiAddons
-  I18n
-  IconThemes
-  WindowSystem)
+  CoreAddons)
 find_package(KDecoration3 REQUIRED)
 
 add_library(bluecurve-decoration MODULE
@@ -50,12 +44,7 @@ target_link_libraries(bluecurve-decoration
   Qt6::DBus
   Qt6::Widgets
   KF6::CoreAddons
-  KF6::ConfigGui
-  KF6::GuiAddons
-  KF6::I18n
-  KF6::IconThemes
   KDecoration3::KDecoration
-  KF6::ColorScheme
 )
 
 install(TARGETS bluecurve-decoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/${KDECORATION_PLUGIN_DIR})
