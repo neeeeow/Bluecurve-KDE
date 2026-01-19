@@ -299,35 +299,43 @@ BluecurveDecoration::init()
 
 	// borders are constant in size regardless of setting or state, so just set them here
     setBorders(QMargins(BORDER_WIDTH, TITLE_HEIGHT + 3, BORDER_WIDTH, BORDER_WIDTH));
-	
-	updateTitleBar();
-	auto s = settings();
-
-	/* Settings changes */
-	// buttons
-    connect(s.get(), &KDecoration3::DecorationSettings::spacingChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
-    connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsLeftChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
-    connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsRightChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
-
-	/* Window state changes */
-	// Update() signals
-	connect(window(), &KDecoration3::DecoratedWindow::activeChanged, this, [this]{ update(); });
-
-	// titleBar signals
-    connect(window(), &KDecoration3::DecoratedWindow::widthChanged, this, &BluecurveDecoration::updateTitleBar);
-    connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateTitleBar);
-	
-	// Button signals. as a reminder: update() is called in updateButtonsGeometry
-	connect(window(), &KDecoration3::DecoratedWindow::widthChanged, this, &BluecurveDecoration::updateButtonsGeometry);
-    connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
-    connect(window(), &KDecoration3::DecoratedWindow::adjacentScreenEdgesChanged, this, &BluecurveDecoration::updateButtonsGeometry);
-    connect(window(), &KDecoration3::DecoratedWindow::shadedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
 
 	// Create buttons
 	m_leftButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Left,
 															this, &BluecurveButton::create);
     m_rightButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Right,
-															 this, &BluecurveButton::create);	
+															 this, &BluecurveButton::create);
+	m_leftButtons->setSpacing(2);
+	m_rightButtons->setSpacing(2);
+	
+	auto s = settings();
+
+	/* Settings changes */
+	// buttons
+    connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsLeftChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
+	connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsRightChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
+
+	// full reconfiguration
+	connect(s.get(), &KDecoration3::DecorationSettings::reconfigured, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
+
+	/* Window state changes */
+	connect(window(), &KDecoration3::DecoratedWindow::paletteChanged, this, &BluecurveDecoration::createPixmaps);
+	
+	// Update() signals
+	connect(window(), &KDecoration3::DecoratedWindow::activeChanged, this, [this]() { update(); });
+
+	// titleBar signals
+	connect(window(), &KDecoration3::DecoratedWindow::captionChanged, this, [this]() {
+		// update the caption area
+		update(titleBar());
+    });
+	
+	// Button signals. as a reminder: update() and updateTitleBar() is called in updateButtonsGeometry
+	connect(window(), &KDecoration3::DecoratedWindow::widthChanged, this, &BluecurveDecoration::updateButtonsGeometry);
+    connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
+    connect(window(), &KDecoration3::DecoratedWindow::adjacentScreenEdgesChanged, this, &BluecurveDecoration::updateButtonsGeometry);
+    connect(window(), &KDecoration3::DecoratedWindow::shadedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
+	
 	updateButtonsGeometry();
 
 	update();
@@ -520,9 +528,6 @@ BluecurveDecoration::updateButtonsGeometryDelayed()
 void
 BluecurveDecoration::updateButtonsGeometry()
 {
-	m_leftButtons->setSpacing(2);
-	m_rightButtons->setSpacing(2);
-
 	m_leftButtons->setPos(QPointF(1, TOP_GRABBAR_WIDTH));
 	m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 1, TOP_GRABBAR_WIDTH));
 
