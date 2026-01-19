@@ -528,8 +528,8 @@ BluecurveDecoration::updateButtonsGeometryDelayed()
 void
 BluecurveDecoration::updateButtonsGeometry()
 {
-	m_leftButtons->setPos(QPointF(1, TOP_GRABBAR_WIDTH));
-	m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 1, TOP_GRABBAR_WIDTH));
+	m_leftButtons->setPos(QPointF(2, TOP_GRABBAR_WIDTH));
+	m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 2, TOP_GRABBAR_WIDTH));
 
 	updateTitleBar();
 	update();
@@ -952,11 +952,11 @@ BluecurveButton::buttonMask()
 	p.setPen(Qt::color1);
 	p.setBrush(Qt::color1);
 
-	if (geometry().x()==1) {
+	if (geometry().x()==2) {
 		p.eraseRect(0, -TOP_GRABBAR_WIDTH, r, r);
 		p.drawPie(0, -TOP_GRABBAR_WIDTH, dm-1, dm-1, 90*16, 90*16);
 		p.drawArc(0, -TOP_GRABBAR_WIDTH, dm-1, dm-1, 90*16, 90*16);
-	} else if (geometry().x()==decoration()->size().width() - w - 1) {
+	} else if (geometry().x()==decoration()->size().width() - w - 2) {
 		p.eraseRect(w-r , -TOP_GRABBAR_WIDTH, r,r);
 		p.drawPie(w-dm, -TOP_GRABBAR_WIDTH, dm-1, dm-1, 0*16, 90*16);
 		p.drawArc(w-dm, -TOP_GRABBAR_WIDTH, dm-1, dm-1, 0*16, 90*16);
