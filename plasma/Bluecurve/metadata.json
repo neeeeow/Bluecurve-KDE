@@ -1,0 +1,18 @@
+{
+	"KPackageStructure": "Plasma/Theme",
+	"KPlugin": {
+		"Authors": [
+			{
+				"Email": "https://github.com/neeeeow/Bluecurve-KDE",
+				"Name": "neeeeow"
+			}
+		],
+		"Category": "",
+		"Description": "Red Hat Bluecurve theme",
+		"EnabledByDefault": true,
+        "Id": "bluecurve",
+        "License": "GPL-3.0+",
+        "Name": "Bluecurve",
+		"Version": "1.0"
+	}
+}

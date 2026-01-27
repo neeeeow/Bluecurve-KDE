@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+	width="29"
+	height="29"
+	viewBox="0 0 29 29"
+	version="1.1"
+	id="svg1"
+	inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+	sodipodi:docname="background.svg"
+	xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+	xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+      id="namedview1"
+      pagecolor="#e6e6e6"
+      bordercolor="#000000"
+      borderopacity="0.25"
+      inkscape:showpageshadow="2"
+      inkscape:pageopacity="0.0"
+      inkscape:pagecheckerboard="0"
+      inkscape:deskcolor="#d1d1d1"
+      inkscape:document-units="px"
+      showgrid="true"
+      inkscape:zoom="16.001826"
+      inkscape:cx="22.24746"
+      inkscape:cy="9.1552049"
+      inkscape:window-width="1280"
+      inkscape:window-height="996"
+      inkscape:window-x="0"
+      inkscape:window-y="0"
+      inkscape:window-maximized="1"
+      inkscape:current-layer="layer1">
+    <inkscape:grid
+		id="grid1"
+		units="px"
+		originx="0"
+		originy="0"
+		spacingx="1"
+		spacingy="1"
+		empcolor="#0099e5"
+		empopacity="0.30196078"
+		color="#0099e5"
+		opacity="0.14901961"
+		empspacing="5"
+		enabled="true"
+		visible="true" />
+  </sodipodi:namedview>
+  <defs id="defs1">
+
+	<style id="current-color-scheme" type="text/css">
+	  .ColorScheme-Background { color:#e6e6e6; }
+	</style>
+
+	<filter id="shade2">
+      <feColorMatrix type="matrix" 
+					 values="0.896 0     0     0   0
+							 0     0.896 0     0   0
+							 0     0     0.896 0   0
+							 0     0     0     1   0" />
+	</filter>
+
+	<filter id="shade5">
+      <feColorMatrix type="matrix" 
+					 values="0.665 0     0     0   0
+							 0     0.665 0     0   0
+							 0     0     0.665 0   0
+							 0     0     0     1   0" />
+	</filter>
+	
+  </defs>
+  <g
+      inkscape:label="Layer 1"
+      inkscape:groupmode="layer"
+      id="layer1">
+    <rect
+		class="ColorScheme-Background"
+		fill="currentColor"
+		id="center"
+		width="21"
+		height="21"
+		x="4"
+		y="4" />
+    <g
+		class="ColorScheme-Background"
+		id="top">
+      <rect
+		  fill="#ffffff"
+          id="rect1"
+          width="21"
+          height="1"
+          x="4"
+          y="3" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect3"
+          width="21"
+          height="1"
+          x="4"
+          y="2" />
+    </g>
+    <g
+		class="ColorScheme-Background"
+		id="left">
+      <rect
+          fill="#ffffff"
+          id="rect2"
+          width="1"
+          height="21"
+          x="3"
+          y="4" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect4"
+          width="1"
+          height="21"
+          x="2"
+          y="4" />
+    </g>
+    <g
+		class="ColorScheme-Background"
+		id="bottom">
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect5"
+          width="21"
+          height="1"
+          x="4"
+          y="26" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade2)"
+          id="rect7"
+          width="21"
+          height="1"
+          x="4"
+          y="25" />
+    </g>
+    <g
+		class="ColorScheme-Background"
+		id="right">
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect6"
+          width="1"
+          height="21"
+          x="26"
+          y="4" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade2)"
+          id="rect8"
+          width="1"
+          height="21"
+          x="25"
+          y="4" />
+    </g>
+    <g
+		class="ColorScheme-Background"
+		id="topleft">
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect9"
+          width="2"
+          height="1"
+          x="2"
+          y="2" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect10"
+          width="1"
+          height="1"
+          x="2"
+          y="3" />
+      <rect
+          fill="#ffffff"
+          id="rect17"
+          width="1"
+          height="1"
+          x="3"
+          y="3" />
+    </g>
+    <g
+		class="ColorScheme-Background"
+		id="bottomleft">
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect11"
+          width="2"
+          height="1"
+          x="2"
+          y="26" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect12"
+          width="1"
+          height="1"
+          x="2"
+          y="25" />
+      <rect
+          fill="#ffffff"
+          id="rect18"
+          width="1"
+          height="1"
+          x="3"
+          y="25" />
+    </g>
+    <g
+		class="ColorScheme-Background"
+		id="topright">
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect15"
+          width="2"
+          height="1"
+          x="25"
+          y="2" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect16"
+          width="1"
+          height="1"
+          x="26"
+          y="3" />
+      <rect
+          fill="#ffffff"
+          id="rect19"
+          width="1"
+          height="1"
+          x="25"
+          y="3" />
+    </g>
+    <g
+		class="ColorScheme-Background"
+		id="bottomright">
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect13"
+          width="2"
+          height="1"
+          x="25"
+          y="26" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade5)"
+          id="rect14"
+          width="1"
+          height="1"
+          x="26"
+          y="25" />
+      <rect
+		  fill="currentColor"
+		  filter="url(#shade2)"
+          id="rect20"
+          width="1"
+          height="1"
+          x="25"
+          y="25" />
+    </g>
+    <rect
+		style="fill:#800080;fill-opacity:1"
+		id="hint-top-margin"
+		width="1"
+		height="2"
+		x="14"
+		y="2" />
+    <rect
+		style="fill:#800080;fill-opacity:1"
+		id="hint-left-margin"
+		width="2"
+		height="1"
+		x="2"
+		y="14" />
+    <rect
+		style="fill:#800080;fill-opacity:1"
+		id="hint-bottom-margin"
+		width="1"
+		height="2"
+		x="14"
+		y="25" />
+    <rect
+		style="fill:#800080;fill-opacity:1"
+		id="hint-right-margin"
+		width="2"
+		height="1"
+		x="25"
+		y="14" />
+  </g>
+</svg>
