@@ -10,8 +10,6 @@
 #include <QTimer>
 #include <qdrawutil.h>
 
-#define BASE_BUTTON_SIZE  18
-#define TITLE_HEIGHT      18
 #define BORDER_WIDTH      6
 #define CORNER_RADIUS     12
 
@@ -341,10 +339,13 @@ BluecurveDecoration::~BluecurveDecoration() = default;
 bool
 BluecurveDecoration::init()
 {
+	//m_titleHeight = m_buttonSize = 18;
+	updateTitleHeight();
+	
 	createPixmaps();
 
 	// borders are constant in size regardless of setting or state, so just set them here
-    setBorders(QMargins(BORDER_WIDTH, TITLE_HEIGHT + 3, BORDER_WIDTH, BORDER_WIDTH));
+    setBorders(QMargins(BORDER_WIDTH, m_titleHeight + 3, BORDER_WIDTH, BORDER_WIDTH));
 
 	// Create buttons
 	m_leftButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Left,
@@ -388,6 +389,13 @@ BluecurveDecoration::init()
 	return true;
 }
 
+void
+BluecurveDecoration::updateTitleHeight()
+{
+	/* NB: this function doesn't set the height, it just sets the variables for the height */
+	QFontMetricsF metrics(settings()->font());	
+	m_titleHeight = m_buttonSize = std::max(14, qRound(metrics.height()));
+}
 
 void
 BluecurveDecoration::createPixmaps()
@@ -398,11 +406,11 @@ BluecurveDecoration::createPixmaps()
 	// Titlebar stipple
 	QPainter stipplePainter;
 	int x, y;
-	titlePix = QPixmap(125, TITLE_HEIGHT-3);
+	titlePix = QPixmap(125, m_titleHeight-3);
 	titlePix.fill(Qt::transparent);
 	stipplePainter.begin(&titlePix);
 
-	for(y = 0; y < (TITLE_HEIGHT-3); y++) {
+	for(y = 0; y < (m_titleHeight-3); y++) {
 		for(x = (3 - y) % 5; x < 125; x += 5) {			
 			stipplePainter.setPen(QColor(2,2,2,116));
 			stipplePainter.drawPoint(x,y);
@@ -414,7 +422,7 @@ BluecurveDecoration::createPixmaps()
 	stipplePainter.end();
 
 	// Titlebar gradient images
-	iTitleGradient = QPixmap(8, TITLE_HEIGHT + 1);
+	iTitleGradient = QPixmap(8, m_titleHeight + 1);
     QColor activeTitleColor(window()->color(KDecoration3::ColorGroup::Active,
 											KDecoration3::ColorRole::TitleBar));
 	QColor inactiveTitleColor(window()->color(KDecoration3::ColorGroup::Inactive,
@@ -423,12 +431,12 @@ BluecurveDecoration::createPixmaps()
 				   VerticalGradient);
 
 	// Title blocker bottom
-	titleBlockerBottom = QPixmap(8, TITLE_HEIGHT + 1);
+	titleBlockerBottom = QPixmap(8, m_titleHeight + 1);
 	titleBlockerBottom.fill(Qt::transparent);
 	expAlphaGradient(titleBlockerBottom, activeTitleColor,
 					 0, 1, 0, 0);
 
-	titleGradientBottom = QPixmap(8, TITLE_HEIGHT + 1);
+	titleGradientBottom = QPixmap(8, m_titleHeight + 1);
 	titleGradientBottom.fill(Qt::transparent);
 
 	QColor titleGradientColor = shade(activeTitleColor,2);
@@ -437,51 +445,51 @@ BluecurveDecoration::createPixmaps()
 					 0, 1, 0, 0, 0.8);
 
 	// Active pins
-	pinUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	pinUpPix = QPixmap(14, 14);
 	pinUpPix.fill(Qt::transparent);
 	p.begin( &pinUpPix );
-	colorBitmaps( &p, palette, 0, 0, BASE_BUTTON_SIZE, BASE_BUTTON_SIZE, true, pinup_white_bits,
+	colorBitmaps( &p, palette, 0, 0, 14, 14, true, pinup_white_bits,
 	  pinup_gray_bits, NULL, NULL, pinup_dgray_bits, NULL );
 	p.end();
 	pinUpPix.setMask(QBitmap::fromData(
-						 QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
+						 QSize(14, 14),
 						 pinup_mask_bits, QImage::Format_MonoLSB));
 
-	pinDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	pinDownPix = QPixmap(14, 14);
 	pinDownPix.fill(Qt::transparent);
 	p.begin( &pinDownPix );
-	colorBitmaps( &p, palette, 0, 0, BASE_BUTTON_SIZE, BASE_BUTTON_SIZE, true, pindown_white_bits,
+	colorBitmaps( &p, palette, 0, 0, 14, 14, true, pindown_white_bits,
 				  pindown_gray_bits, NULL, NULL, pindown_dgray_bits, NULL );
 	p.end();
 	pinDownPix.setMask(QBitmap::fromData(
-						  QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
+						  QSize(14, 14),
 						  pindown_mask_bits, QImage::Format_MonoLSB));
 
 	// Inactive pins
-	ipinUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	ipinUpPix = QPixmap(14, 14);
 	ipinUpPix.fill(Qt::transparent);
 	p.begin( &ipinUpPix );
-	colorBitmaps( &p, palette, 0, 0, BASE_BUTTON_SIZE, BASE_BUTTON_SIZE, true, pinup_white_bits,
+	colorBitmaps( &p, palette, 0, 0, 14, 14, true, pinup_white_bits,
 				  pinup_gray_bits, NULL, NULL, pinup_dgray_bits, NULL );
 	p.end();
 	ipinUpPix.setMask(QBitmap::fromData(
-						   QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
+						   QSize(14, 14),
 						   pinup_mask_bits, QImage::Format_MonoLSB));
 
-	ipinDownPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	ipinDownPix = QPixmap(14, 14);
 	ipinDownPix.fill(Qt::transparent);
 	p.begin( &ipinDownPix );
-	colorBitmaps( &p, palette, 0, 0, BASE_BUTTON_SIZE, BASE_BUTTON_SIZE, true, pindown_white_bits,
+	colorBitmaps( &p, palette, 0, 0, 14, 14, true, pindown_white_bits,
 				  pindown_gray_bits, NULL, NULL, pindown_dgray_bits, NULL );
 	p.end();
 	ipinDownPix.setMask(QBitmap::fromData(
-							 QSize(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE),
+							 QSize(14, 14),
 							 pindown_mask_bits, QImage::Format_MonoLSB));
 
 	// Cache all possible button states
-	btnPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	btnPix = QPixmap(m_buttonSize, m_buttonSize);
 	btnPix.fill(Qt::transparent);
-	ibtnPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
+	ibtnPix = QPixmap(m_buttonSize, m_buttonSize);
 	ibtnPix.fill(Qt::transparent);
 
 	auto drawButtonBackground = [&](QPixmap &pixmap, bool active) {
@@ -574,7 +582,7 @@ BluecurveDecoration::updateTitleBar()
 		width = window()->width();
 	}
 	
-	setTitleBar(QRect(x,TOP_GRABBAR_WIDTH,width,TITLE_HEIGHT));
+	setTitleBar(QRect(x,TOP_GRABBAR_WIDTH,width,m_titleHeight));
 }
 
 void
@@ -622,7 +630,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	// Create a disposable pixmap buffer for the titlebar
 	// very early before drawing begins so there is no lag
 	// during painting pixels.
-	QPixmap titleBuffer = QPixmap(w, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+	QPixmap titleBuffer = QPixmap(w, m_titleHeight + TOP_GRABBAR_WIDTH);
 	titleBuffer.fill(Qt::red);
 
 	QPainter p2(&titleBuffer);
@@ -631,7 +639,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	if (window()->isActive())
 		p2.fillRect(r, activeTitleColor);
 	else		
-		p2.drawTiledPixmap(0, TOP_GRABBAR_WIDTH, w, TITLE_HEIGHT+TOP_GRABBAR_WIDTH,
+		p2.drawTiledPixmap(0, TOP_GRABBAR_WIDTH, w, m_titleHeight+TOP_GRABBAR_WIDTH,
 						   iTitleGradient);
 
 	// Draw active titlebar graphics
@@ -678,7 +686,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.9));
 	p2.drawLine(w-3, 2, w-3, 5); // TODO: improve button mask and make this line smaller
 	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.9));
-    p2.drawLine(w-2, 1, w-2, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);		
+    p2.drawLine(w-2, 1, w-2, TOP_GRABBAR_WIDTH + m_titleHeight);
 
 	// Draw text
 	QFont fnt = settings()->font();
@@ -718,18 +726,18 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 				continue;
 			}
 			
-			QRectF buttonSize = button->geometry();
+			QRectF buttonRect = button->geometry();
 			p2.setPen(Qt::white);
-			p2.drawLine (buttonSize.x() - 1, TOP_GRABBAR_WIDTH,
-						 buttonSize.x() - 1, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
+			p2.drawLine (buttonRect.x() - 1, TOP_GRABBAR_WIDTH,
+						 buttonRect.x() - 1, TOP_GRABBAR_WIDTH + m_titleHeight);
 			if (isButtonRight)
 				continue;
 			else if (isLeftButtonRight)
 				p2.setPen(window()->palette().mid().color().lighter(120));
 			else
 				p2.setPen(window()->palette().dark().color());
-			p2.drawLine (buttonSize.x() + buttonSize.width(), TOP_GRABBAR_WIDTH - 1,
-						 buttonSize.x() + buttonSize.width(), TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
+			p2.drawLine (buttonRect.x() + buttonRect.width(), TOP_GRABBAR_WIDTH - 1,
+						 buttonRect.x() + buttonRect.width(), TOP_GRABBAR_WIDTH + m_titleHeight);
 		}
 	}
 
@@ -741,7 +749,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 									  KDecoration3::ColorRole::TitleBar).darker(150));
 		else
 			p2.setPen(window()->palette().mid().color());
-		p2.drawLine (titleBar().x() , 1, titleBar().x() , TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+		p2.drawLine (titleBar().x() , 1, titleBar().x() , m_titleHeight + TOP_GRABBAR_WIDTH);
 	}
 
 	// Top Right Button Area
@@ -753,7 +761,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 		else
 		    p2.setPen(window()->palette().mid().color());
 		p2.drawLine (titleBar().x() + titleBar().width() - 2, 1,
-					 titleBar().x() + titleBar().width() - 2 , TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+					 titleBar().x() + titleBar().width() - 2 , m_titleHeight + TOP_GRABBAR_WIDTH);
 	}
 
 	// Black outer line
@@ -765,7 +773,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 
 	QPainter p1(&decoBuffer); // Painter for the main decoration buffer
 	
-	int sideStart = TITLE_HEIGHT + TOP_GRABBAR_WIDTH + 1;
+	int sideStart = m_titleHeight + TOP_GRABBAR_WIDTH + 1;
 					
 	// Draw the left and right sides
 
@@ -798,8 +806,8 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 
 	// Line above the app and below the title bar
     p1.setPen(window()->palette().dark().color());
-	p1.drawLine(0, TITLE_HEIGHT + TOP_GRABBAR_WIDTH,
-				x2, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+	p1.drawLine(0, m_titleHeight + TOP_GRABBAR_WIDTH,
+				x2, m_titleHeight + TOP_GRABBAR_WIDTH);
 
 	// Draw the title buffer
 	p1.drawPixmap(0, 0, titleBuffer);
@@ -877,12 +885,12 @@ BluecurveDecoration::decorationMask()
 }
 
 BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
-								 KDecoration3::Decoration *decoration,
+							     BluecurveDecoration *decoration,
 								 QObject *parent)
 	: KDecoration3::DecorationButton(type, decoration, parent)
-{
-
-	setGeometry(QRectF(0,0,BASE_BUTTON_SIZE,BASE_BUTTON_SIZE));
+{	
+	
+	setGeometry(QRectF(0,0,decoration->buttonSize(),decoration->buttonSize()));
 	
 	// Set decoration bitmap to be drawn
 	// Note: if button is maximize, we need to remember to change bits
@@ -920,7 +928,7 @@ BluecurveButton
 						 KDecoration3::Decoration *decoration,
 						 QObject *parent)
 {
-	if (auto d = qobject_cast<KDecoration3::Decoration *>(decoration)) {
+	if (auto d = qobject_cast<BluecurveDecoration *>(decoration)) {
 		BluecurveButton *b = new BluecurveButton(type, d, parent);
 		return b;
 	} else

@@ -20,7 +20,12 @@ public:
 
 	bool init() override;
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
+
+	int buttonSize() const { return m_buttonSize; }
 private:
+	int m_titleHeight = 14;
+	int m_buttonSize = 14;
+	
 	QPixmap titlePix;
 	QPixmap iTitleGradient;
 
@@ -34,7 +39,8 @@ private:
 	
 	KDecoration3::DecorationButtonGroup *m_leftButtons = nullptr;
 	KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
-	
+
+	void updateTitleHeight();
 	void createPixmaps();
 	void updateTitleBar();
 	void updateButtonsGeometryDelayed();
@@ -48,7 +54,7 @@ class BluecurveButton : public KDecoration3::DecorationButton
 
 public:
 	explicit BluecurveButton(KDecoration3::DecorationButtonType type,
-							 KDecoration3::Decoration *decoration,
+							 BluecurveDecoration *decoration,
 							 QObject *parent = nullptr);
 	~BluecurveButton() override;
 
@@ -58,6 +64,8 @@ public:
 
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
 private:
+    BluecurveDecoration *m_decoration;
+	
 	QBitmap iconBits;
 
 	void onMaximizedChanged();
