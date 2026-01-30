@@ -37,6 +37,52 @@ K_PLUGIN_FACTORY_WITH_JSON(
 enum GradientType { VerticalGradient, HorizontalGradient,
 	DiagonalGradient }; // we only need these three
 
+static void
+drawGradient(QPixmap &pixmap, const QColor &ca, const QColor &cb,
+			 qreal x1=0, qreal y1=0, qreal x2=0, qreal y2=1, qreal opacity=1)
+{
+	QPainter painter(&pixmap);
+	painter.setRenderHint(QPainter::Antialiasing);
+	
+	QLinearGradient gradient(x1, y1, x2, y2);
+	gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+	gradient.setColorAt(0, ca);
+	gradient.setColorAt(1, cb);
+	
+	painter.setOpacity(opacity);
+	painter.fillRect(pixmap.rect(), gradient);
+	painter.end();
+}
+
+static void
+expAlphaGradient(QPixmap &pixmap, const QColor &c,
+				 qreal x1=0, qreal y1=0, qreal x2=0, qreal y2=1, qreal opacity=1)
+{
+	/* Draws an exponentially decaying alpha gradient to a pixmap */
+
+	int r, g, b, alpha0;
+	c.getRgb(&r, &g, &b, &alpha0);
+
+	const qreal k = 2; // decay constant
+	const int stops = 20; // number of stops in the gradient
+
+	QPainter painter(&pixmap);
+	painter.setRenderHint(QPainter::Antialiasing);
+
+	QLinearGradient gradient(x1, y1, x2, y2);
+	gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+
+	for (int i=0; i<=stops; i++) {
+		qreal stop = (qreal)i / stops;
+		int alpha = qRound(alpha0 * std::pow(1.0 - stop, k));
+		gradient.setColorAt(stop, QColor(r,g,b,alpha));
+	}
+
+	painter.setOpacity(opacity);
+	painter.fillRect(pixmap.rect(), gradient);
+	painter.end();
+}
+
 static QPixmap&
 pixmapGradient(QPixmap &pixmap, const QColor &ca, const QColor &cb,
 					 GradientType eff, int ncols=3)
@@ -350,39 +396,26 @@ BluecurveDecoration::createPixmaps()
 	QPalette palette = window()->palette();
 	
 	// Titlebar stipple
-	QPainter maskPainter;
+	QPainter stipplePainter;
 	int x, y;
-	titlePix = QPixmap(132, TITLE_HEIGHT+2);
+	titlePix = QPixmap(125, TITLE_HEIGHT-3);
 	titlePix.fill(Qt::transparent);
-	QBitmap mask(132, TITLE_HEIGHT+2);
+	stipplePainter.begin(&titlePix);
 
-	mask.fill(Qt::color0);
-	maskPainter.begin(&mask);
-	maskPainter.setPen(Qt::color1);
-
-	QColor lighterColor(window()->color(KDecoration3::ColorGroup::Active,
-										KDecoration3::ColorRole::TitleBar).lighter(150));
-	int h, s, v;
-	lighterColor.getHsv (&h, &s, &v);
-	s /= 2;
-	s = (s > 255) ? 255 : (int) s;
-    QColor satColor = QColor::fromHsv(h, s, v);
-
-	pixmapGradient(titlePix, satColor, satColor.darker(150),
-				   VerticalGradient);
-
-	for(y = 0; y < (TITLE_HEIGHT+2); y++) {
-		for(x = (3 - y) % 4; x < 132; x += 4) {
-			maskPainter.drawPoint(x, y);
+	for(y = 0; y < (TITLE_HEIGHT-3); y++) {
+		for(x = (3 - y) % 5; x < 125; x += 5) {			
+			stipplePainter.setPen(QColor(2,2,2,116));
+			stipplePainter.drawPoint(x,y);
+			stipplePainter.setPen(QColor(242,242,242,94));
+			stipplePainter.drawPoint(x+1,y);
 		}
 	}
-	
-	maskPainter.end();
-	titlePix.setMask(mask);
+
+	stipplePainter.end();
 
 	// Titlebar gradient images
 	aTitleGradient = QPixmap(8, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
-	iTitleGradient = QPixmap(8, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+	iTitleGradient = QPixmap(8, TITLE_HEIGHT + 1);
     QColor activeTitleColor(window()->color(KDecoration3::ColorGroup::Active,
 											KDecoration3::ColorRole::TitleBar));
 	QColor inactiveTitleColor(window()->color(KDecoration3::ColorGroup::Inactive,
@@ -392,6 +425,19 @@ BluecurveDecoration::createPixmaps()
 	pixmapGradient(iTitleGradient, inactiveTitleColor, shade(inactiveTitleColor, 0.8),
 				   VerticalGradient);
 
+	// Title blocker bottom
+	titleBlockerBottom = QPixmap(8, TITLE_HEIGHT + 1);
+	titleBlockerBottom.fill(Qt::transparent);
+	expAlphaGradient(titleBlockerBottom, activeTitleColor,
+					 0, 1, 0, 0);
+
+	titleGradientBottom = QPixmap(8, TITLE_HEIGHT + 1);
+	titleGradientBottom.fill(Qt::transparent);
+
+	QColor titleGradientColor = shade(activeTitleColor,2);
+	titleGradientColor.setAlpha(225);
+	expAlphaGradient(titleGradientBottom, titleGradientColor,
+					 0, 1, 0, 0, 0.8);
 
 	// Active pins
 	pinUpPix = QPixmap(BASE_BUTTON_SIZE, BASE_BUTTON_SIZE);
@@ -538,6 +584,11 @@ BluecurveDecoration::updateButtonsGeometry()
 void
 BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 {
+	// Store colours that we'll need
+    QColor activeTitleColor(window()->color(KDecoration3::ColorGroup::Active,
+											KDecoration3::ColorRole::TitleBar));
+	QColor inactiveTitleColor(window()->color(KDecoration3::ColorGroup::Inactive,
+											  KDecoration3::ColorRole::TitleBar));
 	
 	bool drawLeftDivider = true; 
 	bool drawRightDivider = true;
@@ -548,8 +599,8 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	int w  = rect().width();
 	int h  = rect().height();
 	
-	// Titlebar rectangle
-	QRectF r(titleBar());
+	// Rectangle over which we paint the titlebar decoration
+	QRectF r(titleBar().adjusted(1,-1,-2,0));
 
 	// Buffer for the decoration (which we apply the mask later)
 	QPixmap decoBuffer = QPixmap(w, h);
@@ -561,26 +612,51 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	QPixmap titleBuffer = QPixmap(w, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 	titleBuffer.fill(Qt::transparent);
 
-	// Draw title gradient
 	QPainter p2(&titleBuffer);
-	p2.drawTiledPixmap(0, TOP_GRABBAR_WIDTH, w, TITLE_HEIGHT+TOP_GRABBAR_WIDTH,
-					   window()->isActive() ? aTitleGradient : iTitleGradient);
 
-	QFont fnt = settings()->font();
-	p2.setFont( fnt );
+	// Draw base titlebar gradient
+	if (window()->isActive())
+		p2.fillRect(r, activeTitleColor);
+	else		
+		p2.drawTiledPixmap(0, TOP_GRABBAR_WIDTH, w, TITLE_HEIGHT+TOP_GRABBAR_WIDTH,
+						   iTitleGradient);
 
-	// Draw the titlebar stipple if active and available
-	if (window()->isActive() && !titlePix.isNull()) {
-		QFontMetrics fm(fnt);
-		int captionWidth = fm.horizontalAdvance(window()->caption()) + 1;
-		p2.drawTiledPixmap( r.x() + 2 + 2 + captionWidth, TOP_GRABBAR_WIDTH,
-							r.width() - 2 - 4 - captionWidth, 
-							TITLE_HEIGHT+1, titlePix );
+	// Main Title Bar background area
+	p2.setPen(Qt::white);
+	p2.drawLine(1, 1, x2 - 1, 1);
+
+	// Draw active titlebar graphics
+	if (window()->isActive()) {
+		p2.fillRect(r, activeTitleColor);
+		if (!titlePix.isNull())
+			//p2.drawTiledPixmap(r, titlePix);
+			p2.drawTiledPixmap(r.x()+1, r.y()+2, r.width()-2, r.height()-4, titlePix);
+		if (!titleBlockerBottom.isNull())
+			p2.drawTiledPixmap(r, titleBlockerBottom);
+
+		QPixmap titleBlockerRight = QPixmap(r.width(), r.height());
+		titleBlockerRight.fill(Qt::transparent);
+		expAlphaGradient(titleBlockerRight, activeTitleColor,
+						 0.1, 0, 1, 0);
+		p2.drawPixmap(r, titleBlockerRight, titleBlockerRight.rect());
+
+		QPixmap shine = QPixmap(r.width(), 1);
+		shine.fill(Qt::transparent);
+		drawGradient(shine, shade(activeTitleColor, 2), shade(activeTitleColor, 1.7),
+					 0, 0, 1, 1, 0.2);
+		drawGradient(shine, shade(activeTitleColor, 2), shade(activeTitleColor, 1.4),
+					 0, 0, 0, 1, 0.4);
+		p2.drawPixmap(r.x(), r.y(), shine);
+
+		if (!titleGradientBottom.isNull())
+		p2.drawTiledPixmap(r, titleGradientBottom);
 	}
 
+	// Draw text
+	QFont fnt = settings()->font();
+	p2.setFont( fnt );
 	if (window()->isActive()) {
-		p2.setPen(shade(window()->color(KDecoration3::ColorGroup::Active,
-										KDecoration3::ColorRole::TitleBar),1.4).darker());
+		p2.setPen(shade(activeTitleColor, 0.4));
 		p2.drawText(r.x() + 2 + 1, TOP_GRABBAR_WIDTH + 1,
 					r.width() - 2 - 1, r.height(),
 					Qt::AlignLeft | Qt::AlignVCenter, window()->caption() );
@@ -594,9 +670,8 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 				r.width() - 2, r.height(),
 				Qt::AlignLeft | Qt::AlignVCenter, window()->caption() );
 
-	// Main Title Bar background area
+
 	p2.setPen(Qt::white);
-	p2.drawLine(1, 1, x2 - 1, 1);
 	// This is kind of broken...
 	// We fill in the inner part of the circle here.  This is dependent on BUTTON_DIAM
 	p2.drawLine(1, 1, 1, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
@@ -605,23 +680,6 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	p2.drawLine(w - 2 , 1, w - 2, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
 	p2.drawLine(w - 3, 2, w - 3, 5);
 	p2.drawLine(w - 4, 2, w - 3, 2);
-
-	if (window()->isActive()) {
-		QColor lighterColor (window()->color(KDecoration3::ColorGroup::Active,
-											 KDecoration3::ColorRole::TitleBar).lighter(150));
-		p2.setPen (lighterColor);
-		p2.drawLine (r.x(), 2, r.x() + r.width(), 2);
-		int h, s, v;
-		lighterColor.getHsv (&h, &s, &v);
-		s /= 2;
-		s = (s > 255) ? 255 : (int) s;
-
-		QColor satColor = QColor::fromHsv(h, s, v);
-		p2.setPen (satColor);
-		p2.drawLine (r.x(), 1, r.x() + r.width() - 2, 1);
-	}
-
-	p2.setPen(Qt::white);
 
 	if (window()->isActive()) {
 		const auto buttonList = m_leftButtons->buttons() + m_rightButtons->buttons();
@@ -666,7 +724,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 									  KDecoration3::ColorRole::TitleBar).darker(150));
 		else
 			p2.setPen(window()->palette().mid().color());
-		p2.drawLine (r.x() , 1, r.x() , TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+		p2.drawLine (titleBar().x() , 1, titleBar().x() , TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 	}
 
 	// Top Right Button Area
@@ -677,8 +735,8 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 									  KDecoration3::ColorRole::TitleBar).darker(150));
 		else
 		    p2.setPen(window()->palette().mid().color());
-		p2.drawLine (r.x() + r.width() - 2, 1,
-					 r.x() + r.width() - 2 , TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
+		p2.drawLine (titleBar().x() + titleBar().width() - 2, 1,
+					 titleBar().x() + titleBar().width() - 2 , TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 	}
 
 	// Black outer line

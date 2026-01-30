@@ -25,6 +25,9 @@ private:
 	QPixmap aTitleGradient;
 	QPixmap iTitleGradient;
 
+	QPixmap titleBlockerBottom;
+	QPixmap titleGradientBottom;
+
 	QPixmap bottomLeftPix;
 	QPixmap bottomRightPix;
 	QPixmap abottomLeftPix;
