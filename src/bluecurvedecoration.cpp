@@ -10,8 +10,8 @@
 #include <QTimer>
 #include <qdrawutil.h>
 
-#define BASE_BUTTON_SIZE  17
-#define TITLE_HEIGHT      17
+#define BASE_BUTTON_SIZE  18
+#define TITLE_HEIGHT      18
 #define BORDER_WIDTH      6
 #define CORNER_RADIUS     12
 
@@ -414,14 +414,11 @@ BluecurveDecoration::createPixmaps()
 	stipplePainter.end();
 
 	// Titlebar gradient images
-	aTitleGradient = QPixmap(8, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
 	iTitleGradient = QPixmap(8, TITLE_HEIGHT + 1);
     QColor activeTitleColor(window()->color(KDecoration3::ColorGroup::Active,
 											KDecoration3::ColorRole::TitleBar));
 	QColor inactiveTitleColor(window()->color(KDecoration3::ColorGroup::Inactive,
 											  KDecoration3::ColorRole::TitleBar));
-	pixmapGradient(aTitleGradient, shade(activeTitleColor, 1.4),
-				   shade(activeTitleColor, 0.8), VerticalGradient);
 	pixmapGradient(iTitleGradient, inactiveTitleColor, shade(inactiveTitleColor, 0.8),
 				   VerticalGradient);
 
@@ -489,10 +486,25 @@ BluecurveDecoration::createPixmaps()
 
 	auto drawButtonBackground = [&](QPixmap &pixmap, bool active) {
 		
-		QColor c = window()->color(QPalette::Active, QPalette::Button);
 		if (active) {
-			pixmapGradient(pixmap, c, Qt::white,
-						   DiagonalGradient);
+			QColor c = window()->color(QPalette::Active, QPalette::Window);
+
+			QPixmap topEdge = QPixmap(pixmap.width(), 1);
+			drawGradient(topEdge, shade(c, 0.7), shade(c, 1.3),
+						 0, 0, 1, 0);
+			QPixmap sideEdge = QPixmap(1, pixmap.height());
+			drawGradient(sideEdge, shade(c, 0.7), shade(c, 1.3));
+
+			QPixmap bg = QPixmap(pixmap.width() - 1, pixmap.height() -1 );
+			drawGradient(bg, shade(c, 0.85), shade(c, 1.3),
+						 0, 0, 1, 1);
+
+			QPainter bgPainter(&pixmap);
+			bgPainter.drawPixmap(0, 0, sideEdge);
+			bgPainter.drawPixmap(0, 0, topEdge);
+			bgPainter.drawPixmap(1, 1, bg);
+			bgPainter.end();
+			
 		} else {
 			pixmapGradient(pixmap, inactiveTitleColor, shade(inactiveTitleColor, 0.8),
 						   VerticalGradient);
@@ -589,6 +601,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 											KDecoration3::ColorRole::TitleBar));
 	QColor inactiveTitleColor(window()->color(KDecoration3::ColorGroup::Inactive,
 											  KDecoration3::ColorRole::TitleBar));
+	QColor activeWindowColor(window()->color(QPalette::Active, QPalette::Window));
 	
 	bool drawLeftDivider = true; 
 	bool drawRightDivider = true;
@@ -610,7 +623,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	// very early before drawing begins so there is no lag
 	// during painting pixels.
 	QPixmap titleBuffer = QPixmap(w, TITLE_HEIGHT + TOP_GRABBAR_WIDTH);
-	titleBuffer.fill(Qt::transparent);
+	titleBuffer.fill(Qt::red);
 
 	QPainter p2(&titleBuffer);
 
@@ -621,12 +634,11 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 		p2.drawTiledPixmap(0, TOP_GRABBAR_WIDTH, w, TITLE_HEIGHT+TOP_GRABBAR_WIDTH,
 						   iTitleGradient);
 
-	// Main Title Bar background area
-	p2.setPen(Qt::white);
-	p2.drawLine(1, 1, x2 - 1, 1);
-
 	// Draw active titlebar graphics
 	if (window()->isActive()) {
+		p2.setPen(shade(activeWindowColor, 1.2));
+		p2.drawLine(1, 1, x2 - 1, 1);
+		
 		p2.fillRect(r, activeTitleColor);
 		if (!titlePix.isNull())
 			//p2.drawTiledPixmap(r, titlePix);
@@ -649,8 +661,24 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 		p2.drawPixmap(r.x(), r.y(), shine);
 
 		if (!titleGradientBottom.isNull())
-		p2.drawTiledPixmap(r, titleGradientBottom);
+			p2.drawTiledPixmap(r, titleGradientBottom);
+	} else {
+		p2.setPen(shade(inactiveTitleColor, 1.2));
+		p2.drawLine(1, 1, x2 - 1, 1);
 	}
+
+	// Do some shading around the left button edges
+	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 1.2));
+	p2.drawLine(2, 2, 3, 2);
+	p2.drawLine(2, 2, 2, 3);
+	
+	// Do some shading around the right button edges
+	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 1.1));
+	p2.drawLine(w-3, 2, w-4, 2);
+	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.9));
+	p2.drawLine(w-3, 2, w-3, 5); // TODO: improve button mask and make this line smaller
+	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.9));
+    p2.drawLine(w-2, 1, w-2, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);		
 
 	// Draw text
 	QFont fnt = settings()->font();
@@ -669,17 +697,6 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	p2.drawText(r.x() + 2, TOP_GRABBAR_WIDTH,
 				r.width() - 2, r.height(),
 				Qt::AlignLeft | Qt::AlignVCenter, window()->caption() );
-
-
-	p2.setPen(Qt::white);
-	// This is kind of broken...
-	// We fill in the inner part of the circle here.  This is dependent on BUTTON_DIAM
-	p2.drawLine(1, 1, 1, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
-	p2.drawLine(2, 2, 3, 2);
-	p2.drawLine(2, 2, 2, 3);
-	p2.drawLine(w - 2 , 1, w - 2, TOP_GRABBAR_WIDTH + TITLE_HEIGHT);
-	p2.drawLine(w - 3, 2, w - 3, 5);
-	p2.drawLine(w - 4, 2, w - 3, 2);
 
 	if (window()->isActive()) {
 		const auto buttonList = m_leftButtons->buttons() + m_rightButtons->buttons();

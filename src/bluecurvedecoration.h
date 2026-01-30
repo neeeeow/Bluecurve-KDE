@@ -22,7 +22,6 @@ public:
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
 private:
 	QPixmap titlePix;
-	QPixmap aTitleGradient;
 	QPixmap iTitleGradient;
 
 	QPixmap titleBlockerBottom;
