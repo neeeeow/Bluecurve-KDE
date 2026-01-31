@@ -32,9 +32,6 @@ K_PLUGIN_FACTORY_WITH_JSON(
 	registerPlugin<BluecurveDecoration>();
 	)
 
-enum GradientType { VerticalGradient, HorizontalGradient,
-	DiagonalGradient }; // we only need these three
-
 static void
 drawGradient(QPixmap &pixmap, const QColor &ca, const QColor &cb,
 			 qreal x1=0, qreal y1=0, qreal x2=0, qreal y2=1, qreal opacity=1)
@@ -79,140 +76,6 @@ expAlphaGradient(QPixmap &pixmap, const QColor &c,
 	painter.setOpacity(opacity);
 	painter.fillRect(pixmap.rect(), gradient);
 	painter.end();
-}
-
-static QPixmap&
-pixmapGradient(QPixmap &pixmap, const QColor &ca, const QColor &cb,
-					 GradientType eff, int ncols=3)
-{
-	/* Reimplementation of KDE 3's KPixmapEffect/KImageEffect::gradient
-	   Copyright (C) 1998, 1999, 2001, 2002 Daniel M. Duley <mosfet@kde.org>
-	   (C) 1998, 1999 Christian Tibirna <ctibirna@total.net>
-	   (C) 1998, 1999 Dirk Mueller <mueller@kde.org>
-	   (C) 1999 Geert Jansen <g.t.jansen@stud.tue.nl>
-	   (C) 2000 Josef Weidendorfer <weidendo@in.tum.de>
-	   (C) 2004 Zack Rusin <zack@kde.org>
-	*/
-	if (pixmap.depth()>8 &&
-		(eff == VerticalGradient || eff == HorizontalGradient)) {
-
-		int rDiff, gDiff, bDiff;
-		int rca, gca, bca /*, rcb, gcb, bcb*/;
-
-		int x, y;
-
-		rDiff = (/*rcb = */ cb.red())   - (rca = ca.red());
-		gDiff = (/*gcb = */ cb.green()) - (gca = ca.green());
-		bDiff = (/*bcb = */ cb.blue())  - (bca = ca.blue());
-
-		int rl = rca << 16;
-		int gl = gca << 16;
-		int bl = bca << 16;
-
-		int rcdelta = ((1<<16) / (eff == VerticalGradient ? pixmap.height() : pixmap.width())) * rDiff;
-		int gcdelta = ((1<<16) / (eff == VerticalGradient ? pixmap.height() : pixmap.width())) * gDiff;
-		int bcdelta = ((1<<16) / (eff == VerticalGradient ? pixmap.height() : pixmap.width())) * bDiff;
-
-		QPainter p(&pixmap);
-
-		// these for-loops could be merged, but the if's in the inner loop
-        // would make it slow
-		switch(eff) {
-		case VerticalGradient:
-			for ( y = 0; y < pixmap.height(); y++ ) {
-				rl += rcdelta;
-				gl += gcdelta;
-				bl += bcdelta;
-
-				p.setPen(QColor(rl>>16, gl>>16, bl>>16));
-				p.drawLine(0, y, pixmap.width()-1, y);
-			}
-			break;
-		case HorizontalGradient:
-			for( x = 0; x < pixmap.width(); x++) {
-				rl += rcdelta;
-				gl += gcdelta;
-				bl += bcdelta;
-
-				p.setPen(QColor(rl>>16, gl>>16, bl>>16));
-				p.drawLine(x, 0, x, pixmap.height()-1);
-			}
-			break;
-		default:
-			;
-		}
-
-		p.end();
-	} else if (eff==DiagonalGradient) {
-		QImage image = pixmap.toImage();
-		int rDiff, gDiff, bDiff;
-		int rca, gca, bca, rcb, gcb, bcb;
-
-		int x, y;
-
-		rDiff = (rcb = cb.red())   - (rca = ca.red());
-		gDiff = (gcb = cb.green()) - (gca = ca.green());
-		bDiff = (bcb = cb.blue())  - (bca = ca.blue());
-
-		float rfd, gfd, bfd;
-		float rd = rca, gd = gca, bd = bca;
-
-		unsigned char *xtable[3];
-		unsigned char *ytable[3];
-
-		unsigned int w = pixmap.width(), h = pixmap.height();
-		xtable[0] = new unsigned char[w];
-		xtable[1] = new unsigned char[w];
-		xtable[2] = new unsigned char[w];
-		ytable[0] = new unsigned char[h];
-		ytable[1] = new unsigned char[h];
-		ytable[2] = new unsigned char[h];
-		w*=2, h*=2;
-
-		rfd = (float)rDiff/w;
-		gfd = (float)gDiff/w;
-		bfd = (float)bDiff/w;
-
-		int dir;
-		for (x = 0; x < pixmap.width(); x++, rd+=rfd, gd+=gfd, bd+=bfd) {
-			dir = eff == DiagonalGradient? x : pixmap.width() - x - 1;
-			xtable[0][dir] = (unsigned char) rd;
-			xtable[1][dir] = (unsigned char) gd;
-			xtable[2][dir] = (unsigned char) bd;
-		}
-
-		rfd = (float)rDiff/h;
-		gfd = (float)gDiff/h;
-		bfd = (float)bDiff/h;
-		rd = gd = bd = 0;
-		for (y = 0; y < pixmap.height(); y++, rd+=rfd, gd+=gfd, bd+=bfd) {
-			ytable[0][y] = (unsigned char) rd;
-			ytable[1][y] = (unsigned char) gd;
-			ytable[2][y] = (unsigned char) bd;
-		}
-
-		for (y = 0; y < pixmap.height(); y++) {
-			unsigned int *scanline = (unsigned int *)image.scanLine(y);
-			for (x = 0; x < pixmap.width(); x++) {
-				scanline[x] = qRgb(xtable[0][x] + ytable[0][y],
-								   xtable[1][x] + ytable[1][y],
-								   xtable[2][x] + ytable[2][y]);
-			}
-		}
-
-		delete [] xtable[0];
-		delete [] xtable[1];
-		delete [] xtable[2];
-		delete [] ytable[0];
-		delete [] ytable[1];
-		delete [] ytable[2];
-
-		// assume dithering isn't necessary, everyone has truecolor by now
-
-		pixmap = QPixmap::fromImage(image);
-	}
-
-	return pixmap;
 }
 
 static QPixmap&
@@ -359,7 +222,6 @@ BluecurveDecoration::init()
 
 	// full reconfiguration
 	connect(s.get(), &KDecoration3::DecorationSettings::reconfigured, this, &BluecurveDecoration::reconfigure);
-	connect(s.get(), &KDecoration3::DecorationSettings::reconfigured, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
 
 	/* Window state changes */
 	connect(window(), &KDecoration3::DecoratedWindow::paletteChanged, this, &BluecurveDecoration::createPixmaps);
@@ -428,14 +290,15 @@ BluecurveDecoration::createPixmaps()
 
 	stipplePainter.end();
 
-	// Titlebar gradient images
-	iTitleGradient = QPixmap(8, m_titleHeight + 1);
-    QColor activeTitleColor(window()->color(KDecoration3::ColorGroup::Active,
+	// Titlebar colors
+	QColor activeTitleColor(window()->color(KDecoration3::ColorGroup::Active,
 											KDecoration3::ColorRole::TitleBar));
 	QColor inactiveTitleColor(window()->color(KDecoration3::ColorGroup::Inactive,
 											  KDecoration3::ColorRole::TitleBar));
-	pixmapGradient(iTitleGradient, inactiveTitleColor, shade(inactiveTitleColor, 0.8),
-				   VerticalGradient);
+
+	// Titlebar gradient images
+	iTitleGradient = QPixmap(8, m_titleHeight + 1);
+	drawGradient(iTitleGradient, inactiveTitleColor, shade(inactiveTitleColor, 0.8));
 
 	// Title blocker bottom
 	titleBlockerBottom = QPixmap(8, m_titleHeight + 1);
@@ -521,8 +384,7 @@ BluecurveDecoration::createPixmaps()
 			bgPainter.end();
 			
 		} else {
-			pixmapGradient(pixmap, inactiveTitleColor, shade(inactiveTitleColor, 0.8),
-						   VerticalGradient);
+			drawGradient(pixmap, inactiveTitleColor, shade(inactiveTitleColor, 0.8));
 		}
 	};
 
