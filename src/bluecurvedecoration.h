@@ -21,7 +21,6 @@ public:
 	bool init() override;
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
 
-	int buttonSize() const { return m_buttonSize; }
 private:
 	int m_titleHeight = 14;
 	int m_buttonSize = 14;
@@ -55,7 +54,7 @@ class BluecurveButton : public KDecoration3::DecorationButton
 
 public:
 	explicit BluecurveButton(KDecoration3::DecorationButtonType type,
-							 BluecurveDecoration *decoration,
+							 KDecoration3::Decoration *decoration,
 							 QObject *parent = nullptr);
 	~BluecurveButton() override;
 
@@ -64,9 +63,7 @@ public:
 								   QObject *parent);
 
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
-private:
-    BluecurveDecoration *m_decoration;
-	
+private:	
 	QBitmap iconBits;
 
 	void onMaximizedChanged();

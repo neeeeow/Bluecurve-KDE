@@ -392,14 +392,7 @@ BluecurveDecoration::reconfigure()
 	/* This is called whenever the windows are reconfigured */
 
 	updateBorders();
-	createPixmaps();
-
-	// Update button sizes
-	const auto buttons = m_leftButtons->buttons() + m_rightButtons->buttons();
-	for (auto *btn : buttons) {
-		btn->setGeometry(QRectF(0, 0, m_buttonSize, m_buttonSize));
-	}
-	
+	createPixmaps();	
 	updateButtonsGeometryDelayed();
 }
 
@@ -608,9 +601,14 @@ BluecurveDecoration::updateButtonsGeometryDelayed()
 void
 BluecurveDecoration::updateButtonsGeometry()
 {
+	const auto buttons = m_leftButtons->buttons() + m_rightButtons->buttons();
+	for (auto *button : buttons) {
+		button->setGeometry(QRectF(0, 0, m_buttonSize, m_buttonSize));
+	}
+	
 	m_leftButtons->setPos(QPointF(2, TOP_GRABBAR_WIDTH));
 	m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 2, TOP_GRABBAR_WIDTH));
-
+	
 	updateTitleBar();
 	update();
 }
@@ -899,12 +897,11 @@ BluecurveDecoration::decorationMask()
 }
 
 BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
-							     BluecurveDecoration *decoration,
+								 KDecoration3::Decoration *decoration,
 								 QObject *parent)
 	: KDecoration3::DecorationButton(type, decoration, parent)
 {	
-	m_decoration = decoration;
-	setGeometry(QRectF(0,0,decoration->buttonSize(),decoration->buttonSize()));
+	setGeometry(QRectF(0,0,14,14)); // default to 14x14 as a backup
 	
 	// Set decoration bitmap to be drawn
 	// Note: if button is maximize, we need to remember to change bits
@@ -940,7 +937,7 @@ BluecurveButton
 						 KDecoration3::Decoration *decoration,
 						 QObject *parent)
 {
-	if (auto d = qobject_cast<BluecurveDecoration *>(decoration)) {
+	if (auto d = qobject_cast<KDecoration3::Decoration *>(decoration)) {
 		BluecurveButton *b = new BluecurveButton(type, d, parent);
 		return b;
 	} else
