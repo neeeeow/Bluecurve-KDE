@@ -40,7 +40,8 @@ private:
 	KDecoration3::DecorationButtonGroup *m_leftButtons = nullptr;
 	KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
 
-	void updateTitleHeight();
+	void reconfigure();
+	void updateBorders();
 	void createPixmaps();
 	void updateTitleBar();
 	void updateButtonsGeometryDelayed();

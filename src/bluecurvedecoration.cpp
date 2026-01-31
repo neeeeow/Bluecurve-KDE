@@ -339,13 +339,8 @@ BluecurveDecoration::~BluecurveDecoration() = default;
 bool
 BluecurveDecoration::init()
 {
-	//m_titleHeight = m_buttonSize = 18;
-	updateTitleHeight();
-	
+	updateBorders();	
 	createPixmaps();
-
-	// borders are constant in size regardless of setting or state, so just set them here
-    setBorders(QMargins(BORDER_WIDTH, m_titleHeight + 3, BORDER_WIDTH, BORDER_WIDTH));
 
 	// Create buttons
 	m_leftButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Left,
@@ -363,6 +358,7 @@ BluecurveDecoration::init()
 	connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsRightChanged, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
 
 	// full reconfiguration
+	connect(s.get(), &KDecoration3::DecorationSettings::reconfigured, this, &BluecurveDecoration::reconfigure);
 	connect(s.get(), &KDecoration3::DecorationSettings::reconfigured, this, &BluecurveDecoration::updateButtonsGeometryDelayed);
 
 	/* Window state changes */
@@ -378,6 +374,7 @@ BluecurveDecoration::init()
     });
 	
 	// Button signals. as a reminder: update() and updateTitleBar() is called in updateButtonsGeometry
+	connect(window(), &KDecoration3::DecoratedWindow::sizeChanged, this, &BluecurveDecoration::updateButtonsGeometry);
 	connect(window(), &KDecoration3::DecoratedWindow::widthChanged, this, &BluecurveDecoration::updateButtonsGeometry);
     connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
     connect(window(), &KDecoration3::DecoratedWindow::adjacentScreenEdgesChanged, this, &BluecurveDecoration::updateButtonsGeometry);
@@ -390,11 +387,28 @@ BluecurveDecoration::init()
 }
 
 void
-BluecurveDecoration::updateTitleHeight()
+BluecurveDecoration::reconfigure()
 {
-	/* NB: this function doesn't set the height, it just sets the variables for the height */
+	/* This is called whenever the windows are reconfigured */
+
+	updateBorders();
+	createPixmaps();
+
+	// Update button sizes
+	const auto buttons = m_leftButtons->buttons() + m_rightButtons->buttons();
+	for (auto *btn : buttons) {
+		btn->setGeometry(QRectF(0, 0, m_buttonSize, m_buttonSize));
+	}
+	
+	updateButtonsGeometryDelayed();
+}
+
+void
+BluecurveDecoration::updateBorders()
+{
 	QFontMetricsF metrics(settings()->font());	
 	m_titleHeight = m_buttonSize = std::max(14, qRound(metrics.height()));
+	setBorders(QMargins(BORDER_WIDTH, m_titleHeight + 3, BORDER_WIDTH, BORDER_WIDTH));
 }
 
 void
@@ -889,7 +903,7 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 								 QObject *parent)
 	: KDecoration3::DecorationButton(type, decoration, parent)
 {	
-	
+	m_decoration = decoration;
 	setGeometry(QRectF(0,0,decoration->buttonSize(),decoration->buttonSize()));
 	
 	// Set decoration bitmap to be drawn
@@ -905,6 +919,7 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 	case KDecoration3::DecorationButtonType::Maximize:
 		iconBits = decoration->window()->isMaximized() ? QBitmap::fromData(QSize(14,14), minmax_bits)
 			: QBitmap::fromData(QSize(14,14), maximize_bits);
+		connect(decoration->window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveButton::onMaximizedChanged);
 		break;
 	case KDecoration3::DecorationButtonType::Close:
 		iconBits = QBitmap::fromData(QSize(14,14), close_bits);
@@ -915,10 +930,7 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 	default:
 		iconBits = QBitmap();
 		break;
-	}
-
-	connect(decoration->window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveButton::onMaximizedChanged);
-			
+	}	
 }
 
 BluecurveButton::~BluecurveButton() = default;
