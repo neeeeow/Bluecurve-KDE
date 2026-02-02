@@ -1,0 +1,1135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="91"
+   height="25"
+   viewBox="0 0 91 25"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   sodipodi:docname="tasks.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#e6e6e6"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="41.364086"
+     inkscape:cx="82.994703"
+     inkscape:cy="10.504281"
+     inkscape:window-width="3072"
+     inkscape:window-height="1656"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14902"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <style
+       id="current-color-scheme"
+       type="text/css">
+	  .ColorScheme-ButtonBackground { color:#e6e6e6; }
+	</style>
+    <filter
+       id="shade2"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="matrix"
+         values="0.896 0     0     0   0         0     0.896 0     0   0         0     0     0.896 0   0         0     0     0     1   0"
+         id="feColorMatrix1" />
+    </filter>
+    <filter
+       id="shade6"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="matrix"
+         values="0.4 0     0     0   0         0     0.4 0     0   0         0     0     0.4 0   0         0     0     0     1   0"
+         id="feColorMatrix2" />
+    </filter>
+    <filter
+       id="midlight"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="matrix"
+         values="1.5 0     0     0   0         0     1.5 0     0   0         0     0     1.5 0   0         0     0     0     1   0"
+         id="feColorMatrix3" />
+    </filter>
+    <filter
+       id="mid"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="matrix"
+         values="0.667 0     0     0   0         0     0.667 0     0   0         0     0     0.667 0   0         0     0     0     1   0"
+         id="feColorMatrix4" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     class="ColorScheme-ButtonBackground">
+    <rect
+       id="normal-center"
+       width="15"
+       height="15"
+       x="5"
+       y="5"
+       fill="currentColor" />
+    <g
+       id="normal-top">
+      <rect
+         id="rect81"
+         width="15"
+         height="2"
+         x="5"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect1"
+         width="15"
+         height="1"
+         x="5"
+         y="4"
+         fill="#ffffff" />
+      <rect
+         id="rect2"
+         width="15"
+         height="1"
+         x="5"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="normal-left">
+      <rect
+         id="rect3"
+         width="1"
+         height="15"
+         x="3"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect4"
+         width="1"
+         height="15"
+         x="4"
+         y="5"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="normal-bottom">
+      <rect
+         id="rect83"
+         width="15"
+         height="2"
+         x="5"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect5"
+         width="15"
+         height="1"
+         x="5"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect6"
+         width="15"
+         height="1"
+         x="5"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade2)" />
+    </g>
+    <g
+       id="normal-right">
+      <rect
+         id="rect7"
+         width="1"
+         height="15"
+         x="21"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect8"
+         width="1"
+         height="15"
+         x="20"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade2)" />
+    </g>
+    <g
+       id="normal-topleft">
+      <rect
+         id="rect82"
+         width="2"
+         height="2"
+         x="3"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect11"
+         width="2"
+         height="1"
+         x="3"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect12"
+         width="1"
+         height="1"
+         x="3"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect13"
+         width="1"
+         height="1"
+         x="4"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="normal-bottomleft">
+      <rect
+         id="rect84"
+         width="2"
+         height="2"
+         x="3"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect14"
+         width="2"
+         height="1"
+         x="3"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect15"
+         width="1"
+         height="1"
+         x="3"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect16"
+         width="1"
+         height="1"
+         x="4"
+         y="20"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="normal-topright">
+      <rect
+         id="rect86"
+         width="2"
+         height="2"
+         x="20"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect19"
+         width="2"
+         height="1"
+         x="20"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect20"
+         width="1"
+         height="1"
+         x="20"
+         y="4"
+         fill="#ffffff" />
+      <rect
+         id="rect21"
+         width="1"
+         height="1"
+         x="21"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="normal-bottomright">
+      <rect
+         id="rect85"
+         width="2"
+         height="2"
+         x="20"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect24"
+         width="1"
+         height="1"
+         x="20"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade2)" />
+      <rect
+         id="rect25"
+         width="1"
+         height="1"
+         x="21"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect26"
+         width="2"
+         height="1"
+         x="20"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <rect
+       style="fill:#ff0000"
+       id="normal-hint-top-margin"
+       width="1"
+       height="4"
+       x="12"
+       y="1" />
+    <rect
+       style="fill:#ff0000"
+       id="normal-hint-left-margin"
+       width="2"
+       height="1"
+       x="3"
+       y="12" />
+    <rect
+       style="fill:#ff0000"
+       id="normal-hint-bottom-margin"
+       width="1"
+       height="4"
+       x="12"
+       y="20" />
+    <rect
+       style="fill:#ff0000"
+       id="normal-hint-right-margin"
+       width="2"
+       height="1"
+       x="20"
+       y="12" />
+    <rect
+       id="hover-center"
+       width="15"
+       height="15"
+       x="27"
+       y="5"
+       fill="currentColor"
+       filter="url(#midlight)" />
+    <g
+       id="hover-top">
+      <rect
+         id="rect87"
+         width="15"
+         height="2"
+         x="27"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect9"
+         width="15"
+         height="1"
+         x="27"
+         y="4"
+         fill="#ffffff" />
+      <rect
+         id="rect10"
+         width="15"
+         height="1"
+         x="27"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="hover-left">
+      <rect
+         id="rect17"
+         width="1"
+         height="15"
+         x="26"
+         y="5"
+         fill="#ffffff" />
+      <rect
+         id="rect18"
+         width="1"
+         height="15"
+         x="25"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="hover-bottom">
+      <rect
+         id="rect90"
+         width="15"
+         height="2"
+         x="27"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect22"
+         width="15"
+         height="1"
+         x="27"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade2)" />
+      <rect
+         id="rect23"
+         width="15"
+         height="1"
+         x="27"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="hover-right">
+      <rect
+         id="rect27"
+         width="1"
+         height="15"
+         x="42"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade2)" />
+      <rect
+         id="rect28"
+         width="1"
+         height="15"
+         x="43"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="hover-topright">
+      <rect
+         id="rect92"
+         width="2"
+         height="2"
+         x="42"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect29"
+         width="2"
+         height="1"
+         x="42"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect30"
+         width="1"
+         height="1"
+         x="43"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect31"
+         width="1"
+         height="1"
+         x="42"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="hover-topleft">
+      <rect
+         id="rect88"
+         width="2"
+         height="2"
+         x="25"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect32"
+         width="2"
+         height="1"
+         x="25"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect33"
+         width="1"
+         height="1"
+         x="25"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect34"
+         width="1"
+         height="1"
+         x="26"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="hover-bottomleft">
+      <rect
+         id="rect89"
+         width="2"
+         height="2"
+         x="25"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect35"
+         width="2"
+         height="1"
+         x="25"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect36"
+         width="1"
+         height="1"
+         x="25"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect37"
+         width="1"
+         height="1"
+         x="26"
+         y="20"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="hover-bottomright">
+      <rect
+         id="rect91"
+         width="2"
+         height="2"
+         x="42"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect38"
+         width="2"
+         height="1"
+         x="42"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect39"
+         width="1"
+         height="1"
+         x="43"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect40"
+         width="1"
+         height="1"
+         x="42"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade2)" />
+    </g>
+    <rect
+       style="fill:#ff0000"
+       id="hover-hint-top-margin"
+       width="1"
+       height="4"
+       x="34"
+       y="1" />
+    <rect
+       style="fill:#ff0000"
+       id="hover-hint-left-margin"
+       width="2"
+       height="1"
+       x="25"
+       y="12" />
+    <rect
+       style="fill:#ff0000"
+       id="hover-hint-bottom-margin"
+       width="1"
+       height="4"
+       x="34"
+       y="20" />
+    <rect
+       style="fill:#ff0000"
+       id="hover-hint-right-margin"
+       width="2"
+       height="1"
+       x="42"
+       y="12" />
+    <rect
+       id="focus-center"
+       width="15"
+       height="15"
+       x="49"
+       y="5"
+       fill="currentColor"
+       filter="url(#mid)" />
+    <g
+       id="focus-top">
+      <rect
+         id="rect93"
+         width="15"
+         height="2"
+         x="49"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect41"
+         width="15"
+         height="1"
+         x="49"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade2)" />
+      <rect
+         id="rect42"
+         width="15"
+         height="1"
+         x="49"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="focus-left">
+      <rect
+         id="rect43"
+         width="1"
+         height="15"
+         x="48"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade2)" />
+      <rect
+         id="rect44"
+         width="1"
+         height="15"
+         x="47"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="focus-bottom">
+      <rect
+         id="rect96"
+         width="15"
+         height="2"
+         x="49"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect45"
+         width="15"
+         height="1"
+         x="49"
+         y="20"
+         fill="#ffffff" />
+      <rect
+         id="rect46"
+         width="15"
+         height="1"
+         x="49"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="focus-right">
+      <rect
+         id="rect47"
+         width="1"
+         height="15"
+         x="64"
+         y="5"
+         fill="#ffffff" />
+      <rect
+         id="rect48"
+         width="1"
+         height="15"
+         x="65"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="focus-topleft">
+      <rect
+         id="rect94"
+         width="2"
+         height="2"
+         x="47"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect49"
+         width="2"
+         height="1"
+         x="47"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect50"
+         width="1"
+         height="1"
+         x="47"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect51"
+         width="1"
+         height="1"
+         x="48"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade2)" />
+    </g>
+    <g
+       id="focus-bottomleft">
+      <rect
+         id="rect95"
+         width="2"
+         height="2"
+         x="47"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect52"
+         width="2"
+         height="1"
+         x="47"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect53"
+         width="1"
+         height="1"
+         x="47"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect54"
+         width="1"
+         height="1"
+         x="48"
+         y="20"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="focus-topright">
+      <rect
+         id="rect98"
+         width="2"
+         height="2"
+         x="64"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect55"
+         width="2"
+         height="1"
+         x="64"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect56"
+         width="1"
+         height="1"
+         x="65"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect57"
+         width="1"
+         height="1"
+         x="64"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="focus-bottomright">
+      <rect
+         id="rect97"
+         width="2"
+         height="2"
+         x="64"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect58"
+         width="2"
+         height="1"
+         x="64"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect59"
+         width="1"
+         height="1"
+         x="65"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect60"
+         width="1"
+         height="1"
+         x="64"
+         y="20"
+         fill="#ffffff" />
+    </g>
+    <rect
+       style="fill:#ff0000"
+       id="focus-hint-top-margin"
+       width="1"
+       height="4"
+       x="56"
+       y="1" />
+    <rect
+       style="fill:#ff0000"
+       id="focus-hint-right-margin"
+       width="2"
+       height="1"
+       x="64"
+       y="12" />
+    <rect
+       style="fill:#ff0000"
+       id="focus-hint-bottom-margin"
+       width="1"
+       height="4"
+       x="56"
+       y="20" />
+    <rect
+       style="fill:#ff0000"
+       id="focus-hint-left-margin"
+       width="2"
+       height="1"
+       x="47"
+       y="12" />
+    <rect
+       id="minimized-center"
+       width="15"
+       height="15"
+       x="71"
+       y="5"
+       fill="currentColor" />
+    <g
+       id="minimized-top">
+      <rect
+         id="rect99"
+         width="15"
+         height="2"
+         x="71"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect61"
+         width="15"
+         height="1"
+         x="71"
+         y="4"
+         fill="#ffffff" />
+      <rect
+         id="rect62"
+         width="15"
+         height="1"
+         x="71"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="minimized-left">
+      <rect
+         id="rect63"
+         width="1"
+         height="15"
+         x="70"
+         y="5"
+         fill="#ffffff" />
+      <rect
+         id="rect64"
+         width="1"
+         height="15"
+         x="69"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="minimized-bottom">
+      <rect
+         id="rect102"
+         width="15"
+         height="2"
+         x="71"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect65"
+         width="15"
+         height="1"
+         x="71"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade2)" />
+      <rect
+         id="rect66"
+         width="15"
+         height="1"
+         x="71"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="minimized-right">
+      <rect
+         id="rect67"
+         width="1"
+         height="15"
+         x="86"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade2)" />
+      <rect
+         id="rect68"
+         width="1"
+         height="15"
+         x="87"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade6)" />
+    </g>
+    <g
+       id="minimized-topleft">
+      <rect
+         id="rect100"
+         width="2"
+         height="2"
+         x="69"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect69"
+         width="2"
+         height="1"
+         x="69"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect70"
+         width="1"
+         height="1"
+         x="69"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect71"
+         width="1"
+         height="1"
+         x="70"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="minimized-bottomleft">
+      <rect
+         id="rect101"
+         width="2"
+         height="2"
+         x="69"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect72"
+         width="2"
+         height="1"
+         x="69"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect73"
+         width="1"
+         height="1"
+         x="69"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect74"
+         width="1"
+         height="1"
+         x="70"
+         y="20"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="minimized-topright">
+      <rect
+         id="rect104"
+         width="2"
+         height="2"
+         x="86"
+         y="1"
+         opacity="0" />
+      <rect
+         id="rect75"
+         width="2"
+         height="1"
+         x="86"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect76"
+         width="1"
+         height="1"
+         x="87"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect77"
+         width="1"
+         height="1"
+         x="86"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="minimized-bottomright">
+      <rect
+         id="rect103"
+         width="2"
+         height="2"
+         x="86"
+         y="22"
+         opacity="0" />
+      <rect
+         id="rect78"
+         width="2"
+         height="1"
+         x="86"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect79"
+         width="1"
+         height="1"
+         x="87"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
+      <rect
+         id="rect80"
+         width="1"
+         height="1"
+         x="86"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade2)" />
+    </g>
+    <rect
+       style="fill:#ff0000"
+       id="minimized-hint-top-margin"
+       width="1"
+       height="4"
+       x="78"
+       y="1" />
+    <rect
+       style="fill:#ff0000"
+       id="minimized-hint-left-margin"
+       width="2"
+       height="1"
+       x="69"
+       y="12" />
+    <rect
+       style="fill:#ff0000"
+       id="minimized-hint-bottom-margin"
+       width="1"
+       height="4"
+       x="78"
+       y="20" />
+    <rect
+       style="fill:#ff0000"
+       id="minimized-hint-right-margin"
+       width="2"
+       height="1"
+       x="86"
+       y="12" />
+  </g>
+</svg>
