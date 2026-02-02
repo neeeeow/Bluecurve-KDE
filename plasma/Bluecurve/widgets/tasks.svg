@@ -25,10 +25,10 @@
      inkscape:document-units="px"
      showgrid="true"
      inkscape:zoom="41.364086"
-     inkscape:cx="82.994703"
-     inkscape:cy="10.504281"
+     inkscape:cx="86.475983"
+     inkscape:cy="6.2493826"
      inkscape:window-width="3072"
-     inkscape:window-height="1656"
+     inkscape:window-height="1652"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -881,7 +881,8 @@
        height="15"
        x="71"
        y="5"
-       fill="currentColor" />
+       fill="currentColor"
+       filter="url(#shade2)" />
     <g
        id="minimized-top">
       <rect
