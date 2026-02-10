@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="119"
+   height="32"
+   viewBox="0 0 119 32"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   sodipodi:docname="viewitem.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#e6e6e6"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="8.0000004"
+     inkscape:cx="41.999998"
+     inkscape:cy="19.437499"
+     inkscape:window-width="1908"
+     inkscape:window-height="1023"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14902"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <style
+       id="current-color-scheme"
+       type="text/css">
+      .ColorScheme-Highlight { color:#4464ac; }
+      </style>
+    <filter
+       id="spots0"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="1.62 0     0     0   0         0     1.62 0     0   0         0     0     1.62 0   0         0     0     0     1   0"
+         id="feColorMatrix1" />
+    </filter>
+    <filter
+       id="spots1"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="1.05 0     0     0   0         0     1.05 0     0   0         0     0     1.05 0   0         0     0     0     1   0"
+         id="feColorMatrix2" />
+    </filter>
+    <filter
+       id="spots2"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="0.72 0     0     0   0         0     0.72 0     0   0         0     0     0.72 0   0         0     0     0     1   0"
+         id="feColorMatrix3" />
+    </filter>
+    <linearGradient
+       id="lightnessMap"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         offset="0%"
+         stop-color="rgb(114.3,114.3,114.3)"
+         id="stop1" />
+      <stop
+         offset="100%"
+         stop-color="rgb(152.4,152.4,152.4)"
+         id="stop2" />
+    </linearGradient>
+    <filter
+       id="colorize"
+       class="ColorScheme-Highlight"
+       color-interpolation-filters="sRGB"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feFlood
+         flood-color="currentColor"
+         result="baseColor"
+         id="feFlood2" />
+      <feComposite
+         operator="arithmetic"
+         in="baseColor"
+         in2="SourceGraphic"
+         k1="2"
+         k2="0"
+         k3="0"
+         k4="0"
+         id="feComposite2" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#lightnessMap"
+       id="linearGradient32"
+       x1="34"
+       y1="5"
+       x2="34"
+       y2="27"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#lightnessMap"
+       id="linearGradient33"
+       x1="63"
+       y1="5"
+       x2="63"
+       y2="27"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     class="ColorScheme-Highlight">
+    <rect
+       id="normal-center"
+       width="22"
+       height="22"
+       x="5"
+       y="5"
+       opacity="0" />
+    <rect
+       id="normal-top"
+       width="22"
+       height="2"
+       x="5"
+       y="3"
+       opacity="0" />
+    <rect
+       id="normal-left"
+       width="2"
+       height="22"
+       x="3"
+       y="5"
+       opacity="0" />
+    <rect
+       id="normal-bottom"
+       width="22"
+       height="2"
+       x="5"
+       y="27"
+       opacity="0" />
+    <rect
+       id="normal-right"
+       width="2"
+       height="22"
+       x="27"
+       y="5"
+       opacity="0" />
+    <rect
+       id="normal-topleft"
+       width="2"
+       height="2"
+       x="3"
+       y="3"
+       opacity="0" />
+    <rect
+       id="normal-topright"
+       width="2"
+       height="2"
+       x="27"
+       y="3"
+       opacity="0" />
+    <rect
+       id="normal-bottomleft"
+       width="2"
+       height="2"
+       x="3"
+       y="27"
+       opacity="0" />
+    <rect
+       id="normal-bottomright"
+       width="2"
+       height="2"
+       x="27"
+       y="27"
+       opacity="0" />
+    <rect
+       id="hover-center"
+       width="22"
+       height="22"
+       x="34"
+       y="5"
+       fill="url(#lightnessMap)"
+       filter="url(#colorize)"
+       style="fill:url(#linearGradient32)" />
+    <g
+       id="hover-top">
+      <rect
+         id="rect2"
+         width="22"
+         height="1"
+         x="34"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+      <rect
+         id="rect3"
+         width="22"
+         height="1"
+         x="34"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="hover-left">
+      <rect
+         id="rect1"
+         width="1"
+         height="22"
+         x="33"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots0)" />
+      <rect
+         id="rect4"
+         width="1"
+         height="22"
+         x="32"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="hover-bottom">
+      <rect
+         id="rect5"
+         width="22"
+         height="1"
+         x="34"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots1)" />
+      <rect
+         id="rect6"
+         width="22"
+         height="1"
+         x="34"
+         y="28"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="hover-right">
+      <rect
+         id="rect7"
+         width="1"
+         height="22"
+         x="56"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots1)" />
+      <rect
+         id="rect8"
+         width="1"
+         height="22"
+         x="57"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="hover-topleft">
+      <rect
+         id="rect9"
+         width="2"
+         height="2"
+         x="32"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect10"
+         width="1"
+         height="1"
+         x="33"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="hover-bottomleft">
+      <rect
+         id="rect11"
+         width="2"
+         height="2"
+         x="32"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect12"
+         width="1"
+         height="1"
+         x="33"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="hover-topright">
+      <rect
+         id="rect13"
+         width="2"
+         height="2"
+         x="56"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect14"
+         width="1"
+         height="1"
+         x="56"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="hover-bottomright">
+      <rect
+         id="rect15"
+         width="2"
+         height="2"
+         x="56"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect16"
+         width="1"
+         height="1"
+         x="56"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots1)" />
+    </g>
+    <rect
+       id="selected-center"
+       width="22"
+       height="22"
+       x="63"
+       y="5"
+       fill="url(#lightnessMap)"
+       filter="url(#colorize)"
+       style="fill:url(#linearGradient33)" />
+    <g
+       id="selected-top">
+      <rect
+         id="rect17"
+         width="22"
+         height="1"
+         x="63"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+      <rect
+         id="rect18"
+         width="22"
+         height="1"
+         x="63"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="selected-left">
+      <rect
+         id="rect19"
+         width="1"
+         height="22"
+         x="62"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots0)" />
+      <rect
+         id="rect20"
+         width="1"
+         height="22"
+         x="61"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="selected-bottom">
+      <rect
+         id="rect21"
+         width="22"
+         height="1"
+         x="63"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots1)" />
+      <rect
+         id="rect22"
+         width="22"
+         height="1"
+         x="63"
+         y="28"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="selected-right">
+      <rect
+         id="rect23"
+         width="1"
+         height="22"
+         x="85"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots1)" />
+      <rect
+         id="rect24"
+         width="1"
+         height="22"
+         x="86"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="selected-topleft">
+      <rect
+         id="rect25"
+         width="2"
+         height="2"
+         x="61"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect26"
+         width="1"
+         height="1"
+         x="62"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="selected-bottomleft">
+      <rect
+         id="rect27"
+         width="2"
+         height="2"
+         x="61"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect28"
+         width="1"
+         height="1"
+         x="62"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="selected-topright">
+      <rect
+         id="rect29"
+         width="2"
+         height="2"
+         x="85"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect30"
+         width="1"
+         height="1"
+         x="85"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="selected-bottomright">
+      <rect
+         id="rect31"
+         width="2"
+         height="2"
+         x="85"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect32"
+         width="1"
+         height="1"
+         x="85"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots1)" />
+    </g>
+    <rect
+       id="selected+hover-center"
+       width="22"
+       height="22"
+       x="92"
+       y="5"
+       fill="url(#lightnessMap)"
+       filter="url(#colorize)" />
+    <g
+       id="selected+hover-top">
+      <rect
+         id="rect33"
+         width="22"
+         height="1"
+         x="92"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+      <rect
+         id="rect34"
+         width="22"
+         height="1"
+         x="92"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="selected+hover-left">
+      <rect
+         id="rect35"
+         width="1"
+         height="22"
+         x="91"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots0)" />
+      <rect
+         id="rect36"
+         width="1"
+         height="22"
+         x="90"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="selected+hover-bottom">
+      <rect
+         id="rect37"
+         width="22"
+         height="1"
+         x="92"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots1)" />
+      <rect
+         id="rect38"
+         width="22"
+         height="1"
+         x="92"
+         y="28"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="selected+hover-right">
+      <rect
+         id="rect39"
+         width="1"
+         height="22"
+         x="114"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots1)" />
+      <rect
+         id="rect40"
+         width="1"
+         height="22"
+         x="115"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="selected+hover-topleft">
+      <rect
+         id="rect41"
+         width="2"
+         height="2"
+         x="90"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect42"
+         width="1"
+         height="1"
+         x="91"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="selected+hover-bottomleft">
+      <rect
+         id="rect43"
+         width="2"
+         height="2"
+         x="90"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect44"
+         width="1"
+         height="1"
+         x="91"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="selected+hover-bottomright">
+      <rect
+         id="rect45"
+         width="2"
+         height="2"
+         x="114"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect46"
+         width="1"
+         height="1"
+         x="114"
+         y="27"
+         fill="currentColor"
+         filter="url(#spots1)" />
+    </g>
+    <g
+       id="selected+hover-topright">
+      <rect
+         id="rect47"
+         width="2"
+         height="2"
+         x="114"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect48"
+         width="1"
+         height="1"
+         x="114"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+  </g>
+</svg>
