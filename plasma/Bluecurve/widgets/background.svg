@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="32.003652"
-     inkscape:cx="34.152352"
-     inkscape:cy="2.6715701"
-     inkscape:window-width="3072"
-     inkscape:window-height="1652"
+     inkscape:zoom="22.629999"
+     inkscape:cx="16.438357"
+     inkscape:cy="14.825454"
+     inkscape:window-width="1908"
+     inkscape:window-height="1023"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="topright">
+     inkscape:current-layer="layer1">
     <inkscape:grid
        id="grid1"
        units="px"
@@ -60,7 +60,8 @@
        x="0"
        y="0"
        width="1"
-       height="1">
+       height="1"
+       color-interpolation-filters="sRGB">
       <feColorMatrix
          type="matrix"
          values="0.896 0     0     0   0         0     0.896 0     0   0         0     0     0.896 0   0         0     0     0     1   0"
@@ -71,7 +72,8 @@
        x="0"
        y="0"
        width="1"
-       height="1">
+       height="1"
+       color-interpolation-filters="sRGB">
       <feColorMatrix
          type="matrix"
          values="0.665 0     0     0   0         0     0.665 0     0   0         0     0     0.665 0   0         0     0     0     1   0"
@@ -86,111 +88,83 @@
     <rect
        fill="currentColor"
        id="center"
-       width="19"
-       height="19"
-       x="5"
-       y="5" />
+       width="21"
+       height="21"
+       x="4"
+       y="4" />
     <g
        id="top">
       <rect
-         id="rect21"
-         width="19"
-         height="1"
-         x="5"
-         y="4"
-         fill="currentColor" />
-      <rect
          fill="#ffffff"
          id="rect1"
-         width="19"
+         width="21"
          height="1"
-         x="5"
+         x="4"
          y="3" />
       <rect
          fill="currentColor"
          filter="url(#shade5)"
          id="rect3"
-         width="19"
+         width="21"
          height="1"
-         x="5"
+         x="4"
          y="2" />
     </g>
     <g
        id="left">
       <rect
-         id="rect27"
-         width="1"
-         height="19"
-         x="4"
-         y="5"
-         fill="currentColor" />
-      <rect
          fill="#ffffff"
          id="rect2"
          width="1"
-         height="19"
+         height="21"
          x="3"
-         y="5" />
+         y="4" />
       <rect
          fill="currentColor"
          filter="url(#shade5)"
          id="rect4"
          width="1"
-         height="19"
+         height="21"
          x="2"
-         y="5" />
+         y="4" />
     </g>
     <g
        id="bottom">
       <rect
-         id="rect35"
-         width="19"
-         height="1"
-         x="5"
-         y="24"
-         fill="currentColor" />
-      <rect
          fill="currentColor"
          filter="url(#shade5)"
          id="rect5"
-         width="19"
+         width="21"
          height="1"
-         x="5"
+         x="4"
          y="26" />
       <rect
          fill="currentColor"
          filter="url(#shade2)"
          id="rect7"
-         width="19"
+         width="21"
          height="1"
-         x="5"
+         x="4"
          y="25" />
     </g>
     <g
        id="right">
       <rect
-         id="rect28"
-         width="1"
-         height="19"
-         x="24"
-         y="5"
-         fill="currentColor" />
-      <rect
          fill="currentColor"
          filter="url(#shade5)"
          id="rect6"
          width="1"
-         height="19"
+         height="21"
          x="26"
-         y="5" />
+         y="4" />
       <rect
          fill="currentColor"
          filter="url(#shade2)"
          id="rect8"
          width="1"
-         height="19"
+         height="21"
          x="25"
-         y="5" />
+         y="4" />
     </g>
     <g
        id="topleft">
@@ -198,121 +172,53 @@
          fill="currentColor"
          filter="url(#shade5)"
          id="rect9"
-         width="3"
-         height="1"
+         width="2"
+         height="2"
          x="2"
          y="2" />
       <rect
-         fill="currentColor"
-         filter="url(#shade5)"
-         id="rect10"
-         width="1"
-         height="2"
-         x="2"
-         y="3" />
-      <rect
          fill="#ffffff"
          id="rect17"
-         width="2"
+         width="1"
          height="1"
          x="3"
          y="3" />
-      <rect
-         id="rect33"
-         width="1"
-         height="1"
-         x="3"
-         y="4"
-         fill="#ffffff" />
-      <rect
-         id="rect38"
-         width="1"
-         height="1"
-         x="4"
-         y="4"
-         fill="currentColor" />
     </g>
     <g
        id="bottomleft">
       <rect
-         id="rect39"
-         width="1"
-         height="1"
-         x="4"
-         y="24"
-         fill="currentColor" />
-      <rect
          fill="currentColor"
          filter="url(#shade5)"
          id="rect11"
-         width="3"
-         height="1"
-         x="2"
-         y="26" />
-      <rect
-         fill="currentColor"
-         filter="url(#shade5)"
-         id="rect12"
-         width="1"
+         width="2"
          height="2"
          x="2"
-         y="24" />
+         y="25" />
       <rect
          fill="#ffffff"
          id="rect18"
          width="1"
-         height="2"
-         x="3"
-         y="24" />
-      <rect
-         id="rect36"
-         width="1"
          height="1"
-         x="4"
-         y="25"
-         fill="currentColor"
-         filter="url(#shade2)" />
+         x="3"
+         y="25" />
     </g>
     <g
        id="topright">
       <rect
-         id="rect41"
-         width="1"
-         height="1"
-         x="24"
-         y="4"
-         fill="currentColor" />
-      <rect
          fill="currentColor"
          filter="url(#shade5)"
          id="rect15"
-         width="3"
-         height="1"
-         x="24"
-         y="2" />
-      <rect
-         fill="currentColor"
-         filter="url(#shade5)"
-         id="rect16"
-         width="1"
+         width="2"
          height="2"
-         x="26"
-         y="3" />
+         x="25"
+         y="2" />
       <rect
          fill="#ffffff"
          id="rect19"
-         width="2"
-         height="1"
-         x="24"
-         y="3" />
-      <rect
-         id="rect34"
          width="1"
          height="1"
          x="25"
-         y="4"
-         fill="currentColor"
-         filter="url(#shade2)" />
+         y="3" />
     </g>
     <g
        id="bottomright">
@@ -320,41 +226,18 @@
          fill="currentColor"
          filter="url(#shade5)"
          id="rect13"
-         width="3"
-         height="1"
-         x="24"
-         y="26" />
-      <rect
-         fill="currentColor"
-         filter="url(#shade5)"
-         id="rect14"
-         width="1"
+         width="2"
          height="2"
-         x="26"
-         y="24" />
+         x="25"
+         y="25" />
       <rect
          fill="currentColor"
          filter="url(#shade2)"
          id="rect20"
-         width="2"
-         height="1"
-         x="24"
-         y="25" />
-      <rect
-         id="rect37"
          width="1"
          height="1"
          x="25"
-         y="24"
-         fill="currentColor"
-         filter="url(#shade2)" />
-      <rect
-         id="rect40"
-         width="1"
-         height="1"
-         x="24"
-         y="24"
-         fill="currentColor" />
+         y="25" />
     </g>
     <rect
        fill="#ff0000"

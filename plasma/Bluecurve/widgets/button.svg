@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="14.624413"
-     inkscape:cx="62.498236"
-     inkscape:cy="9.8807386"
-     inkscape:window-width="3072"
-     inkscape:window-height="1652"
+     inkscape:zoom="20.682043"
+     inkscape:cx="32.540305"
+     inkscape:cy="7.2768439"
+     inkscape:window-width="1908"
+     inkscape:window-height="1023"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="pressed-topright">
+     inkscape:current-layer="layer1">
     <inkscape:grid
        id="grid1"
        units="px"
@@ -60,7 +60,8 @@
        x="0"
        y="0"
        width="1"
-       height="1">
+       height="1"
+       color-interpolation-filters="sRGB">
       <feColorMatrix
          type="matrix"
          values="0.896 0     0     0   0         0     0.896 0     0   0         0     0     0.896 0   0         0     0     0     1   0"
@@ -71,7 +72,8 @@
        x="0"
        y="0"
        width="1"
-       height="1">
+       height="1"
+       color-interpolation-filters="sRGB">
       <feColorMatrix
          type="matrix"
          values="0.4 0     0     0   0         0     0.4 0     0   0         0     0     0.4 0   0         0     0     0     1   0"
@@ -82,7 +84,8 @@
        x="0"
        y="0"
        width="1"
-       height="1">
+       height="1"
+       color-interpolation-filters="sRGB">
       <feColorMatrix
          type="matrix"
          values="1.5 0     0     0   0         0     1.5 0     0   0         0     0     1.5 0   0         0     0     0     1   0"
@@ -93,10 +96,11 @@
        x="0"
        y="0"
        width="1"
-       height="1">
+       height="1"
+       color-interpolation-filters="sRGB">
       <feColorMatrix
          type="matrix"
-         values="0.667 0     0     0   0         0     0.667 0     0   0         0     0     0.667 0   0         0     0     0     1   0"
+         values="0.8 0     0     0   0         0     0.8 0     0   0         0     0     0.8 0   0         0     0     0     1   0"
          id="feColorMatrix4" />
     </filter>
   </defs>
@@ -191,17 +195,9 @@
       <rect
          id="rect11"
          width="2"
-         height="1"
+         height="2"
          x="3"
          y="3"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect12"
-         width="1"
-         height="1"
-         x="3"
-         y="4"
          fill="currentColor"
          filter="url(#shade6)" />
       <rect
@@ -215,17 +211,9 @@
     <g
        id="normal-bottomleft">
       <rect
-         id="rect14"
-         width="2"
-         height="1"
-         x="3"
-         y="21"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
          id="rect15"
-         width="1"
-         height="1"
+         width="2"
+         height="2"
          x="3"
          y="20"
          fill="currentColor"
@@ -243,7 +231,7 @@
       <rect
          id="rect19"
          width="2"
-         height="1"
+         height="2"
          x="20"
          y="3"
          fill="currentColor"
@@ -255,17 +243,17 @@
          x="20"
          y="4"
          fill="#ffffff" />
-      <rect
-         id="rect21"
-         width="1"
-         height="1"
-         x="21"
-         y="4"
-         fill="currentColor"
-         filter="url(#shade6)" />
     </g>
     <g
        id="normal-bottomright">
+      <rect
+         id="rect26"
+         width="2"
+         height="2"
+         x="20"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade6)" />
       <rect
          id="rect24"
          width="1"
@@ -274,34 +262,18 @@
          y="20"
          fill="currentColor"
          filter="url(#shade2)" />
-      <rect
-         id="rect25"
-         width="1"
-         height="1"
-         x="21"
-         y="20"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect26"
-         width="2"
-         height="1"
-         x="20"
-         y="21"
-         fill="currentColor"
-         filter="url(#shade6)" />
     </g>
     <rect
        style="fill:#ff0000"
        id="normal-hint-top-margin"
        width="1"
-       height="2"
+       height="5"
        x="12"
        y="3" />
     <rect
        style="fill:#ff0000"
        id="normal-hint-left-margin"
-       width="2"
+       width="5"
        height="1"
        x="3"
        y="12" />
@@ -309,15 +281,15 @@
        style="fill:#ff0000"
        id="normal-hint-bottom-margin"
        width="1"
-       height="2"
+       height="5"
        x="12"
-       y="20" />
+       y="17" />
     <rect
        style="fill:#ff0000"
        id="normal-hint-right-margin"
-       width="2"
+       width="5"
        height="1"
-       x="20"
+       x="17"
        y="12" />
     <rect
        id="hover-center"
@@ -329,6 +301,13 @@
        filter="url(#midlight)" />
     <g
        id="hover-top">
+      <rect
+         id="rect21"
+         width="15"
+         height="2"
+         x="27"
+         y="1"
+         opacity="0" />
       <rect
          id="rect9"
          width="15"
@@ -348,6 +327,13 @@
     <g
        id="hover-left">
       <rect
+         id="rect14"
+         width="2"
+         height="15"
+         x="23"
+         y="5"
+         opacity="0" />
+      <rect
          id="rect17"
          width="1"
          height="15"
@@ -365,6 +351,13 @@
     </g>
     <g
        id="hover-bottom">
+      <rect
+         id="rect25"
+         width="15"
+         height="2"
+         x="27"
+         y="22"
+         opacity="0" />
       <rect
          id="rect22"
          width="15"
@@ -385,6 +378,13 @@
     <g
        id="hover-right">
       <rect
+         id="rect30"
+         width="2"
+         height="15"
+         x="44"
+         y="5"
+         opacity="0" />
+      <rect
          id="rect27"
          width="1"
          height="15"
@@ -404,19 +404,18 @@
     <g
        id="hover-topright">
       <rect
+         id="rect33"
+         width="4"
+         height="4"
+         x="42"
+         y="1"
+         opacity="0" />
+      <rect
          id="rect29"
          width="2"
-         height="1"
+         height="2"
          x="42"
          y="3"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect30"
-         width="1"
-         height="1"
-         x="43"
-         y="4"
          fill="currentColor"
          filter="url(#shade6)" />
       <rect
@@ -430,19 +429,18 @@
     <g
        id="hover-topleft">
       <rect
+         id="rect12"
+         width="4"
+         height="4"
+         x="23"
+         y="1"
+         opacity="0" />
+      <rect
          id="rect32"
          width="2"
-         height="1"
+         height="2"
          x="25"
          y="3"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect33"
-         width="1"
-         height="1"
-         x="25"
-         y="4"
          fill="currentColor"
          filter="url(#shade6)" />
       <rect
@@ -457,16 +455,15 @@
        id="hover-bottomleft">
       <rect
          id="rect35"
-         width="2"
-         height="1"
-         x="25"
-         y="21"
-         fill="currentColor"
-         filter="url(#shade6)" />
+         width="4"
+         height="4"
+         x="23"
+         y="20"
+         opacity="0" />
       <rect
          id="rect36"
-         width="1"
-         height="1"
+         width="2"
+         height="2"
          x="25"
          y="20"
          fill="currentColor"
@@ -482,18 +479,17 @@
     <g
        id="hover-bottomright">
       <rect
+         id="rect39"
+         width="4"
+         height="4"
+         x="42"
+         y="20"
+         opacity="0" />
+      <rect
          id="rect38"
          width="2"
-         height="1"
+         height="2"
          x="42"
-         y="21"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect39"
-         width="1"
-         height="1"
-         x="43"
          y="20"
          fill="currentColor"
          filter="url(#shade6)" />
@@ -621,17 +617,9 @@
       <rect
          id="rect49"
          width="2"
-         height="1"
+         height="2"
          x="47"
          y="3"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect50"
-         width="1"
-         height="1"
-         x="47"
-         y="4"
          fill="currentColor"
          filter="url(#shade6)" />
       <rect
@@ -646,17 +634,9 @@
     <g
        id="pressed-bottomleft">
       <rect
-         id="rect52"
-         width="2"
-         height="1"
-         x="47"
-         y="21"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
          id="rect53"
-         width="1"
-         height="1"
+         width="2"
+         height="2"
          x="47"
          y="20"
          fill="currentColor"
@@ -674,17 +654,9 @@
       <rect
          id="rect55"
          width="2"
-         height="1"
+         height="2"
          x="64"
          y="3"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect56"
-         width="1"
-         height="1"
-         x="65"
-         y="4"
          fill="currentColor"
          filter="url(#shade6)" />
       <rect
@@ -700,16 +672,8 @@
       <rect
          id="rect58"
          width="2"
-         height="1"
+         height="2"
          x="64"
-         y="21"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect59"
-         width="1"
-         height="1"
-         x="65"
          y="20"
          fill="currentColor"
          filter="url(#shade6)" />
@@ -725,27 +689,27 @@
        style="fill:#ff0000"
        id="pressed-hint-top-margin"
        width="1"
-       height="2"
+       height="5"
        x="56"
        y="3" />
     <rect
        style="fill:#ff0000"
        id="pressed-hint-right-margin"
-       width="2"
+       width="5"
        height="1"
-       x="64"
+       x="61"
        y="12" />
     <rect
        style="fill:#ff0000"
        id="pressed-hint-bottom-margin"
        width="1"
-       height="2"
+       height="5"
        x="56"
-       y="20" />
+       y="17" />
     <rect
        style="fill:#ff0000"
        id="pressed-hint-left-margin"
-       width="2"
+       width="5"
        height="1"
        x="47"
        y="12" />
@@ -836,17 +800,9 @@
       <rect
          id="rect69"
          width="2"
-         height="1"
+         height="2"
          x="69"
          y="3"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect70"
-         width="1"
-         height="1"
-         x="69"
-         y="4"
          fill="currentColor"
          filter="url(#shade6)" />
       <rect
@@ -860,17 +816,9 @@
     <g
        id="toolbutton-hover-bottomleft">
       <rect
-         id="rect72"
-         width="2"
-         height="1"
-         x="69"
-         y="21"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
          id="rect73"
-         width="1"
-         height="1"
+         width="2"
+         height="2"
          x="69"
          y="20"
          fill="currentColor"
@@ -888,17 +836,9 @@
       <rect
          id="rect75"
          width="2"
-         height="1"
+         height="2"
          x="86"
          y="3"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
-         id="rect76"
-         width="1"
-         height="1"
-         x="87"
-         y="4"
          fill="currentColor"
          filter="url(#shade6)" />
       <rect
@@ -912,18 +852,10 @@
     <g
        id="toolbutton-hover-bottomright">
       <rect
-         id="rect78"
-         width="2"
-         height="1"
-         x="86"
-         y="21"
-         fill="currentColor"
-         filter="url(#shade6)" />
-      <rect
          id="rect79"
-         width="1"
-         height="1"
-         x="87"
+         width="2"
+         height="2"
+         x="86"
          y="20"
          fill="currentColor"
          filter="url(#shade6)" />
@@ -940,13 +872,13 @@
        style="fill:#ff0000"
        id="toolbutton-hover-hint-top-margin"
        width="1"
-       height="2"
+       height="5"
        x="78"
        y="3" />
     <rect
        style="fill:#ff0000"
        id="toolbutton-hover-hint-left-margin"
-       width="2"
+       width="5"
        height="1"
        x="69"
        y="12" />
@@ -954,15 +886,15 @@
        style="fill:#ff0000"
        id="toolbutton-hover-hint-bottom-margin"
        width="1"
-       height="2"
+       height="5"
        x="78"
-       y="20" />
+       y="17" />
     <rect
        style="fill:#ff0000"
        id="toolbutton-hover-hint-right-margin"
-       width="2"
+       width="5"
        height="1"
-       x="86"
+       x="83"
        y="12" />
   </g>
 </svg>
