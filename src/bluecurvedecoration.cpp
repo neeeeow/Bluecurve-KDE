@@ -289,6 +289,7 @@ BluecurveDecoration::init()
 		update(titleBar());
     });
 
+	// Add / remove borders when maximized state is changed
 	connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateBorders);
 	
 	// Button signals. as a reminder: update() and updateTitleBar() is called in updateButtonsGeometry
@@ -824,7 +825,7 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 		break;
 	case KDecoration3::DecorationButtonType::ContextHelp:
 		iconBits = QBitmap::fromData(QSize(14,14), question_bits);
-		break;
+		break;		
 	default:
 		iconBits = QBitmap();
 		break;
@@ -907,19 +908,25 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 					  icon);
 	} else {
 		QPixmap icon;
+		int xOff, yOff;
 		if (type() == KDecoration3::DecorationButtonType::OnAllDesktops) {
 			if (decoration()->window()->isActive())
 				icon = isChecked() ? pinDownPix : pinUpPix;
 			else
 				icon = isChecked() ? ipinDownPix : ipinUpPix;
+			xOff = (w-14)/2;
+			yOff = (h-14)/2 - 1;
 		} else {
-			icon = decoration()->window()->icon().pixmap(14,14);
+			int iconSize = std::min(w-2, h-2);
+			xOff = (w-iconSize)/2 + 1;
+			yOff = (h-iconSize)/2;
+			icon = decoration()->window()->icon().pixmap(iconSize,iconSize);
 		}
 
 		if (isHovered())
 			icon = pixmapIntensity(icon, 0.8);
 
-		p1.drawPixmap(0,0,icon);
+		p1.drawPixmap(xOff,yOff,icon);
 	}
 	
 	p1.end();
