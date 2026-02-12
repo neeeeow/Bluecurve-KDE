@@ -80,79 +80,6 @@ expAlphaGradient(QPixmap &pixmap, const QColor &c,
 	painter.end();
 }
 
-static QPixmap&
-pixmapIntensity(QPixmap &pixmap, float percent)
-{
-	/* Reimplementation of KDE 3's KPixmapEffect/KImageEffect::intensity
-	   Copyright (C) 1998, 1999, 2001, 2002 Daniel M. Duley <mosfet@kde.org>
-	   (C) 1998, 1999 Christian Tibirna <ctibirna@total.net>
-	   (C) 1998, 1999 Dirk Mueller <mueller@kde.org>
-	   (C) 1999 Geert Jansen <g.t.jansen@stud.tue.nl>
-	   (C) 2000 Josef Weidendorfer <weidendo@in.tum.de>
-	   (C) 2004 Zack Rusin <zack@kde.org>
-	*/
-
-	QImage image = pixmap.toImage();
-
-	int segColors = image.depth() > 8 ? 256 : image.colorCount();
-	int pixels = image.depth() > 8 ? image.width() * image.height() :
-		image.colorCount();
-	unsigned int *data = image.depth() > 8 ? (unsigned int *)image.bits() :
-		(unsigned int *)image.colorTable().data();
-	
-	bool brighten = (percent >= 0);
-	if (percent < 0)
-		percent = -percent;
-
-	unsigned char *segTbl = new unsigned char[segColors];
-	int tmp;
-	if(brighten){ // keep overflow check out of loops
-		for(int i=0; i < segColors; ++i){
-			tmp = (int)(i*percent);
-			if(tmp > 255)
-				tmp = 255;
-			segTbl[i] = tmp;
-		}
-	}
-	else{
-		for(int i=0; i < segColors; ++i){
-			tmp = (int)(i*percent);
-			if(tmp < 0)
-				tmp = 0;
-			segTbl[i] = tmp;
-		}
-	}
-
-	if(brighten){ // same here
-		for(int i=0; i < pixels; ++i){
-			int r = qRed(data[i]);
-			int g = qGreen(data[i]);
-			int b = qBlue(data[i]);
-			int a = qAlpha(data[i]);
-			r = r + segTbl[r] > 255 ? 255 : r + segTbl[r];
-			g = g + segTbl[g] > 255 ? 255 : g + segTbl[g];
-			b = b + segTbl[b] > 255 ? 255 : b + segTbl[b];
-			data[i] = qRgba(r, g, b,a);
-		}
-	}
-	else{
-		for(int i=0; i < pixels; ++i){
-			int r = qRed(data[i]);
-			int g = qGreen(data[i]);
-			int b = qBlue(data[i]);
-			int a = qAlpha(data[i]);
-			r = r - segTbl[r] < 0 ? 0 : r - segTbl[r];
-			g = g - segTbl[g] < 0 ? 0 : g - segTbl[g];
-			b = b - segTbl[b] < 0 ? 0 : b - segTbl[b];
-			data[i] = qRgba(r, g, b, a);
-		}
-	}
-	delete [] segTbl;
-	pixmap = QPixmap::fromImage(image);
-
-	return pixmap;
-}
-
 static QColor
 shade (const QColor &ca, double k) {
 	float h, s, l;
@@ -423,7 +350,7 @@ BluecurveDecoration::createPixmaps()
 	auto drawButtonBackground = [&](QPixmap &pixmap, bool active) {
 		
 		if (active) {
-			QColor c = window()->color(QPalette::Active, QPalette::Window);
+			QColor c = window()->color(QPalette::Active, QPalette::Button);
 
 			QPixmap topEdge = QPixmap(pixmap.width(), 1);
 			drawGradient(topEdge, shade(c, 0.7), shade(c, 1.3),
@@ -534,6 +461,8 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	QColor activeWindowColor(window()->color(QPalette::Active, QPalette::Window));
 	QColor activeLightColor = shade(activeWindowColor, 1.3);
 	QColor activeDarkColor = shade(activeWindowColor, 0.7);
+	QColor activeButtonColor(window()->color(QPalette::Active, QPalette::Button));
+	QColor activeButtonDark = shade(activeButtonColor, 0.7);
 	
 	bool drawLeftDivider = true; 
 	bool drawRightDivider = true;
@@ -566,7 +495,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 
 	// Draw active titlebar graphics
 	if (window()->isActive()) {
-		p2.setPen(shade(activeWindowColor, 1.2));
+		p2.setPen(shade(activeButtonColor, 1.2));
 		p2.drawLine(0, 1, w - 1, 1);
 		
 		p2.fillRect(r, activeTitleColor);
@@ -600,17 +529,17 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	if (! window()->isMaximized()) {
 		// Shading around the left button edges
 		if (window()->isActive()) {
-			p2.setPen(shade(activeWindowColor, 1.2));
+			p2.setPen(shade(activeButtonColor, 1.2));
 			p2.drawLine(3, 2, 4, 2);
 			p2.drawLine(2, 3, 2, 4);
 		}
    
 		// Shading around the right button edge
-		p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 1.1));
+		p2.setPen(shade(window()->isActive() ? activeButtonColor : inactiveTitleColor, 1.1));
 		p2.drawLine(w-5, 2, w-4, 2);
-		p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.9));
+		p2.setPen(shade(window()->isActive() ? activeButtonColor : inactiveTitleColor, 0.9));
 		p2.drawLine(w-3, 3, w-3, 4);
-		p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.85));
+		p2.setPen(shade(window()->isActive() ? activeButtonColor : inactiveTitleColor, 0.85));
 		p2.drawLine(w-2, 5, w-2, TOP_GRABBAR_WIDTH + m_titleHeight);
 	}
 
@@ -633,7 +562,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 				Qt::AlignLeft | Qt::AlignVCenter, window()->caption() );
 
 	// Draw edge between titlebar and window contents
-	p2.setPen(window()->isActive() ? shade(activeDarkColor, 0.9) : shade(inactiveTitleColor, 0.6));
+	p2.setPen(window()->isActive() ? shade(activeButtonDark, 0.9) : shade(inactiveTitleColor, 0.6));
     p2.drawLine(0, m_titleHeight + TOP_GRABBAR_WIDTH,
 				w-1, m_titleHeight + TOP_GRABBAR_WIDTH);
 	if (window()->isActive()) {
@@ -667,7 +596,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 				continue;
 
 			QRectF buttonRect = button->geometry();
-			p2.setPen(activeDarkColor);
+			p2.setPen(activeButtonDark);
 			p2.drawLine (buttonRect.x() + buttonRect.width(), TOP_GRABBAR_WIDTH - 1,
 						 buttonRect.x() + buttonRect.width(), TOP_GRABBAR_WIDTH + m_titleHeight);
 		}
@@ -874,38 +803,42 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 	QPixmap btnbg;
 
 	btnbg = decoration()->window()->isActive() ? btnPix : ibtnPix;
-
-	if (isHovered())
-		pixmapIntensity(btnbg, 0.8);
 	p1.drawPixmap(0,0,btnbg);
+
+	// Apply prelight / dark tint as necessary
+    if (isPressed()) {
+		QColor tint = shade(decoration()->window()->color(QPalette::ColorGroup::Active,
+														  QPalette::ColorRole::Button), 0.75);
+		p1.setOpacity(0.5);
+		p1.fillRect(buttonBuffer.rect(), tint);
+		p1.setOpacity(1.0);
+	} else if (isHovered()) {
+		QColor tint = decoration()->window()->palette().midlight().color();
+		p1.setOpacity(0.4);
+		p1.fillRect(buttonBuffer.rect(), tint);
+		p1.setOpacity(1.0);
+	}
 
 	if (!iconBits.isNull()) {
 		// Button icon
-		bool darkDeco = qGray(decoration()->window()->color(
-								  decoration()->window()->isActive() ?
-								  QPalette::ColorGroup::Active :
-								  QPalette::ColorGroup::Inactive,
-								  QPalette::ColorRole::Button).rgb()) > 127;
-
-		QColor bgc = decoration()->window()->color(
-			decoration()->window()->isActive() ?
-			KDecoration3::ColorGroup::Active :
-			KDecoration3::ColorGroup::Inactive,
-			KDecoration3::ColorRole::TitleBar);
-
 		int xOff = (w-14)/2 + 1;
 		int yOff = (h-14)/2;
-
-		QPixmap icon(iconBits.size());
-		if (isHovered())
-			icon.fill( darkDeco ? bgc.darker(120) : bgc.lighter(120) );
-		else
-			icon.fill( darkDeco ? bgc.darker(150) : bgc.lighter(150) );
-		icon.setMask(iconBits);
 		
-		p1.drawPixmap((isPressed() || isChecked()) ? xOff+1: xOff,
-					  (isPressed() || isChecked()) ? yOff+1 : yOff,
-					  icon);
+		QPixmap icon(iconBits.size());
+		icon.fill(decoration()->window()->isActive() ?
+				  decoration()->window()->color(
+					  QPalette::ColorGroup::Active,
+					  QPalette::ColorRole::ButtonText) :
+				  decoration()->window()->color(
+					  KDecoration3::ColorGroup::Inactive,
+					  KDecoration3::ColorRole::Foreground));
+				  
+		icon.setMask(iconBits);
+		p1.setOpacity(0.7);
+		p1.drawPixmap(xOff, yOff, icon);
+		if (isHovered() && !isPressed()) // If button is being hovered, draw the pixmap twice
+			p1.drawPixmap(xOff, yOff, icon);
+		p1.setOpacity(1.0);		
 	} else {
 		QPixmap icon;
 		int xOff, yOff;
@@ -922,16 +855,14 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 			yOff = (h-iconSize)/2;
 			icon = decoration()->window()->icon().pixmap(iconSize,iconSize);
 		}
-
-		if (isHovered())
-			icon = pixmapIntensity(icon, 0.8);
-
+		
 		p1.drawPixmap(xOff,yOff,icon);
 	}
 	
 	p1.end();
 
-	if (! decoration()->window()->isMaximized())
+	// Apply the mask (for rounded edges) if the window isn't minimized
+	if (! decoration()->window()->isMaximized())		
 		buttonBuffer.setMask(buttonMask());
 	
 	p->drawPixmap(x,y,buttonBuffer);
