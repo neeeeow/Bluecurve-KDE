@@ -45,7 +45,6 @@ private:
 	void updateTitleBar();
 	void updateButtonsGeometryDelayed();
 	void updateButtonsGeometry();
-	QBitmap decorationMask();
 };
 
 class BluecurveButton : public KDecoration3::DecorationButton
