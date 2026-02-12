@@ -28,8 +28,8 @@
      inkscape:zoom="8.0000004"
      inkscape:cx="41.999998"
      inkscape:cy="19.437499"
-     inkscape:window-width="1908"
-     inkscape:window-height="1023"
+     inkscape:window-width="1920"
+     inkscape:window-height="1029"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -224,7 +224,8 @@
        y="5"
        fill="url(#lightnessMap)"
        filter="url(#colorize)"
-       style="fill:url(#linearGradient32)" />
+       style="fill:url(#linearGradient32)"
+       opacity="0.3" />
     <g
        id="hover-top">
       <rect
