@@ -288,6 +288,8 @@ BluecurveDecoration::init()
 		// update the caption area
 		update(titleBar());
     });
+
+	connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateBorders);
 	
 	// Button signals. as a reminder: update() and updateTitleBar() is called in updateButtonsGeometry
 	connect(window(), &KDecoration3::DecoratedWindow::sizeChanged, this, &BluecurveDecoration::updateButtonsGeometry);
@@ -317,7 +319,8 @@ BluecurveDecoration::updateBorders()
 {
 	QFontMetricsF metrics(settings()->font());	
 	m_titleHeight = m_buttonSize = std::max(14, qRound(metrics.height()));
-	setBorders(QMargins(BORDER_WIDTH, m_titleHeight + 3, BORDER_WIDTH, BORDER_WIDTH));
+	int borderWidth = window()->isMaximized() ? 0 : BORDER_WIDTH;	
+	setBorders(QMargins(borderWidth, m_titleHeight + 3, borderWidth, borderWidth));
 }
 
 void
@@ -503,9 +506,14 @@ BluecurveDecoration::updateButtonsGeometry()
 	for (auto *button : buttons) {
 		button->setGeometry(QRectF(0, 0, m_buttonSize + 3, m_buttonSize));
 	}
-	
-	m_leftButtons->setPos(QPointF(1, TOP_GRABBAR_WIDTH));
-	m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 2, TOP_GRABBAR_WIDTH));
+
+	if (window()->isMaximized()) {
+		m_leftButtons->setPos(QPointF(0, TOP_GRABBAR_WIDTH));
+		m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 1, TOP_GRABBAR_WIDTH));
+	} else {
+		m_leftButtons->setPos(QPointF(1, TOP_GRABBAR_WIDTH));
+		m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 2, TOP_GRABBAR_WIDTH));
+	}
 	
 	updateTitleBar();
 	update();
@@ -558,7 +566,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	// Draw active titlebar graphics
 	if (window()->isActive()) {
 		p2.setPen(shade(activeWindowColor, 1.2));
-		p2.drawLine(1, 1, w - 2, 1);
+		p2.drawLine(0, 1, w - 1, 1);
 		
 		p2.fillRect(r, activeTitleColor);
 		if (!titlePix.isNull())
@@ -585,23 +593,25 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 			p2.drawTiledPixmap(r, titleGradientBottom);
 	} else {
 		p2.setPen(shade(inactiveTitleColor, 1.2));
-		p2.drawLine(1, 1, w - 2, 1);
+		p2.drawLine(0, 1, w - 1, 1);
 	}
 
-	// Shading around the left button edges
-	if (window()->isActive()) {
-		p2.setPen(shade(activeWindowColor, 1.2));
-		p2.drawLine(3, 2, 4, 2);
-		p2.drawLine(2, 3, 2, 4);
-	}
+	if (! window()->isMaximized()) {
+		// Shading around the left button edges
+		if (window()->isActive()) {
+			p2.setPen(shade(activeWindowColor, 1.2));
+			p2.drawLine(3, 2, 4, 2);
+			p2.drawLine(2, 3, 2, 4);
+		}
    
-	// Shading around the right button edge
-	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 1.1));
-	p2.drawLine(w-5, 2, w-4, 2);
-	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.9));
-	p2.drawLine(w-3, 3, w-3, 4);
-	p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.85));
-	p2.drawLine(w-2, 5, w-2, TOP_GRABBAR_WIDTH + m_titleHeight);
+		// Shading around the right button edge
+		p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 1.1));
+		p2.drawLine(w-5, 2, w-4, 2);
+		p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.9));
+		p2.drawLine(w-3, 3, w-3, 4);
+		p2.setPen(shade(window()->isActive() ? activeWindowColor : inactiveTitleColor, 0.85));
+		p2.drawLine(w-2, 5, w-2, TOP_GRABBAR_WIDTH + m_titleHeight);
+	}
 
 	// Draw text
 	QFont fnt = settings()->font();
@@ -652,7 +662,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 				continue;
 			}
 						
-			if (isButtonRight)
+			if ((! window()->isMaximized()) && isButtonRight)
 				continue;
 
 			QRectF buttonRect = button->geometry();
@@ -682,94 +692,103 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 
 	p2.end();
 
-	// Create a bitmap mask for the title buffer (to round off the corners)
-	QBitmap titleMask(titleBuffer.width(), titleBuffer.height());
-	titleMask.fill(Qt::color1);
-	QPainter maskPainter(&titleMask);
-	maskPainter.setPen(Qt::color0);
+	if (! window()->isMaximized()) {
+		// Create a bitmap mask for the title buffer (to round off the corners)
+		// This is only applied if the window isn't maximized
+		QBitmap titleMask(titleBuffer.width(), titleBuffer.height());
+		titleMask.fill(Qt::color1);
+		QPainter maskPainter(&titleMask);
+		maskPainter.setPen(Qt::color0);
 
-	// Top left corner mask
-	maskPainter.drawLine(0, 0, 4, 0);
-	maskPainter.drawLine(0, 1, 2, 1);
-	maskPainter.drawLine(0, 2, 1, 2);
-	maskPainter.drawLine(0, 3, 0, 4);
+		// Top left corner mask
+		maskPainter.drawLine(0, 0, 4, 0);
+		maskPainter.drawLine(0, 1, 2, 1);
+		maskPainter.drawLine(0, 2, 1, 2);
+		maskPainter.drawLine(0, 3, 0, 4);
 
-	// Top right corner mask
-	maskPainter.drawLine(w-5, 0, w-1, 0);
-	maskPainter.drawLine(w-3, 1, w-1, 1);
-	maskPainter.drawLine(w-2, 2, w-1, 2);
-	maskPainter.drawLine(w-1, 3, w-1, 4);
+		// Top right corner mask
+		maskPainter.drawLine(w-5, 0, w-1, 0);
+		maskPainter.drawLine(w-3, 1, w-1, 1);
+		maskPainter.drawLine(w-2, 2, w-1, 2);
+		maskPainter.drawLine(w-1, 3, w-1, 4);
 
-	titleBuffer.setMask(titleMask);
+		titleBuffer.setMask(titleMask);
+	}
 
 	QPainter p1(&decoBuffer); // Painter for the main decoration buffer
 	
-	p1.drawPixmap(0, 0, titleBuffer);
+	p1.drawPixmap(0, 0, titleBuffer); // Paint the title buffer
 
-	// Draw the border bevel
-	int sideStart = m_titleHeight + TOP_GRABBAR_WIDTH + 1;
+	if (! window()->isMaximized()) {
+		// Draw the border bevel
+		int sideStart = m_titleHeight + TOP_GRABBAR_WIDTH + 1;
 
-	// Left border bevel
-	p1.fillRect(1, sideStart, BORDER_WIDTH, h - CORNER_HEIGHT - sideStart, activeWindowColor);
-	p1.setPen(blend(activeLightColor, Qt::white, 0.7));
-	p1.drawLine(1, sideStart, 1, h-CORNER_HEIGHT);
-	p1.setPen(activeDarkColor);
-	p1.drawLine(BORDER_WIDTH-1, sideStart, BORDER_WIDTH-1, h - CORNER_HEIGHT);
+		// Left border bevel
+		p1.fillRect(1, sideStart, BORDER_WIDTH, h - CORNER_HEIGHT - sideStart, activeWindowColor);
+		p1.setPen(blend(activeLightColor, Qt::white, 0.7));
+		p1.drawLine(1, sideStart, 1, h-CORNER_HEIGHT);
+		p1.setPen(activeDarkColor);
+		p1.drawLine(BORDER_WIDTH-1, sideStart, BORDER_WIDTH-1, h - CORNER_HEIGHT);
 	
-	// Bottom border bevel
-	p1.fillRect(CORNER_HEIGHT, h - BORDER_WIDTH, w - 2*CORNER_HEIGHT, BORDER_WIDTH, activeWindowColor);
-	p1.setPen(blend(activeWindowColor, Qt::black, 0.2));
-	p1.drawLine(CORNER_HEIGHT, h-2, w - CORNER_HEIGHT, h-2);
-	p1.setPen(blend(activeLightColor, Qt::white, 0.7));
-	p1.drawLine(CORNER_HEIGHT, h - BORDER_WIDTH + 1, w - CORNER_HEIGHT, h - BORDER_WIDTH + 1);
-	p1.setPen(activeDarkColor);
-	p1.drawLine(CORNER_HEIGHT, h - BORDER_WIDTH, w - CORNER_HEIGHT, h - BORDER_WIDTH);
+		// Bottom border bevel
+		p1.fillRect(CORNER_HEIGHT, h - BORDER_WIDTH, w - 2*CORNER_HEIGHT, BORDER_WIDTH, activeWindowColor);
+		p1.setPen(blend(activeWindowColor, Qt::black, 0.2));
+		p1.drawLine(CORNER_HEIGHT, h-2, w - CORNER_HEIGHT, h-2);
+		p1.setPen(blend(activeLightColor, Qt::white, 0.7));
+		p1.drawLine(CORNER_HEIGHT, h - BORDER_WIDTH + 1, w - CORNER_HEIGHT, h - BORDER_WIDTH + 1);
+		p1.setPen(activeDarkColor);
+		p1.drawLine(CORNER_HEIGHT, h - BORDER_WIDTH, w - CORNER_HEIGHT, h - BORDER_WIDTH);
 
-	// Right border bevel
-	p1.fillRect(w - BORDER_WIDTH, sideStart, BORDER_WIDTH, h - CORNER_HEIGHT - sideStart, activeWindowColor);
-	p1.setPen(activeDarkColor);
-	p1.drawLine(w - BORDER_WIDTH, sideStart, w - BORDER_WIDTH, h - CORNER_HEIGHT);
-	p1.setPen(blend(activeLightColor, Qt::white, 0.7));
-	p1.drawLine(w - BORDER_WIDTH + 1, sideStart, w - BORDER_WIDTH + 1, h - CORNER_HEIGHT);
-	p1.setPen(blend(activeWindowColor, Qt::black, 0.2));
-	p1.drawLine(w-2, sideStart, w-2, h - CORNER_HEIGHT);
+		// Right border bevel
+		p1.fillRect(w - BORDER_WIDTH, sideStart, BORDER_WIDTH, h - CORNER_HEIGHT - sideStart, activeWindowColor);
+		p1.setPen(activeDarkColor);
+		p1.drawLine(w - BORDER_WIDTH, sideStart, w - BORDER_WIDTH, h - CORNER_HEIGHT);
+		p1.setPen(blend(activeLightColor, Qt::white, 0.7));
+		p1.drawLine(w - BORDER_WIDTH + 1, sideStart, w - BORDER_WIDTH + 1, h - CORNER_HEIGHT);
+		p1.setPen(blend(activeWindowColor, Qt::black, 0.2));
+		p1.drawLine(w-2, sideStart, w-2, h - CORNER_HEIGHT);
 	
-	// Draw the black border edges
-	p1.setPen(Qt::black);
+		// Draw the black border edges
+		p1.setPen(Qt::black);
 
-	// Sides
-	p1.drawLine(w-1, 5, w-1, h-6);
-	p1.drawLine(0, 5, 0, h-6);
+		// Sides
+		p1.drawLine(w-1, 5, w-1, h-6);
+		p1.drawLine(0, 5, 0, h-6);
 
-	// Top/bottom
-	p1.drawLine(5, 0, w-6, 0);
-	p1.drawLine(5, h-1, w-6, h-1);
+		// Top/bottom
+		p1.drawLine(5, 0, w-6, 0);
+		p1.drawLine(5, h-1, w-6, h-1);
 
-	// Top left corner
-	p1.drawLine(4, 1, 3, 1);
-	p1.drawPoint(2, 2);
-	p1.drawLine(1, 3, 1, 4);
+		// Top left corner
+		p1.drawLine(4, 1, 3, 1);
+		p1.drawPoint(2, 2);
+		p1.drawLine(1, 3, 1, 4);
 
-	// Top right corner
-	p1.drawLine(w-5, 1, w-4, 1);
-	p1.drawPoint(w-3, 2);
-	p1.drawLine(w-2, 3, w-2, 4);
+		// Top right corner
+		p1.drawLine(w-5, 1, w-4, 1);
+		p1.drawPoint(w-3, 2);
+		p1.drawLine(w-2, 3, w-2, 4);
 
-	// Bottom left corner
-	p1.drawLine(4, h-2, 3, h-2);
-	p1.drawPoint(2, h-3);
-	p1.drawLine(1, h-4, 1, h-5);
+		// Bottom left corner
+		p1.drawLine(4, h-2, 3, h-2);
+		p1.drawPoint(2, h-3);
+		p1.drawLine(1, h-4, 1, h-5);
 
-	// Bottom right corner
-	p1.drawLine(w-5, h-2, w-4, h-2);
-	p1.drawPoint(w-3, h-3);
-	p1.drawLine(w-2, h-4, w-2, h-5);
+		// Bottom right corner
+		p1.drawLine(w-5, h-2, w-4, h-2);
+		p1.drawPoint(w-3, h-3);
+		p1.drawLine(w-2, h-4, w-2, h-5);
 
-	// Put on the bottom corners
-	p1.drawPixmap(0, h - bottomLeftPix.height(),
-				  window()->isActive() ? abottomLeftPix : bottomLeftPix);
-	p1.drawPixmap(w - bottomRightPix.width(), h - bottomRightPix.height(), 
-				  window()->isActive() ? abottomRightPix : bottomRightPix);
+		// Put on the bottom corners
+		p1.drawPixmap(0, h - bottomLeftPix.height(),
+					  window()->isActive() ? abottomLeftPix : bottomLeftPix);
+		p1.drawPixmap(w - bottomRightPix.width(), h - bottomRightPix.height(), 
+					  window()->isActive() ? abottomRightPix : bottomRightPix);
+	} else {
+		// If the window is maximized, just draw a black border along the top
+		p1.setPen(Qt::black);
+		p1.drawLine(0, 0, w, 0);
+	}
 
 	p1.end();
 	
@@ -904,7 +923,10 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 	}
 	
 	p1.end();
-	buttonBuffer.setMask(buttonMask());
+
+	if (! decoration()->window()->isMaximized())
+		buttonBuffer.setMask(buttonMask());
+	
 	p->drawPixmap(x,y,buttonBuffer);
 }
 
