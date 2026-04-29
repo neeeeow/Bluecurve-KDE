@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="41"
+   height="45"
+   viewBox="0 0 41 45"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   sodipodi:docname="bar_meter_horizontal.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#e6e6e6"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="11.602469"
+     inkscape:cx="47.834646"
+     inkscape:cy="21.460949"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14902"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <style
+       id="current-color-scheme"
+       type="text/css">
+      .ColorScheme-ButtonBackground { color:#e6e6e6; }
+      .ColorScheme-Highlight { color:#4464ac; }
+	</style>
+    <filter
+       id="shade3"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="0.85 0     0     0   0         0     0.85 0     0   0         0     0     0.85 0   0         0     0     0     1   0"
+         id="feColorMatrix1" />
+    </filter>
+    <filter
+       id="shade5"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="0.665 0     0     0   0         0     0.665 0     0   0         0     0     0.665 0   0         0     0     0     1   0"
+         id="feColorMatrix2" />
+    </filter>
+    <filter
+       id="spots0"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="1.62 0     0     0   0         0     1.62 0     0   0         0     0     1.62 0   0         0     0     0     1   0"
+         id="feColorMatrix3" />
+    </filter>
+    <filter
+       id="spots1"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="1.05 0     0     0   0         0     1.05 0     0   0         0     0     1.05 0   0         0     0     0     1   0"
+         id="feColorMatrix4" />
+    </filter>
+    <filter
+       id="spots2"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="0.72 0     0     0   0         0     0.72 0     0   0         0     0     0.72 0   0         0     0     0     1   0"
+         id="feColorMatrix5" />
+    </filter>
+    <linearGradient
+      id="lightnessMap"
+      x1="0"
+      y1="0"
+      x2="0"
+      y2="1">
+      <stop
+         offset="0%"
+         stop-color="rgb(116.84,116.84,116.84)"
+         id="stop1" />
+      <stop
+         offset="100%"
+         stop-color="rgb(210.82,210.82,210.82)"
+         id="stop2" />
+    </linearGradient>
+    <filter
+       id="colorise"
+       class="ColorScheme-Highlight"
+       color-interpolation-filters="sRGB"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feFlood
+         flood-color="currentColor"
+         result="baseColor"
+         id="feFlood2" />
+      <feComposite
+         operator="arithmetic"
+         in="baseColor"
+         in2="SourceGraphic"
+         k1="2"
+         k2="0"
+         k3="0"
+         k4="0"
+         id="feComposite2" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       id="bar-inactive-center"
+       width="12"
+       height="12"
+       x="5"
+       y="5"
+       class="ColorScheme-ButtonBackground"
+       fill="currentColor"
+       filter="url(#shade3)" />
+    <g
+       id="bar-inactive-top"
+       class="ColorScheme-ButtonBackground">
+      <rect
+         id="rect6"
+         width="12"
+         height="1"
+         x="5"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect7"
+         width="12"
+         height="1"
+         x="5"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade5)" />
+    </g>
+    <g
+       id="bar-inactive-left"
+       class="ColorScheme-ButtonBackground">
+      <rect
+         id="rect8"
+         width="1"
+         height="12"
+         x="4"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect9"
+         width="1"
+         height="12"
+         x="3"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade5)" />
+    </g>
+    <g
+       id="bar-inactive-bottom"
+       class="ColorScheme-ButtonBackground">
+      <rect
+         id="rect11"
+         width="12"
+         height="1"
+         x="5"
+         y="17"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect12"
+         width="12"
+         height="1"
+         x="5"
+         y="18"
+         fill="currentColor"
+         filter="url(#shade5)" />
+    </g>
+    <g
+       id="bar-inactive-right"
+       class="ColorScheme-ButtonBackground">
+      <rect
+         id="rect13"
+         width="1"
+         height="12"
+         x="17"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect14"
+         width="1"
+         height="12"
+         x="18"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade5)" />
+    </g>
+    <g
+       id="bar-inactive-topleft"
+       class="ColorScheme-ButtonBackground">
+      <rect
+         id="rect15"
+         width="2"
+         height="2"
+         x="3"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade5)" />
+      <rect
+         id="rect16"
+         width="1"
+         height="1"
+         x="4"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade3)" />
+    </g>
+    <g
+       id="bar-inactive-bottomleft"
+       class="ColorScheme-ButtonBackground">
+      <rect
+         id="rect17"
+         width="2"
+         height="2"
+         x="3"
+         y="17"
+         fill="currentColor"
+         filter="url(#shade5)" />
+      <rect
+         id="rect18"
+         width="1"
+         height="1"
+         x="4"
+         y="17"
+         fill="currentColor"
+         filter="url(#shade3)" />
+    </g>
+    <g
+       id="bar-inactive-topright"
+       class="ColorScheme-ButtonBackground">
+      <rect
+         id="rect19"
+         width="2"
+         height="2"
+         x="17"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade5)" />
+      <rect
+         id="rect20"
+         width="1"
+         height="1"
+         x="17"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade3)" />
+    </g>
+    <g
+       id="bar-inactive-bottomright"
+       class="ColorScheme-ButtonBackground">
+      <rect
+         id="rect21"
+         width="2"
+         height="2"
+         x="17"
+         y="17"
+         fill="currentColor"
+         filter="url(#shade5)" />
+      <rect
+         id="rect22"
+         width="1"
+         height="1"
+         x="17"
+         y="17"
+         fill="currentColor"
+         filter="url(#shade3)" />
+    </g>
+    <rect
+       id="bar-active-center"
+       width="12"
+       height="12"
+       x="24"
+       y="5"
+       class="ColorScheme-ButtonBackground"
+       fill="url(#lightnessMap)"
+       filter="url(#colorise)"
+       style="fill:url(#lightnessMap)" />
+    <g
+       id="bar-active-top"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect23"
+         width="12"
+         height="1"
+         x="24"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect24"
+         width="12"
+         height="1"
+         x="24"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="bar-active-left"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect25"
+         width="1"
+         height="12"
+         x="22"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect26"
+         width="1"
+         height="12"
+         x="23"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="bar-active-bottom"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect27"
+         width="12"
+         height="1"
+         x="24"
+         y="17"
+         fill="currentColor"
+         filter="url(#spots1)" />
+      <rect
+         id="rect28"
+         width="12"
+         height="1"
+         x="24"
+         y="18"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="bar-active-right"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect29"
+         width="1"
+         height="12"
+         x="36"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots1)" />
+      <rect
+         id="rect30"
+         width="1"
+         height="12"
+         x="37"
+         y="5"
+         fill="currentColor"
+         filter="url(#spots2)" />
+    </g>
+    <g
+       id="bar-active-topleft"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect32"
+         width="2"
+         height="2"
+         x="22"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect33"
+         width="1"
+         height="1"
+         x="23"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="bar-active-bottomleft"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect35"
+         width="2"
+         height="2"
+         x="22"
+         y="17"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect36"
+         width="1"
+         height="1"
+         x="23"
+         y="17"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <g
+       id="bar-active-bottomright"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect37"
+         width="2"
+         height="2"
+         x="36"
+         y="17"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect38"
+         width="1"
+         height="1"
+         x="36"
+         y="17"
+         fill="currentColor"
+         filter="url(#spots1)" />
+    </g>
+    <g
+       id="bar-active-topright"
+       class="ColorScheme-Highlight">
+      <rect
+         id="rect39"
+         width="2"
+         height="2"
+         x="36"
+         y="3"
+         fill="currentColor"
+         filter="url(#spots2)" />
+      <rect
+         id="rect40"
+         width="1"
+         height="1"
+         x="36"
+         y="4"
+         fill="currentColor"
+         filter="url(#spots0)" />
+    </g>
+    <rect
+       style="fill:#ff0000"
+       id="hint-bar-size"
+       width="20"
+       height="20"
+       x="3"
+       y="22" />
+    <rect
+       style="fill:#ff0000"
+       id="hint-bar-stretch"
+       width="4"
+       height="4"
+       x="26"
+       y="22" />
+  </g>
+</svg>
