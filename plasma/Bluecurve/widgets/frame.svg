@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="69"
+   height="25"
+   viewBox="0 0 69 25"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   sodipodi:docname="frame.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#e6e6e6"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="16.408369"
+     inkscape:cx="20.416411"
+     inkscape:cy="12.859291"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14902"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <style
+       id="current-color-scheme"
+       type="text/css">
+	  .ColorScheme-Background { color:#e6e6e6; }
+	</style>
+    <filter
+       id="mediumBorderColor"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="0.7 0     0     0   0         0     0.7 0     0   0         0     0     0.7 0   0         0     0     0     1   0"
+         id="feColorMatrix1" />
+    </filter>
+    <filter
+       id="shade0"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="1.065 0     0     0   0         0     1.065 0     0   0         0     0     1.065 0   0         0     0     0     1   0"
+         id="feColorMatrix2" />
+    </filter>
+    <filter
+       id="shade1"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="0.963 0     0     0   0         0     0.963 0     0   0         0     0     0.963 0   0         0     0     0     1   0"
+         id="feColorMatrix3" />
+    </filter>
+    <filter
+       id="shade3"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         type="matrix"
+         values="0.85 0     0     0   0         0     0.85 0     0   0         0     0     0.85 0   0         0     0     0     1   0"
+         id="feColorMatrix4" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     class="ColorScheme-Background">
+    <rect
+       id="sunken-center"
+       width="15"
+       height="15"
+       x="5"
+       y="5"
+       fill="currentColor" />
+    <g
+       id="sunken-top">
+      <rect
+         id="rect1"
+         width="15"
+         height="1"
+         x="5"
+         y="3"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect2"
+         width="15"
+         height="1"
+         x="5"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade1)" />
+    </g>
+    <g
+       id="sunken-left">
+      <rect
+         id="rect3"
+         width="1"
+         height="15"
+         x="3"
+         y="5"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect4"
+         width="1"
+         height="15"
+         x="4"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade1)" />
+    </g>
+    <g
+       id="sunken-bottom">
+      <rect
+         id="rect5"
+         width="15"
+         height="1"
+         x="5"
+         y="20"
+         fill="#ffffff" />
+      <rect
+         id="rect6"
+         width="15"
+         height="1"
+         x="5"
+         y="21"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+    </g>
+    <g
+       id="sunken-right">
+      <rect
+         id="rect7"
+         width="1"
+         height="15"
+         x="20"
+         y="5"
+         fill="#ffffff" />
+      <rect
+         id="rect8"
+         width="1"
+         height="15"
+         x="21"
+         y="5"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+    </g>
+    <g
+       id="sunken-topleft">
+      <rect
+         id="rect9"
+         width="2"
+         height="2"
+         x="3"
+         y="3"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect10"
+         width="1"
+         height="1"
+         x="4"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade1)" />
+    </g>
+    <g
+       id="g1">
+      <rect
+         id="rect11"
+         width="2"
+         height="2"
+         x="3"
+         y="20"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect12"
+         width="1"
+         height="1"
+         x="4"
+         y="20"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="sunken-bottomright">
+      <rect
+         id="rect13"
+         width="2"
+         height="2"
+         x="20"
+         y="20"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect14"
+         width="1"
+         height="1"
+         x="20"
+         y="20"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="sunken-topright">
+      <rect
+         id="rect15"
+         width="2"
+         height="2"
+         x="20"
+         y="3"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect16"
+         width="1"
+         height="1"
+         x="20"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <rect
+       style="fill:#ff0000"
+       id="sunken-hint-top-margin"
+       width="1"
+       height="4"
+       x="12"
+       y="3" />
+    <rect
+       style="fill:#ff0000"
+       id="sunken-hint-right-margin"
+       width="4"
+       height="1"
+       x="18"
+       y="12" />
+    <rect
+       style="fill:#ff0000"
+       id="sunken-hint-bottom-margin"
+       width="1"
+       height="4"
+       x="12"
+       y="18" />
+    <rect
+       style="fill:#ff0000"
+       id="sunken-hint-left-margin"
+       width="4"
+       height="1"
+       x="3"
+       y="12" />
+    <rect
+       id="plain-center"
+       width="15"
+       height="15"
+       x="27"
+       y="5"
+       fill="currentColor" />
+    <g
+       id="plain-top">
+      <rect
+         id="rect17"
+         width="15"
+         height="1"
+         x="27"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect18"
+         width="15"
+         height="1"
+         x="27"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade0)" />
+    </g>
+    <g
+       id="plain-left">
+      <rect
+         id="rect19"
+         width="1"
+         height="15"
+         x="25"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect20"
+         width="1"
+         height="15"
+         x="26"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade0)" />
+    </g>
+    <g
+       id="plain-bottom">
+      <rect
+         id="rect21"
+         width="15"
+         height="1"
+         x="27"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect22"
+         width="15"
+         height="1"
+         x="27"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade0)" />
+    </g>
+    <g
+       id="plain-right">
+      <rect
+         id="rect24"
+         width="1"
+         height="15"
+         x="42"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect25"
+         width="1"
+         height="15"
+         x="43"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade0)" />
+    </g>
+    <g
+       id="plain-topleft">
+      <rect
+         id="rect26"
+         width="2"
+         height="2"
+         x="25"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect27"
+         width="1"
+         height="1"
+         x="26"
+         y="4"
+         fill="currentColor"
+         filter="url(#shade0)" />
+    </g>
+    <g
+       id="plain-bottomleft">
+      <rect
+         id="rect29"
+         width="2"
+         height="1"
+         x="25"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect30"
+         width="2"
+         height="1"
+         x="25"
+         y="21"
+         fill="currentColor"
+         filter="url(#shade0)" />
+    </g>
+    <g
+       id="plain-bottomright">
+      <rect
+         id="rect31"
+         width="2"
+         height="2"
+         x="42"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade0)" />
+      <rect
+         id="rect32"
+         width="1"
+         height="1"
+         x="42"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade3)" />
+    </g>
+    <g
+       id="plain-topright">
+      <rect
+         id="rect35"
+         width="1"
+         height="2"
+         x="42"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade3)" />
+      <rect
+         id="rect36"
+         width="1"
+         height="2"
+         x="43"
+         y="3"
+         fill="currentColor"
+         filter="url(#shade0)" />
+    </g>
+    <rect
+       style="fill:#ff0000"
+       id="plain-hint-top-margin"
+       width="1"
+       height="4"
+       x="34"
+       y="3" />
+    <rect
+       style="fill:#ff0000"
+       id="plain-hint-bottom-margin"
+       width="1"
+       height="4"
+       x="34"
+       y="18" />
+    <rect
+       style="fill:#ff0000"
+       id="plain-hint-left-margin"
+       width="4"
+       height="1"
+       x="25"
+       y="12" />
+    <rect
+       style="fill:#ff0000"
+       id="plain-hint-right-margin"
+       width="4"
+       height="1"
+       x="40"
+       y="12" />
+    <rect
+       id="raised-center"
+       width="15"
+       height="15"
+       x="49"
+       y="5"
+       fill="currentColor" />
+    <g
+       id="raised-top">
+      <rect
+         id="rect37"
+         width="15"
+         height="1"
+         x="49"
+         y="4"
+         fill="#ffffff" />
+      <rect
+         id="rect38"
+         width="15"
+         height="1"
+         x="49"
+         y="3"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+    </g>
+    <g
+       id="raised-left">
+      <rect
+         id="rect39"
+         width="1"
+         height="15"
+         x="48"
+         y="5"
+         fill="#ffffff" />
+      <rect
+         id="rect40"
+         width="1"
+         height="15"
+         x="47"
+         y="5"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+    </g>
+    <g
+       id="raised-bottom">
+      <rect
+         id="rect41"
+         width="15"
+         height="1"
+         x="49"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade1)" />
+      <rect
+         id="rect42"
+         width="15"
+         height="1"
+         x="49"
+         y="21"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+    </g>
+    <g
+       id="raised-right">
+      <rect
+         id="rect43"
+         width="1"
+         height="15"
+         x="64"
+         y="5"
+         fill="currentColor"
+         filter="url(#shade1)" />
+      <rect
+         id="rect44"
+         width="1"
+         height="15"
+         x="65"
+         y="5"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+    </g>
+    <g
+       id="raised-topleft">
+      <rect
+         id="rect45"
+         width="2"
+         height="2"
+         x="47"
+         y="3"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect46"
+         width="1"
+         height="1"
+         x="48"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="raised-bottomleft">
+      <rect
+         id="rect47"
+         width="2"
+         height="2"
+         x="47"
+         y="20"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect48"
+         width="1"
+         height="1"
+         x="48"
+         y="20"
+         fill="#ffffff" />
+    </g>
+    <g
+       id="raised-bottomright">
+      <rect
+         id="rect49"
+         width="2"
+         height="2"
+         x="64"
+         y="20"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect50"
+         width="1"
+         height="1"
+         x="64"
+         y="20"
+         fill="currentColor"
+         filter="url(#shade1)" />
+    </g>
+    <g
+       id="raised-topright">
+      <rect
+         id="rect51"
+         width="2"
+         height="2"
+         x="64"
+         y="3"
+         fill="currentColor"
+         filter="url(#mediumBorderColor)" />
+      <rect
+         id="rect52"
+         width="1"
+         height="1"
+         x="64"
+         y="4"
+         fill="#ffffff" />
+    </g>
+    <rect
+       style="fill:#ff0000"
+       id="raised-hint-top-margin"
+       width="1"
+       height="4"
+       x="56"
+       y="3" />
+    <rect
+       style="fill:#ff0000"
+       id="raised-hint-left-margin"
+       width="4"
+       height="1"
+       x="47"
+       y="12" />
+    <rect
+       style="fill:#ff0000"
+       id="raised-hint-bottom-margin"
+       width="1"
+       height="4"
+       x="56"
+       y="18" />
+    <rect
+       style="fill:#ff0000"
+       id="raised-hint-right-margin"
+       width="4"
+       height="1"
+       x="62"
+       y="12" />
+  </g>
+</svg>
