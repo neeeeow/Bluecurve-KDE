@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.16)
 
 project(bluecurve-kdecoration LANGUAGES CXX)
 
-set(KF6_MIN_VERSION "6.18.0")
-set(QT_MIN_VERSION "6.9.0")
+set(KF6_MIN_VERSION "6.0.0")
+set(QT_MIN_VERSION "6.0.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 set(CMAKE_CXX_STANDARD 20)
@@ -20,6 +20,7 @@ include(KDEClangFormat)
 include(KDEGitCommitHooks)
 include(KDEInstallDirs6)
 include(KDECMakeSettings)
+include(GNUInstallDirs)
 
 # Qt/KF includes
 find_package(Qt6 REQUIRED COMPONENTS DBus Widgets Core)
@@ -43,3 +44,5 @@ target_link_libraries(bluecurve-decoration
 )
 
 install(TARGETS bluecurve-decoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/${KDECORATION_PLUGIN_DIR})
+install(DIRECTORY plasma/Bluecurve DESTINATION ${KDE_INSTALL_DATADIR}/plasma/desktoptheme)
+install(DIRECTORY gtk/Bluecurve-KDE DESTINATION ${CMAKE_INSTALL_DATADIR}/themes)
