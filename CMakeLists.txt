@@ -26,6 +26,14 @@ find_package(Qt6 REQUIRED COMPONENTS DBus Widgets Core)
 find_package(KF6 REQUIRED COMPONENTS CoreAddons)
 find_package(KDecoration3 REQUIRED)
 
+# Set up GTK 3 (needed for installation directories)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTK3 gtk+-3.0)
+if (NOT GTK3_FOUND)
+  message(FATAL_ERROR "GTK 3 development libraries were not found.")
+endif()
+pkg_get_variable(GTK3_PREFIX gtk+-3.0 prefix)
+
 add_library(bluecurve-decoration MODULE
   kwin/bluecurvedecoration.cpp
 )
@@ -44,4 +52,4 @@ target_link_libraries(bluecurve-decoration
 
 install(TARGETS bluecurve-decoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/${KDECORATION_PLUGIN_DIR})
 install(DIRECTORY plasma/Bluecurve DESTINATION ${KDE_INSTALL_DATADIR}/plasma/desktoptheme)
-install(DIRECTORY gtk/Bluecurve-KDE DESTINATION ${CMAKE_INSTALL_DATADIR}/themes)
+install(DIRECTORY gtk/Bluecurve-KDE DESTINATION ${GTK3_PREFIX}/share/themes)
