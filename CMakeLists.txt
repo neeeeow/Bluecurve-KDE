@@ -20,7 +20,6 @@ include(KDEClangFormat)
 include(KDEGitCommitHooks)
 include(KDEInstallDirs6)
 include(KDECMakeSettings)
-include(GNUInstallDirs)
 
 # Qt/KF includes
 find_package(Qt6 REQUIRED COMPONENTS DBus Widgets Core)
