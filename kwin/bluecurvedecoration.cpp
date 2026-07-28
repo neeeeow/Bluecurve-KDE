@@ -87,7 +87,7 @@ expAlphaGradient(QPixmap &pixmap, const QColor &c,
 	int r, g, b, alpha0;
 	c.getRgb(&r, &g, &b, &alpha0);
 
-	const qreal k = 2; // decay constant
+	const qreal k = 2.5; // decay constant
 	const int stops = 20; // number of stops in the gradient
 
 	QPainter painter(&pixmap);
