@@ -462,6 +462,9 @@ BluecurveDecoration::updateButtonsGeometry()
 		button->setGeometry(QRectF(0, 0, m_buttonSize + 3, m_buttonSize));
 	}
 
+	m_leftButtons->setSpacing(1);
+	m_rightButtons->setSpacing(1);
+
 	if (window()->isMaximized()) {
 		m_leftButtons->setPos(QPointF(0, TOP_GRABBAR_WIDTH));
 		m_rightButtons->setPos(QPointF(size().width() - m_rightButtons->geometry().width() - 1, TOP_GRABBAR_WIDTH));
