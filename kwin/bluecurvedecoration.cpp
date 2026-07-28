@@ -245,11 +245,11 @@ BluecurveDecoration::init()
 
 	// Add / remove borders when maximized state is changed
 	connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateBorders);
+	connect(this, &KDecoration3::Decoration::bordersChanged, this, &BluecurveDecoration::updateButtonsGeometry);
 	
 	// Button signals. as a reminder: update() and updateTitleBar() is called in updateButtonsGeometry
 	connect(window(), &KDecoration3::DecoratedWindow::sizeChanged, this, &BluecurveDecoration::updateButtonsGeometry);
 	connect(window(), &KDecoration3::DecoratedWindow::widthChanged, this, &BluecurveDecoration::updateButtonsGeometry);
-    connect(window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
     connect(window(), &KDecoration3::DecoratedWindow::adjacentScreenEdgesChanged, this, &BluecurveDecoration::updateButtonsGeometry);
     connect(window(), &KDecoration3::DecoratedWindow::shadedChanged, this, &BluecurveDecoration::updateButtonsGeometry);
 	
@@ -457,13 +457,13 @@ BluecurveDecoration::updateButtonsGeometryDelayed()
 void
 BluecurveDecoration::updateButtonsGeometry()
 {
+	if (!m_leftButtons || !m_rightButtons)
+		return;
+	
 	const auto buttons = m_leftButtons->buttons() + m_rightButtons->buttons();
 	for (auto *button : buttons) {
 		button->setGeometry(QRectF(0, 0, m_buttonSize + 3, m_buttonSize));
 	}
-
-	m_leftButtons->setSpacing(1);
-	m_rightButtons->setSpacing(1);
 
 	if (window()->isMaximized()) {
 		m_leftButtons->setPos(QPointF(0, TOP_GRABBAR_WIDTH));
@@ -602,7 +602,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	}
 
 	// Draw button separators
-	if (window()->isActive()) {
+	if (window()->isActive() && m_leftButtons && m_rightButtons) {
 		const auto buttonList = m_leftButtons->buttons() + m_rightButtons->buttons();
 		for (KDecoration3::DecorationButton *button : buttonList) {
 			if (!button)
@@ -647,8 +647,10 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	}
 
 	// Paint the buttons on to the title buffer
-	m_leftButtons->paint(&p2, repaintRegion);
-	m_rightButtons->paint(&p2, repaintRegion);
+	if (m_leftButtons)
+		m_leftButtons->paint(&p2, repaintRegion);
+	if (m_rightButtons)
+		m_rightButtons->paint(&p2, repaintRegion);
 
 	p2.end();
 
