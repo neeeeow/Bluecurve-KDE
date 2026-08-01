@@ -493,15 +493,12 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	QColor activeDarkColor = shade(activeWindowColor, 0.7);
 	QColor activeButtonColor(window()->color(QPalette::Active, QPalette::Button));
 	QColor activeButtonDark = shade(activeButtonColor, 0.7);
-	
-	bool drawLeftDivider = true; 
-	bool drawRightDivider = true;
 
 	// Obtain widget bounds for buffer painting
 	int w  = rect().width();
 	int h  = rect().height();
 	
-	// Rectangle over which we paint the titlebar decoration
+	// Rectangle over which we paint the titlebar decoration (which includes 1px of the grabbar, and excludes the separators
 	QRectF r(titleBar().adjusted(1,-1,-1,0));
 
 	// Buffer for the decoration (allows us to avoid weird coordinate issues)
@@ -512,7 +509,7 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	// very early before drawing begins so there is no lag
 	// during painting pixels.
 	QPixmap titleBuffer = QPixmap(w, m_titleHeight + TOP_GRABBAR_WIDTH + 1);
-	titleBuffer.fill(Qt::red);
+	titleBuffer.fill(window()->isActive() ? activeTitleColor : inactiveTitleColor);
 
 	QPainter p2(&titleBuffer);
 
@@ -607,20 +604,9 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 		for (KDecoration3::DecorationButton *button : buttonList) {
 			if (!button)
 				continue;
-			
-			bool isLeftButtonRight = (!m_leftButtons->buttons().isEmpty() &&
-								 button == m_leftButtons->buttons().last());
+
 			bool isButtonRight = (!m_rightButtons->buttons().isEmpty() &&
 								  button == m_rightButtons->buttons().last());
-
-			if (!button->isVisible()) {
-				if (isButtonRight)
-					drawRightDivider = false;
-				// FIXME: Should be LeftButtonLeft if we had it
-				if (isLeftButtonRight)
-					drawLeftDivider = false;
-				continue;
-			}
 						
 			if ((! window()->isMaximized()) && isButtonRight)
 				continue;
@@ -636,14 +622,14 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	p2.setPen(window()->isActive() ? blend(activeTitleColor, Qt::black, 0.4) :
 			  blend(inactiveTitleColor, window()->color(KDecoration3::ColorGroup::Inactive,
 														KDecoration3::ColorRole::Foreground), 0.3));
-	if (drawLeftDivider)
+	if (m_leftButtons && !m_leftButtons->buttons().isEmpty())
 	{
-		p2.drawLine (titleBar().x() , 1, titleBar().x() , m_titleHeight + TOP_GRABBAR_WIDTH);
+		p2.drawLine (titleBar().left() , 1, titleBar().left() , m_titleHeight + TOP_GRABBAR_WIDTH);
 	}
-	if (drawRightDivider)
+	if (m_rightButtons && !m_rightButtons->buttons().isEmpty())
 	{
-		p2.drawLine (titleBar().x() + titleBar().width() - 1, 1,
-					 titleBar().x() + titleBar().width() - 1 , m_titleHeight + TOP_GRABBAR_WIDTH);
+		p2.drawLine (titleBar().right() - 1, 1,
+					 titleBar().right() - 1 , m_titleHeight + TOP_GRABBAR_WIDTH);
 	}
 
 	// Paint the buttons on to the title buffer
