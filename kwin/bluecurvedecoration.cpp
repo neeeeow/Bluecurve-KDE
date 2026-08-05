@@ -39,10 +39,7 @@
 
 #define BORDER_WIDTH      6
 #define CORNER_HEIGHT     22
-
-#define BUTTON_DIAM       12
 #define TOP_GRABBAR_WIDTH 2
-#define BOTTOM_CORNER     5
 
 #define INTENSITY(r, g, b) ((r) * 0.30 + (g) * 0.59 + (b) * 0.11)
 
@@ -291,8 +288,8 @@ BluecurveDecoration::createPixmaps()
 	titlePix.fill(Qt::transparent);
 	stipplePainter.begin(&titlePix);
 
-	for(y = 0; y < (m_titleHeight-3); y++) {
-		for(x = (3 - y) % 5; x < 125; x += 5) {			
+	for(y = 0; y < titlePix.height(); y++) {
+		for(x = (3 - y) % 5; x < titlePix.width(); x += 5) {			
 			stipplePainter.setPen(QColor(2,2,2,116));
 			stipplePainter.drawPoint(x,y);
 			stipplePainter.setPen(QColor(242,242,242,94));
