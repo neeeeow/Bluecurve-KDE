@@ -10,6 +10,9 @@
 #include <QBitmap>
 #include <QPixmap>
 
+#define TOP_GRABBAR_WIDTH     2
+#define TITLEBAR_BORDER_WIDTH 1
+
 class BluecurveDecoration : public KDecoration3::Decoration
 {
 	Q_OBJECT
@@ -45,6 +48,10 @@ private:
 	void updateTitleBar();
 	void updateButtonsGeometryDelayed();
 	void updateButtonsGeometry();
+
+	inline int calcTopBorder() const {
+		return m_titleHeight + TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH;
+	}
 };
 
 class BluecurveButton : public KDecoration3::DecorationButton
