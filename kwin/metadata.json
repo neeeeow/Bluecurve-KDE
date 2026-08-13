@@ -1,6 +1,6 @@
 {
 	"KPlugin": {
-		"Id": "org.kde.bluecurve",
+		"Id": "com.github.neeeeow.bluecurve",
 		"Name": "Bluecurve",
 		"ServiceTypes": ["org.kde.kdecoration3"]
 	},

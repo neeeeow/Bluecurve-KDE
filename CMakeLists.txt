@@ -44,7 +44,6 @@ set_target_properties(bluecurve-decoration PROPERTIES
 
 target_link_libraries(bluecurve-decoration
   PRIVATE
-  Qt6::DBus
   Qt6::Widgets
   KF6::CoreAddons
   KDecoration3::KDecoration

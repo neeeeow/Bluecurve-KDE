@@ -1,11 +1,9 @@
 #pragma once
 
-#include <KDecoration3/DecoratedWindow>
 #include <KDecoration3/Decoration>
 #include <KDecoration3/DecorationButton>
 #include <KDecoration3/DecorationButtonGroup>
 
-#include <QMargins>
 #include <QVariant>
 #include <QBitmap>
 #include <QPixmap>
@@ -19,7 +17,7 @@ class BluecurveDecoration : public KDecoration3::Decoration
 
 public:
 	explicit BluecurveDecoration(QObject *parent = nullptr, const QVariantList &args = QVariantList());
-	~BluecurveDecoration() override;
+	~BluecurveDecoration() override = default;
 
 	bool init() override;
 	void paint(QPainter *p, const QRectF &repaintRegion) override;

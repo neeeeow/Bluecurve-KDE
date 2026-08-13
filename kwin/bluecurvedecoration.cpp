@@ -28,12 +28,12 @@
 #include "bluecurvedecoration.h"
 #include "bitmaps.h"
 
-#include <KDecoration3/Decoration>
 #include <KDecoration3/DecorationSettings>
+#include <KDecoration3/DecoratedWindow>
 #include <KPluginFactory>
 
+#include <QMargins>
 #include <QPainter>
-#include <QBitmap>
 #include <QTimer>
 #include <qdrawutil.h>
 
@@ -204,10 +204,7 @@ getScaledRect(const QRectF &rect, const qreal dpr)
 
 BluecurveDecoration::BluecurveDecoration(QObject *parent, const QVariantList &args) : KDecoration3::Decoration(parent, args)
 {
-
 }
-
-BluecurveDecoration::~BluecurveDecoration() = default;
 
 bool
 BluecurveDecoration::init()
@@ -485,7 +482,9 @@ BluecurveDecoration::updateButtonsGeometry()
 
 void
 BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
-{	
+{
+	Q_UNUSED(repaintRegion);
+	
 	// Disable antialiasing
 	p->setRenderHint(QPainter::Antialiasing, false);
 	
@@ -829,6 +828,8 @@ BluecurveButton::onMaximizedChanged()
 void
 BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 {
+	Q_UNUSED(repaintRegion);
+	
 	const qreal scale = decoration()->window()->scale();
 	QRectF geometryScaled = getScaledRect(geometry(), scale);   
 
