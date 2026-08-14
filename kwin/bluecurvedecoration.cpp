@@ -489,10 +489,6 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	// Rectangle over which we paint the titlebar decoration (which includes 1px of the grabbar, and excludes the separators
 	QRectF r(titleBarScaled.adjusted(1,-1,-1,0));
 
-	// Buffer for the decoration (allows us to avoid weird coordinate issues)
-	QPixmap decoBuffer = QPixmap(w, h);
-	decoBuffer.fill(Qt::transparent);
-
 	// Create a disposable pixmap buffer for the titlebar
 	// very early before drawing begins so there is no lag
 	// during painting pixels.
@@ -658,88 +654,80 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 		titleBuffer.setMask(titleMask);
 	}
 
-	QPainter p1(&decoBuffer); // Painter for the main decoration buffer
-	
-	p1.drawPixmap(0, 0, titleBuffer); // Paint the title buffer
-
+	p->save();
+	p->translate(-rect().x(), -rect().y());
+	p->scale(1/scale, 1/scale);  
+	p->drawPixmap(0, 0, titleBuffer); // Paint the title buffer
 	if (! window()->isMaximized()) {
 		// Draw the border bevel
 		int sideStart = titleBarScaled.height() + TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH;
 
 		// Left border bevel
-		p1.fillRect(1, sideStart, BORDER_WIDTH, h - CORNER_HEIGHT - sideStart, activeWindowColor);
-		p1.setPen(blend(activeLightColor, Qt::white, 0.7));
-		p1.drawLine(1, sideStart, 1, h-CORNER_HEIGHT);
-		p1.setPen(activeDarkColor);
-		p1.drawLine(BORDER_WIDTH-1, sideStart, BORDER_WIDTH-1, h - CORNER_HEIGHT);
+		p->fillRect(1, sideStart, BORDER_WIDTH, h - CORNER_HEIGHT - sideStart, activeWindowColor);
+		p->setPen(blend(activeLightColor, Qt::white, 0.7));
+		p->drawLine(1, sideStart, 1, h-CORNER_HEIGHT);
+		p->setPen(activeDarkColor);
+		p->drawLine(BORDER_WIDTH-1, sideStart, BORDER_WIDTH-1, h - CORNER_HEIGHT);
 	
 		// Bottom border bevel
-		p1.fillRect(CORNER_HEIGHT, h - BORDER_WIDTH, w - 2*CORNER_HEIGHT, BORDER_WIDTH, activeWindowColor);
-		p1.setPen(blend(activeWindowColor, Qt::black, 0.2));
-		p1.drawLine(CORNER_HEIGHT, h-2, w - CORNER_HEIGHT, h-2);
-		p1.setPen(blend(activeLightColor, Qt::white, 0.7));
-		p1.drawLine(CORNER_HEIGHT, h - BORDER_WIDTH + 1, w - CORNER_HEIGHT, h - BORDER_WIDTH + 1);
-		p1.setPen(activeDarkColor);
-		p1.drawLine(CORNER_HEIGHT, h - BORDER_WIDTH, w - CORNER_HEIGHT, h - BORDER_WIDTH);
+		p->fillRect(CORNER_HEIGHT, h - BORDER_WIDTH, w - 2*CORNER_HEIGHT, BORDER_WIDTH, activeWindowColor);
+		p->setPen(blend(activeWindowColor, Qt::black, 0.2));
+		p->drawLine(CORNER_HEIGHT, h-2, w - CORNER_HEIGHT, h-2);
+		p->setPen(blend(activeLightColor, Qt::white, 0.7));
+		p->drawLine(CORNER_HEIGHT, h - BORDER_WIDTH + 1, w - CORNER_HEIGHT, h - BORDER_WIDTH + 1);
+		p->setPen(activeDarkColor);
+		p->drawLine(CORNER_HEIGHT, h - BORDER_WIDTH, w - CORNER_HEIGHT, h - BORDER_WIDTH);
 
 		// Right border bevel
-		p1.fillRect(w - BORDER_WIDTH, sideStart, BORDER_WIDTH, h - CORNER_HEIGHT - sideStart, activeWindowColor);
-		p1.setPen(activeDarkColor);
-		p1.drawLine(w - BORDER_WIDTH, sideStart, w - BORDER_WIDTH, h - CORNER_HEIGHT);
-		p1.setPen(blend(activeLightColor, Qt::white, 0.7));
-		p1.drawLine(w - BORDER_WIDTH + 1, sideStart, w - BORDER_WIDTH + 1, h - CORNER_HEIGHT);
-		p1.setPen(blend(activeWindowColor, Qt::black, 0.2));
-		p1.drawLine(w-2, sideStart, w-2, h - CORNER_HEIGHT);
+		p->fillRect(w - BORDER_WIDTH, sideStart, BORDER_WIDTH, h - CORNER_HEIGHT - sideStart, activeWindowColor);
+		p->setPen(activeDarkColor);
+		p->drawLine(w - BORDER_WIDTH, sideStart, w - BORDER_WIDTH, h - CORNER_HEIGHT);
+		p->setPen(blend(activeLightColor, Qt::white, 0.7));
+		p->drawLine(w - BORDER_WIDTH + 1, sideStart, w - BORDER_WIDTH + 1, h - CORNER_HEIGHT);
+		p->setPen(blend(activeWindowColor, Qt::black, 0.2));
+		p->drawLine(w-2, sideStart, w-2, h - CORNER_HEIGHT);
 	
 		// Draw the black border edges
-		p1.setPen(Qt::black);
+		p->setPen(Qt::black);
 
 		// Sides
-		p1.drawLine(w-1, 5, w-1, h-6);
-		p1.drawLine(0, 5, 0, h-6);
+		p->drawLine(w-1, 5, w-1, h-6);
+		p->drawLine(0, 5, 0, h-6);
 
 		// Top/bottom
-		p1.drawLine(5, 0, w-6, 0);
-		p1.drawLine(5, h-1, w-6, h-1);
+		p->drawLine(5, 0, w-6, 0);
+		p->drawLine(5, h-1, w-6, h-1);
 
 		// Top left corner
-		p1.drawLine(4, 1, 3, 1);
-		p1.drawPoint(2, 2);
-		p1.drawLine(1, 3, 1, 4);
+		p->drawLine(4, 1, 3, 1);
+		p->drawPoint(2, 2);
+		p->drawLine(1, 3, 1, 4);
 
 		// Top right corner
-		p1.drawLine(w-5, 1, w-4, 1);
-		p1.drawPoint(w-3, 2);
-		p1.drawLine(w-2, 3, w-2, 4);
+		p->drawLine(w-5, 1, w-4, 1);
+		p->drawPoint(w-3, 2);
+		p->drawLine(w-2, 3, w-2, 4);
 
 		// Bottom left corner
-		p1.drawLine(4, h-2, 3, h-2);
-		p1.drawPoint(2, h-3);
-		p1.drawLine(1, h-4, 1, h-5);
+		p->drawLine(4, h-2, 3, h-2);
+		p->drawPoint(2, h-3);
+		p->drawLine(1, h-4, 1, h-5);
 
 		// Bottom right corner
-		p1.drawLine(w-5, h-2, w-4, h-2);
-		p1.drawPoint(w-3, h-3);
-		p1.drawLine(w-2, h-4, w-2, h-5);
+		p->drawLine(w-5, h-2, w-4, h-2);
+		p->drawPoint(w-3, h-3);
+		p->drawLine(w-2, h-4, w-2, h-5);
 
 		// Put on the bottom corners
-		p1.drawPixmap(0, h - bottomLeftPix.height(),
+		p->drawPixmap(0, h - bottomLeftPix.height(),
 					  window()->isActive() ? abottomLeftPix : bottomLeftPix);
-		p1.drawPixmap(w - bottomRightPix.width(), h - bottomRightPix.height(), 
+		p->drawPixmap(w - bottomRightPix.width(), h - bottomRightPix.height(), 
 					  window()->isActive() ? abottomRightPix : bottomRightPix);
 	} else {
 		// If the window is maximized, just draw a black border along the top
-		p1.setPen(Qt::black);
-		p1.drawLine(0, 0, w, 0);
-	}
-
-	p1.end();
-
-	p->save();
-	p->scale(1/scale, 1/scale);
-	
-	// Draw the decoration buffer
-	p->drawPixmap(rect().x(),rect().y(), decoBuffer);
+		p->setPen(Qt::black);
+		p->drawLine(0, 0, w, 0);
+	} 
 
 	p->restore();
 }
