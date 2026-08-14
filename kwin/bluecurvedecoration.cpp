@@ -45,8 +45,6 @@
 /* these pixmaps are needed across every button, so we just store them globally for convenience */
 QPixmap pinDownPix;
 QPixmap pinUpPix;
-QPixmap ipinDownPix;
-QPixmap ipinUpPix;
 
 QPixmap btnPix;
 QPixmap ibtnPix;
@@ -350,27 +348,6 @@ BluecurveDecoration::createPixmaps()
 	pinDownPix.setMask(QBitmap::fromData(
 						  QSize(14, 14),
 						  pindown_mask_bits, QImage::Format_MonoLSB));
-
-	// Inactive pins
-	ipinUpPix = QPixmap(14, 14);
-	ipinUpPix.fill(Qt::transparent);
-	p.begin( &ipinUpPix );
-	colorBitmaps( &p, palette, 0, 0, 14, 14, true, pinup_white_bits,
-				  pinup_gray_bits, NULL, NULL, pinup_dgray_bits, NULL );
-	p.end();
-	ipinUpPix.setMask(QBitmap::fromData(
-						   QSize(14, 14),
-						   pinup_mask_bits, QImage::Format_MonoLSB));
-
-	ipinDownPix = QPixmap(14, 14);
-	ipinDownPix.fill(Qt::transparent);
-	p.begin( &ipinDownPix );
-	colorBitmaps( &p, palette, 0, 0, 14, 14, true, pindown_white_bits,
-				  pindown_gray_bits, NULL, NULL, pindown_dgray_bits, NULL );
-	p.end();
-	ipinDownPix.setMask(QBitmap::fromData(
-							 QSize(14, 14),
-							 pindown_mask_bits, QImage::Format_MonoLSB));
 
 	// Cache all possible button states
 	btnPix = QPixmap(qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH + 3, qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH);
@@ -887,10 +864,7 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 		QPixmap icon;
 		int xOff, yOff;
 		if (type() == KDecoration3::DecorationButtonType::OnAllDesktops) {
-			if (decoration()->window()->isActive())
-				icon = isChecked() ? pinDownPix : pinUpPix;
-			else
-				icon = isChecked() ? ipinDownPix : ipinUpPix;
+			icon = isChecked() ? pinDownPix : pinUpPix;
 			xOff = (w-14)/2;
 			yOff = (h-14)/2 - 1;
 		} else {
