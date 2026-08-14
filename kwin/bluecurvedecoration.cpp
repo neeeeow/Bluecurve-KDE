@@ -194,10 +194,10 @@ colorBitmaps(QPainter *p, const QPalette &palette, int x, int y, int w,
 	}
 }
 
-static QRectF
+static QRect
 getScaledRect(const QRectF &rect, const qreal dpr)
 {
-	return QRectF(qRound(rect.x() * dpr), qRound(rect.y() * dpr), qRound(rect.width() * dpr), qRound(rect.height() * dpr));
+	return QRect(qRound(rect.x() * dpr), qRound(rect.y() * dpr), qRound(rect.width() * dpr), qRound(rect.height() * dpr));
 }
 
 BluecurveDecoration::BluecurveDecoration(QObject *parent, const QVariantList &args) : KDecoration3::Decoration(parent, args)
@@ -484,10 +484,10 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	int h  = qRound(rect().height() * scale);
 
 	// Scaled titlebar area
-	QRectF titleBarScaled = getScaledRect(titleBar(), scale);
+	QRect titleBarScaled = getScaledRect(titleBar(), scale);
 	
 	// Rectangle over which we paint the titlebar decoration (which includes 1px of the grabbar, and excludes the separators
-	QRectF r(titleBarScaled.adjusted(1,-1,-1,0));
+	QRect r(titleBarScaled.adjusted(1,-1,-1,0));
 
 	// Create a disposable pixmap buffer for the titlebar
 	// very early before drawing begins so there is no lag
@@ -602,10 +602,10 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 			if ((! window()->isMaximized()) && isButtonRight)
 				continue;
 
-			QRectF buttonRect = getScaledRect(button->geometry(), scale);
+			QRect buttonRect = getScaledRect(button->geometry(), scale);
 			p2.setPen(activeButtonDark);
-			p2.drawLine (buttonRect.right(), TOP_GRABBAR_WIDTH - 1,
-						 buttonRect.right(), TOP_GRABBAR_WIDTH + titleBarScaled.height());
+			p2.drawLine (buttonRect.right() + 1, TOP_GRABBAR_WIDTH - 1,
+						 buttonRect.right() + 1, TOP_GRABBAR_WIDTH + titleBarScaled.height());
 		}
 	}
 
@@ -619,8 +619,8 @@ BluecurveDecoration::paint(QPainter *p, const QRectF &repaintRegion)
 	}
 	if (m_rightButtons && !m_rightButtons->buttons().isEmpty())
 	{
-		p2.drawLine (titleBarScaled.right() - 1, 1,
-					 titleBarScaled.right() - 1 , titleBarScaled.height() + TOP_GRABBAR_WIDTH);
+		p2.drawLine (titleBarScaled.right(), 1,
+					 titleBarScaled.right(), titleBarScaled.height() + TOP_GRABBAR_WIDTH);
 	}
 
 	// Paint the buttons on to the title buffer
@@ -796,7 +796,7 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 	Q_UNUSED(repaintRegion);
 	
 	const qreal scale = decoration()->window()->scale();
-	QRectF geometryScaled = getScaledRect(geometry(), scale);   
+	QRect geometryScaled = getScaledRect(geometry(), scale);   
 
 	int x = geometryScaled.x();
 	int y = geometryScaled.y();
