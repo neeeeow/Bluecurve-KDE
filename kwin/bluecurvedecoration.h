@@ -24,7 +24,6 @@ public:
 
 private:
 	int m_titleHeight = 14;
-	int m_buttonSize = 14;
 	
 	QPixmap titlePix;
 	QPixmap iTitleGradient;
