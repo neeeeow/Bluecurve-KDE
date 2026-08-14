@@ -274,8 +274,8 @@ BluecurveDecoration::reconfigure()
 void
 BluecurveDecoration::updateBorders()
 {
-	QFontMetricsF metrics(settings()->font());	
-	m_titleHeight = m_buttonSize = std::max(14, qRound(metrics.height()) + 3); // Height to match Metacity theme
+	QFontMetrics metrics(settings()->font());	
+	m_titleHeight = m_buttonSize = std::max(14, metrics.height() + 3); // Height to match Metacity theme
 	const qreal scale = window()->scale();
 	int borderWidth = window()->isMaximized() ? 0 : BORDER_WIDTH / scale;	
 	setBorders(QMarginsF(borderWidth, calcTopBorder(), borderWidth, borderWidth));
