@@ -277,9 +277,12 @@ BluecurveDecoration::updateBorders()
 	const qreal scale = window()->scale();
 	QFontMetrics metrics(settings()->font());
 
-	m_titleHeight = (std::max(14, metrics.height() + 3) + TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH) - ((TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH)/scale);
-	int borderWidth = window()->isMaximized() ? 0 : BORDER_WIDTH / scale;
-    setBorders(QMarginsF(borderWidth, m_titleHeight + ((TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH)/scale), borderWidth, borderWidth));
+	int topBorderWidth = std::max(14, metrics.height() + 3) + TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH;
+	m_titleHeight = topBorderWidth - ((TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH)/scale);
+	
+	qreal borderWidth = window()->isMaximized() ? 0 : BORDER_WIDTH / scale;
+	
+    setBorders(QMarginsF(borderWidth, topBorderWidth, borderWidth, borderWidth));
 }
 
 void
