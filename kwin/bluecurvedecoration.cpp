@@ -37,6 +37,8 @@
 #include <QTimer>
 #include <qdrawutil.h>
 
+#define TOP_GRABBAR_WIDTH     2
+#define TITLEBAR_BORDER_WIDTH 1
 #define BORDER_WIDTH      6
 #define CORNER_HEIGHT     22
 
@@ -272,11 +274,12 @@ BluecurveDecoration::reconfigure()
 void
 BluecurveDecoration::updateBorders()
 {
-	QFontMetrics metrics(settings()->font());	
-	m_titleHeight = std::max(14, metrics.height() + 3); // Height to match Metacity theme
 	const qreal scale = window()->scale();
-	int borderWidth = window()->isMaximized() ? 0 : BORDER_WIDTH / scale;	
-	setBorders(QMarginsF(borderWidth, calcTopBorder(), borderWidth, borderWidth));
+	QFontMetrics metrics(settings()->font());
+
+	m_titleHeight = (std::max(14, metrics.height() + 3) + TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH) - ((TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH)/scale);
+	int borderWidth = window()->isMaximized() ? 0 : BORDER_WIDTH / scale;
+    setBorders(QMarginsF(borderWidth, m_titleHeight + ((TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH)/scale), borderWidth, borderWidth));
 }
 
 void
@@ -289,7 +292,7 @@ BluecurveDecoration::createPixmaps()
 	// Titlebar stipple
 	QPainter stipplePainter;
 	int x, y;
-	titlePix = QPixmap(125, qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH - 3);
+	titlePix = QPixmap(125, qRound(m_titleHeight * scale) - 3);
 	titlePix.fill(Qt::transparent);
 	stipplePainter.begin(&titlePix);
 
@@ -311,16 +314,16 @@ BluecurveDecoration::createPixmaps()
 											  KDecoration3::ColorRole::TitleBar));
 
 	// Titlebar gradient images
-	iTitleGradient = QPixmap(8, qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH);
+	iTitleGradient = QPixmap(8, qRound(m_titleHeight * scale));
 	drawGradient(iTitleGradient, inactiveTitleColor, shade(inactiveTitleColor, 0.8));
 
 	// Title blocker bottom
-	titleBlockerBottom = QPixmap(8, qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH + 1);
+	titleBlockerBottom = QPixmap(8, qRound(m_titleHeight * scale) + 1);
 	titleBlockerBottom.fill(Qt::transparent);
 	expAlphaGradient(titleBlockerBottom, activeTitleColor,
 					 0, 1, 0, 0);
 
-	titleGradientBottom = QPixmap(8, qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH + 1);
+	titleGradientBottom = QPixmap(8, qRound(m_titleHeight * scale) + 1);
 	titleGradientBottom.fill(Qt::transparent);
 
 	QColor titleGradientColor = shade(activeTitleColor,2);
@@ -350,9 +353,9 @@ BluecurveDecoration::createPixmaps()
 						  pindown_mask_bits, QImage::Format_MonoLSB));
 
 	// Cache all possible button states
-	btnPix = QPixmap(qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH + 3, qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH);
+	btnPix = QPixmap(qRound(m_titleHeight * scale) + 3, qRound(m_titleHeight * scale));
 	btnPix.fill(Qt::transparent);
-    ibtnPix = QPixmap(qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH + 3, qRound(calcTopBorder() * scale) - TOP_GRABBAR_WIDTH - TITLEBAR_BORDER_WIDTH);
+    ibtnPix = QPixmap(qRound(m_titleHeight * scale) + 3, qRound(m_titleHeight * scale));
 	ibtnPix.fill(Qt::transparent);
 
 	auto drawButtonBackground = [&](QPixmap &pixmap, bool active) {
@@ -427,7 +430,7 @@ BluecurveDecoration::updateTitleBar()
 		width = window()->width();
 	}
 
-	setTitleBar(QRectF(x, TOP_GRABBAR_WIDTH/scale, width, calcTopBorder() - ((TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH) / scale)));
+	setTitleBar(QRectF(x, TOP_GRABBAR_WIDTH/scale, width, m_titleHeight));
 }
 
 void
@@ -446,8 +449,8 @@ BluecurveDecoration::updateButtonsGeometry()
 	const auto buttons = m_leftButtons->buttons() + m_rightButtons->buttons();
 	for (auto *button : buttons) {
 		button->setGeometry(QRectF(0, 0,
-								   calcTopBorder() - ((TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH) / scale) + 3/scale,
-								   calcTopBorder() - ((TOP_GRABBAR_WIDTH + TITLEBAR_BORDER_WIDTH) / scale)));
+								   m_titleHeight + 3/scale,
+								   m_titleHeight));
 	}
 
 	m_leftButtons->setPos(QPointF(window()->isMaximized() ? 0 : 1/scale, TOP_GRABBAR_WIDTH/scale));
