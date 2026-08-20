@@ -38,10 +38,9 @@ private:
 
 	void reconfigure();
 	void updateBorders();
-	void createPixmaps();
-	void updateTitleBar();
-	void updateButtonsGeometryDelayed();
 	void updateButtonsGeometry();
+	void updateTitleBar();	
+	void createPixmaps();
 };
 
 class BluecurveButton : public KDecoration3::DecorationButton
@@ -52,7 +51,7 @@ public:
 	explicit BluecurveButton(KDecoration3::DecorationButtonType type,
 							 KDecoration3::Decoration *decoration,
 							 QObject *parent = nullptr);
-	~BluecurveButton() override;
+	~BluecurveButton() override = default;
 
 	static BluecurveButton *create(KDecoration3::DecorationButtonType type,
 								   KDecoration3::Decoration *decoration,
