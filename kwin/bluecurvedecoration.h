@@ -62,7 +62,6 @@ class BluecurveDecoration : public KDecoration3::Decoration
 
 public:
 	explicit BluecurveDecoration(QObject *parent = nullptr, const QVariantList &args = QVariantList());
-	~BluecurveDecoration() override = default;
 
 	bool init() override;
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
