@@ -715,24 +715,24 @@ BluecurveButton::BluecurveButton(KDecoration3::DecorationButtonType type,
 	using enum KDecoration3::DecorationButtonType;
 	switch (type) {
 	case Menu:
-		iconBits = QBitmap::fromData(QSize(14,14), menu_bits);
+		m_iconBits = QBitmap::fromData(QSize(14,14), menu_bits);
 		break;
 	case Minimize:
-		iconBits = QBitmap::fromData(QSize(14,14), iconify_bits);
+		m_iconBits = QBitmap::fromData(QSize(14,14), iconify_bits);
 		break;
 	case Maximize:
-		iconBits = decoration->window()->isMaximized() ? QBitmap::fromData(QSize(14,14), minmax_bits)
+		m_iconBits = decoration->window()->isMaximized() ? QBitmap::fromData(QSize(14,14), minmax_bits)
 			: QBitmap::fromData(QSize(14,14), maximize_bits);
 		connect(decoration->window(), &KDecoration3::DecoratedWindow::maximizedChanged, this, &BluecurveButton::onMaximizedChanged);
 		break;
 	case Close:
-		iconBits = QBitmap::fromData(QSize(14,14), close_bits);
+		m_iconBits = QBitmap::fromData(QSize(14,14), close_bits);
 		break;
 	case ContextHelp:
-		iconBits = QBitmap::fromData(QSize(14,14), question_bits);
+		m_iconBits = QBitmap::fromData(QSize(14,14), question_bits);
 		break;		
 	default:
-		iconBits = QBitmap();
+		m_iconBits = QBitmap();
 		break;
 	}	
 }
@@ -753,7 +753,7 @@ void
 BluecurveButton::onMaximizedChanged()
 {
 	if (type() == KDecoration3::DecorationButtonType::Maximize)
-		iconBits = decoration()->window()->isMaximized() ? QBitmap::fromData(QSize(14,14), minmax_bits)
+		m_iconBits = decoration()->window()->isMaximized() ? QBitmap::fromData(QSize(14,14), minmax_bits)
 			: QBitmap::fromData(QSize(14,14), maximize_bits);
 
 	update();
@@ -800,12 +800,12 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 		p1.setOpacity(1.0);
 	}
 
-	if (!iconBits.isNull()) {
+	if (!m_iconBits.isNull()) {
 		// Button icon
 		int xOff = (w-14)/2 + 1;
 		int yOff = (h-14)/2;
 		
-		QPixmap icon(iconBits.size());
+		QPixmap icon(m_iconBits.size());
 		icon.fill(deco->window()->isActive() ?
 				  deco->window()->color(
 					  QPalette::ColorGroup::Active,
@@ -814,7 +814,7 @@ BluecurveButton::paint(QPainter *p, const QRectF &repaintRegion)
 					  KDecoration3::ColorGroup::Inactive,
 					  KDecoration3::ColorRole::Foreground));
 				  
-		icon.setMask(iconBits);
+		icon.setMask(m_iconBits);
 		p1.setOpacity(0.7);
 		p1.drawPixmap(xOff, yOff, icon);
 		if (isHovered() && !isPressed()) // If button is being hovered, draw the pixmap twice

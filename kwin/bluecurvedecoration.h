@@ -70,17 +70,17 @@ public:
 	const BluecurvePixmaps &pixmaps() const { return m_pixmaps; }
 
 private:
-	BluecurvePixmaps m_pixmaps;
-	qreal m_titleHeight = 14;	
-	
-	KDecoration3::DecorationButtonGroup *m_leftButtons = nullptr;
-	KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
-
 	void reconfigure();
 	void updateBorders();
 	void updateButtonsGeometry();
 	void updateTitleBar();	
 	void createPixmaps();
+
+	BluecurvePixmaps m_pixmaps;
+	qreal m_titleHeight = 14;	
+	
+	KDecoration3::DecorationButtonGroup *m_leftButtons = nullptr;
+	KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
 };
 
 class BluecurveButton : public KDecoration3::DecorationButton
@@ -98,9 +98,9 @@ public:
 								   QObject *parent);
 
 	void paint(QPainter *p, const QRectF &repaintRegion) override;
-private:	
-	QBitmap iconBits;
-
+private:		
 	void onMaximizedChanged();
 	QBitmap buttonMask();
+
+	QBitmap m_iconBits;
 };
